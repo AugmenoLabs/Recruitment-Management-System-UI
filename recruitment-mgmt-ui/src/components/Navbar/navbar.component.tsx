@@ -52,6 +52,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import MiniDrawer from './drawer.component';
 
 // const Search = styled('div')(({ theme }) => ({
 //   position: 'relative',
@@ -171,9 +172,9 @@ const Navbar:React.FunctionComponent = ()=> {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+         
             <NotificationsIcon />
-          </Badge>
+         
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
@@ -204,6 +205,8 @@ const Navbar:React.FunctionComponent = ()=> {
   );
 
   return (
+    <div>
+    {/* <MiniDrawer/> */}
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
@@ -245,9 +248,9 @@ const Navbar:React.FunctionComponent = ()=> {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              
                 <NotificationsIcon />
-              </Badge>
+            
             </IconButton>
             <IconButton
               size="large"
@@ -290,6 +293,7 @@ const Navbar:React.FunctionComponent = ()=> {
       {renderMobileMenu}
       {renderMenu}
     </Box>
+    </div>
   );
 }
 

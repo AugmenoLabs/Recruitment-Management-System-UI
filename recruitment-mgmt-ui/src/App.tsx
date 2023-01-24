@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import { Route, Switch } from 'react-router-dom';
 import './App.css';
+import MiniDrawer from './components/Navbar/drawer.component';
 import Navbar from './components/Navbar/navbar.component';
 // import { BrowserRouter, Route } from 'react-router-dom'
 // import Counter from './components/Counter/Counter';
@@ -33,7 +34,7 @@ const App:React.FunctionComponent= ()=> {
    
     <div className="App">
 
-       <Navbar/>
+       <MiniDrawer/>
     <BrowserRouter>
        <Routes>
       <Route path='/' element={<Dashboard/>} />
