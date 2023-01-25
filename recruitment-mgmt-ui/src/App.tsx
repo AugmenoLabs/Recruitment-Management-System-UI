@@ -16,7 +16,7 @@ const App:React.FunctionComponent= ()=> {
     <div className="App">
 
        <MiniDrawer/>
-       {/* <JobCards/> */}
+       <JobCards/>
     
     </div>
   );
