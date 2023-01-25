@@ -93,7 +93,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const MiniDrawer=()=> {
+const MiniDrawer:React.FunctionComponent=()=> {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 //   //!-------------App drawwr
@@ -115,11 +115,11 @@ const MiniDrawer=()=> {
 //   };
 
   const menuId = 'primary-search-account-menu';
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = ():void => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = ():void => {
     setOpen(false);
   };
 

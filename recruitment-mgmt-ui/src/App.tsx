@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import MiniDrawer from './components/Navbar/drawer.component';
-import Navbar from './components/Navbar/navbar.component';
+// import Navbar from './components/Navbar/navbar.component';
 // import { BrowserRouter, Route } from 'react-router-dom'
 // import Counter from './components/Counter/Counter';
 // import { useAppDispatch, useAppSelector } from './redux/hooks';
