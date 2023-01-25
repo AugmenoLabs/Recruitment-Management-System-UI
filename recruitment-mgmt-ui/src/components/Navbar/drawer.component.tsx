@@ -24,7 +24,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import FileCopyIcon from "@mui/icons-material/FileCopy";
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -69,7 +69,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
+  ...((open ?? true) && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -79,57 +79,57 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop): boolean => prop !== 'open',
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...((open ?? true) && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
   }),
-);
+  ...(!(open ?? true) && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
 
-const MiniDrawer:React.FunctionComponent=()=> {
+const MiniDrawer: React.FunctionComponent = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-//   //!-------------App drawwr
-//   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-//     setAnchorEl(event.currentTarget);
-//   };
+  //   //!-------------App drawwr
+  //   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  //     setAnchorEl(event.currentTarget);
+  //   };
 
-//   const handleMobileMenuClose = () => {
-//     setMobileMoreAnchorEl(null);
-//   };
+  //   const handleMobileMenuClose = () => {
+  //     setMobileMoreAnchorEl(null);
+  //   };
 
-//   const handleMenuClose = () => {
-//     setAnchorEl(null);
-//     handleMobileMenuClose();
-//   };
+  //   const handleMenuClose = () => {
+  //     setAnchorEl(null);
+  //     handleMobileMenuClose();
+  //   };
 
-//   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-//     setMobileMoreAnchorEl(event.currentTarget);
-//   };
+  //   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  //     setMobileMoreAnchorEl(event.currentTarget);
+  //   };
 
   const menuId = 'primary-search-account-menu';
-  const handleDrawerOpen = ():void => {
+  const handleDrawerOpen = (): void => {
     setOpen(true);
   };
 
-  const handleDrawerClose = ():void => {
+  const handleDrawerClose = (): void => {
     setOpen(false);
   };
   const hrlinks = [
-    { title: "Dashboard", path: "/Dashboard", icon: <HomeIcon /> },
-    { title: "Resume", path: "/resumedata", icon: <FileCopyIcon /> },
-    { title: "Candidate", path: "/resume", icon: <AccountBoxIcon /> },
-    { title: "Calendar", path: "/calendar", icon: <CalendarMonthIcon /> },
+    { title: 'Dashboard', path: '/Dashboard', icon: <HomeIcon /> },
+    { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
+    { title: 'Candidate', path: '/resume', icon: <AccountBoxIcon /> },
+    { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
   ];
   return (
     <Box sx={{ display: 'flex' }}>
@@ -149,23 +149,23 @@ const MiniDrawer:React.FunctionComponent=()=> {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-          Augmento labs Recruitment
+            Augmento labs Recruitment
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-             
-                <MailIcon />
-           
-            </IconButton> 
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <MailIcon />
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              
-                <NotificationsIcon />
-            
+              <NotificationsIcon />
             </IconButton>
             <IconButton
               size="large"
@@ -173,7 +173,7 @@ const MiniDrawer:React.FunctionComponent=()=> {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-            //   onClick={handleProfileMenuOpen}
+              //   onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />
@@ -187,78 +187,80 @@ const MiniDrawer:React.FunctionComponent=()=> {
               aria-controls={menuId}
               aria-haspopup="true"
             >
-              
-                <SettingsSuggestRoundedIcon />
-            
+              <SettingsSuggestRoundedIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="show more"
-            //   aria-controls={mobileMenuId}
+              //   aria-controls={mobileMenuId}
               aria-haspopup="true"
-            //   onClick={handleMobileMenuOpen}
+              //   onClick={handleMobileMenuOpen}
               color="inherit"
             >
               <MoreIcon />
             </IconButton>
           </Box>
-
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} PaperProps={{
-        sx:{
-          backgroundColor:'#1976d2',color:'white'
-        }
-      }}>
-     
+      <Drawer
+        variant="permanent"
+        open={open}
+        PaperProps={{
+          sx: {
+            backgroundColor: '#1976d2',
+            color: 'white',
+          },
+        }}
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           {hrlinks.map(({ title, path, icon }) => {
-            return(
-            <ListItem key={path}
-             disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+            return (
+              <ListItem key={path} disablePadding sx={{ display: 'block' }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    color:'white',
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
                 >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText primary={title} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          )})}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      color: 'white',
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={title}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
-       
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
-        
-          
-        </Typography>
-        <Typography paragraph>
-         
-        </Typography>
+        <Typography paragraph></Typography>
+        <Typography paragraph></Typography>
       </Box>
     </Box>
   );
-}
-export default MiniDrawer
+};
+export default MiniDrawer;
