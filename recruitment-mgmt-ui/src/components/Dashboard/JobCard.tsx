@@ -86,8 +86,7 @@ const JobCards = ()=>{
         }
       />
       
-      </Grid>
-      
+      </Grid>      
       <CardContent style={{marginTop:'-1.7rem'}}>
       <Grid direction='row' display='flex'>
       <IconButton aria-label="location" size='small'>
@@ -135,5 +134,6 @@ const JobCards = ()=>{
     </Box>
     </>
   );
-}
+};
+
 export default JobCards;

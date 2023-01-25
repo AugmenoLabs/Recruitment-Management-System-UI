@@ -15,4 +15,4 @@ const JobOpenings:React.FunctionComponent =()=>{
     )
 }
 
-export default JobOpenings
+export default JobOpenings;

@@ -1,25 +1,26 @@
 import React from 'react';
-
-// import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import JobCards from './components/Dashboard/JobCard';
-import MiniDrawer from './components/Navbar/Drawer.component';
 
+import {HashRouter, Route, Routes } from 'react-router-dom';
 
+import Dashboard from './pages/Dashboard/dashboard.component';
 
-const App:React.FunctionComponent= ()=> {
-  
+import MiniDrawer from './components/Navbar/drawer.component';
+// import Navbar from './components/Navbar/navbar.component';
 
-  
+const App: React.FunctionComponent = () => {
   return (
-   
     <div className="App">
 
-       <MiniDrawer/>
-       <JobCards/>
-    
+      <MiniDrawer />
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Routes>
+      </HashRouter>
     </div>
   );
-}
+};
 
 export default App;

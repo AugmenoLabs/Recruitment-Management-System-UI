@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const Dashboard:React.FunctionComponent = () => {
-  return (
-    <div>dashboard</div>
-  )
-}
+const Dashboard: React.FunctionComponent = () => {
+  return <div>dashboard</div>;
+};
 
-export default Dashboard
+export default Dashboard;
