@@ -16,12 +16,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -122,7 +125,12 @@ const MiniDrawer=()=> {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const hrlinks = [
+    { title: "Dashboard", path: "/Dashboard", icon: <HomeIcon /> },
+    { title: "Resume", path: "/resumedata", icon: <FileCopyIcon /> },
+    { title: "Candidate", path: "/resume", icon: <AccountBoxIcon /> },
+    { title: "Calendar", path: "/calendar", icon: <CalendarMonthIcon /> },
+  ];
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -173,8 +181,11 @@ const MiniDrawer=()=> {
 
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
               color="inherit"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
             >
               
                 <SettingsSuggestRoundedIcon />
@@ -196,7 +207,12 @@ const MiniDrawer=()=> {
 
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} PaperProps={{
+        sx:{
+          backgroundColor:'#1976d2',color:'white'
+        }
+      }}>
+     
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -204,8 +220,10 @@ const MiniDrawer=()=> {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {hrlinks.map(({ title, path, icon }) => {
+            return(
+            <ListItem key={path}
+             disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -216,42 +234,19 @@ const MiniDrawer=()=> {
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
+                    color:'white',
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {icon}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={title} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-          ))}
+          )})}
         </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+       
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
