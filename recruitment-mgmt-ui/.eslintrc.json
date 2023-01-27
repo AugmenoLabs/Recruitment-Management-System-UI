@@ -12,7 +12,8 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./recruitment-mgmt-ui"
   },
   "plugins": ["react"],
   "settings": {
@@ -25,7 +26,5 @@
       }
     }
   },
-  "rules": {
-    
-  }
+  "rules": {}
 }
