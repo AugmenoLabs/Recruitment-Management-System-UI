@@ -5,14 +5,13 @@ import {HashRouter, Route, Routes } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard/dashboard.component';
 
-import MiniDrawer from './components/Navbar/drawer.component';
-// import Navbar from './components/Navbar/navbar.component';
+import NavBar from './components/Navbar/NavBar.component';
 
 const App: React.FunctionComponent = () => {
   return (
     <div className="App">
 
-      <MiniDrawer />
+      <NavBar />
       <HashRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
