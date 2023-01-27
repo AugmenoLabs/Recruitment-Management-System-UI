@@ -99,23 +99,6 @@ const Drawer = styled(MuiDrawer, {
 const MiniDrawer: React.FunctionComponent = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  //   //!-------------App drawwr
-  //   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //     setAnchorEl(event.currentTarget);
-  //   };
-
-  //   const handleMobileMenuClose = () => {
-  //     setMobileMoreAnchorEl(null);
-  //   };
-
-  //   const handleMenuClose = () => {
-  //     setAnchorEl(null);
-  //     handleMobileMenuClose();
-  //   };
-
-  //   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //     setMobileMoreAnchorEl(event.currentTarget);
-  //   };
 
   const menuId = 'primary-search-account-menu';
   const handleDrawerOpen = (): void => {
