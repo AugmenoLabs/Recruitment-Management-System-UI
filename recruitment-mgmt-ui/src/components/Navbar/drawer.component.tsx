@@ -7,7 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -65,6 +64,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  boxShadow: "none",
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -161,7 +161,7 @@ const MiniDrawer: React.FunctionComponent = () => {
             >
               <AccountCircle />
             </IconButton>
-
+{/* 
             <IconButton
               size="large"
               color="inherit"
@@ -171,7 +171,7 @@ const MiniDrawer: React.FunctionComponent = () => {
               aria-haspopup="true"
             >
               <SettingsSuggestRoundedIcon />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -205,8 +205,7 @@ const MiniDrawer: React.FunctionComponent = () => {
               <ChevronLeftIcon />
             )}
           </IconButton>
-        </DrawerHeader>
-        <Divider />
+        </DrawerHeader>        
         <List>
           {hrlinks.map(({ title, path, icon }) => {
             return (
