@@ -5,7 +5,6 @@ import Navbar from './components/Navbar/Navbar.component';
 import JobCards from './components/Dashboard/JobCard';
 import Requisition from './components/Requisition/Requisition';
 import CandidateTable from './components/CandidateTable/CandidateTable';
-// import Navbar from './components/Navbar/navbar.component';
 
 const App: React.FunctionComponent = () => {
   return (
