@@ -4,14 +4,18 @@ import {HashRouter, Route, Routes } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard/dashboard.component';
 
-import MiniDrawer from './components/Navbar/drawer.component';
+import MiniDrawer from './components/Navbar/navbar.component'
+import JobCards from './components/Dashboard/JobCard';
+import Requisition from './components/Requisition/Requisition';
+import CandidateTable from './components/CandidateTable/CandidateTable';
 // import Navbar from './components/Navbar/navbar.component';
 
 const App: React.FunctionComponent = () => {
   return (
     <div className="App">
-      <MiniDrawer />
+     
       <HashRouter>
+      <MiniDrawer />
         <Routes>
           <Route path="/" element={<JobCards />} />
           <Route path="/requisition" element={<Requisition />} />
