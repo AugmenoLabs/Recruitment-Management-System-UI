@@ -17,8 +17,7 @@ const App: React.FunctionComponent = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<JobCards />} />
-          <Route path="/jobdescription" element={<JobDescription />} />
-          
+          <Route path="/jobdescription" element={<JobDescription />} />          
           <Route path="/applyforjobs" element={<CandidateApply />} />
           <Route path="/requisition" element={<Requisition />} />
           <Route path="/candidatedetails" element={<CandidateFinalTable />} />
