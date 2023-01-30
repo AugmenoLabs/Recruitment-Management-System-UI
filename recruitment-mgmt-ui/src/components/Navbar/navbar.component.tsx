@@ -1,13 +1,15 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -19,14 +21,17 @@ import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import {  useNavigate } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';s
+import { useNavigate } from 'react-router-dom';
+
+import type { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavbarActions } from '../../redux/Navbar/slice';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -67,6 +72,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  boxShadow: 'none',
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -98,39 +104,41 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const MiniDrawer: React.FunctionComponent = () => {
+const NavBar: React.FunctionComponent = () => {
+  const [MobileMenuMore, setMobileMenuMore] =
+    useState<null | HTMLElement>(null);
+
+  const isMobileMenuOpen = Boolean(MobileMenuMore);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  //   //!-------------App drawwr
-  //   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //     setAnchorEl(event.currentTarget);
-  //   };
-
-  //   const handleMobileMenuClose = () => {
-  //     setMobileMoreAnchorEl(null);
-  //   };
-
-  //   const handleMenuClose = () => {
-  //     setAnchorEl(null);
-  //     handleMobileMenuClose();
-  //   };
-
-  //   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-  //     setMobileMoreAnchorEl(event.currentTarget);
-  //   };
+  const [open, setOpen] = useState(false);
 
   const menuId = 'primary-search-account-menu';
-  const handleDrawerOpen = (): void => {
-    setOpen(true);
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+
+  const IsSidebarOpen = useSelector(
+    (state: RootState) => state.Navbar.IsSidebarOpen
+  );
+  const dispatch = useDispatch();
+  
+  const navigate = useNavigate();
+
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>): void => {
+    setMobileMenuMore(event.currentTarget);
   };
 
-//   const navigate = useNavigate();
-//   const navigateform=()=>{
-// navigate('/candidatedetails')
-//   }
+  const handleDrawerOpen = (): void => {
+    console.log(IsSidebarOpen);
+    setOpen(true);
+    dispatch(NavbarActions.changeSidebar());
+  };
+
+  const handleMobileMenuClose = (): void => {
+    setMobileMenuMore(null);
+  };
 
   const handleDrawerClose = (): void => {
-    setOpen(false);
+    setOpen(false);    
+    console.log(IsSidebarOpen);
   };
   const hrlinks = [
     { title: 'Dashboard', path: '/Dashboard', icon: <HomeIcon /> },
@@ -138,7 +146,57 @@ const MiniDrawer: React.FunctionComponent = () => {
     { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
     { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
   ];
-  const navigate = useNavigate();
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={MobileMenuMore}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={0} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={0} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -181,30 +239,18 @@ const MiniDrawer: React.FunctionComponent = () => {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              //   onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
-
-            <IconButton
-              size="large"
-              color="inherit"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-            >
-              <SettingsSuggestRoundedIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="show more"
-              //   aria-controls={mobileMenuId}
+              aria-controls={mobileMenuId}
               aria-haspopup="true"
-              //   onClick={handleMobileMenuOpen}
+              onClick={handleMobileMenuOpen}
               color="inherit"
             >
               <MoreIcon />
@@ -212,6 +258,7 @@ const MiniDrawer: React.FunctionComponent = () => {
           </Box>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
       <Drawer
         variant="permanent"
         open={open}
@@ -223,7 +270,7 @@ const MiniDrawer: React.FunctionComponent = () => {
         }}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} color="inherit">
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
@@ -231,28 +278,20 @@ const MiniDrawer: React.FunctionComponent = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
         <List>
           {hrlinks.map(({ title, path, icon }) => {
             return (
-              <ListItem 
-              key={path}
-    
-        
-               disablePadding sx={{ display: 'block' }}>
-              
+              <ListItem key={path} disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
-                onClick={()=>{navigate(path)}}
-                //  component={NavLink}
-                // to={path}
-                // onClick={navigateform}
+                  onClick={() => {
+                    navigate(path);
+                  }}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
                 >
-                  
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -260,11 +299,8 @@ const MiniDrawer: React.FunctionComponent = () => {
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
-                  
                   >
-                
                     {icon}
-
                   </ListItemIcon>
                   <ListItemText
                     primary={title}
@@ -284,4 +320,4 @@ const MiniDrawer: React.FunctionComponent = () => {
     </Box>
   );
 };
-export default MiniDrawer;
+export default NavBar;

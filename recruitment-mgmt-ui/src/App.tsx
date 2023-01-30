@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import {HashRouter, Route, Routes } from 'react-router-dom';
-import MiniDrawer from './components/Navbar/navbar.component'
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar.component';
 import JobCards from './components/Dashboard/JobCard';
 import Requisition from './components/Requisition/Requisition';
 import CandidateTable from './components/CandidateTable/CandidateTable';
@@ -10,9 +10,8 @@ import CandidateTable from './components/CandidateTable/CandidateTable';
 const App: React.FunctionComponent = () => {
   return (
     <div className="App">
-     
       <HashRouter>
-      <MiniDrawer />
+        <Navbar />
         <Routes>
           <Route path="/" element={<JobCards />} />
           <Route path="/requisition" element={<Requisition />} />
