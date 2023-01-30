@@ -25,10 +25,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import {  useNavigate } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';s
 const drawerWidth = 240;
-
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -120,8 +117,21 @@ const MiniDrawer: React.FunctionComponent = () => {
   //   };
 
   const menuId = 'primary-search-account-menu';
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+
+  const handleProfileMenuOpen = (
+    event: React.MouseEvent<HTMLElement>
+  ): void => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>): void => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
   const handleDrawerOpen = (): void => {
+    console.log(IsSidebarOpen);
     setOpen(true);
+    dispatch(NavbarActions.changeSidebar());
   };
 
 //   const navigate = useNavigate();
@@ -157,7 +167,7 @@ const MiniDrawer: React.FunctionComponent = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Augmento labs Recruitment
+           Augmento labs Recruitment 
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
