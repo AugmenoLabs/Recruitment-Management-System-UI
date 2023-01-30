@@ -25,6 +25,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import {  useNavigate } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';s
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -122,15 +124,21 @@ const MiniDrawer: React.FunctionComponent = () => {
     setOpen(true);
   };
 
+//   const navigate = useNavigate();
+//   const navigateform=()=>{
+// navigate('/candidatedetails')
+//   }
+
   const handleDrawerClose = (): void => {
     setOpen(false);
   };
   const hrlinks = [
     { title: 'Dashboard', path: '/Dashboard', icon: <HomeIcon /> },
     { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
-    { title: 'Candidate', path: '/resume', icon: <AccountBoxIcon /> },
+    { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
     { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
   ];
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -227,14 +235,24 @@ const MiniDrawer: React.FunctionComponent = () => {
         <List>
           {hrlinks.map(({ title, path, icon }) => {
             return (
-              <ListItem key={path} disablePadding sx={{ display: 'block' }}>
+              <ListItem 
+              key={path}
+    
+        
+               disablePadding sx={{ display: 'block' }}>
+              
                 <ListItemButton
+                onClick={()=>{navigate(path)}}
+                //  component={NavLink}
+                // to={path}
+                // onClick={navigateform}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
                 >
+                  
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -242,8 +260,11 @@ const MiniDrawer: React.FunctionComponent = () => {
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
+                  
                   >
+                
                     {icon}
+
                   </ListItemIcon>
                   <ListItemText
                     primary={title}
