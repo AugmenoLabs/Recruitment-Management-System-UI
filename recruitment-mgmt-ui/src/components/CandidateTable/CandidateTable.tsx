@@ -52,22 +52,24 @@ const rows:CandidateTableDataType[]= [
   {name:'Sneha Kothari',mobile: '9099876543', email:'a@gmail.com', position:'Frontend',status: 'Applied'},
  {name:'Anshu Wadhwani', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Pending'},
 {name:'Shubham Kumawat', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Applied'},
-  // createData({'Sneha', '9099876543', 'a@gmail.com', 'Frontend', 'Applied'}),
-  // createData({'Anshu', '9099876543', 'a@gmail.com', 'Frontend', 'Applied'}),
+{name:'Sneha Kothari',mobile: '9099876543', email:'a@gmail.com', position:'Frontend',status: 'Applied'},
+{name:'Anshu Wadhwani', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Pending'},
+
 ];
 
 const CandidateTable:React.FunctionComponent=()=> {
   return (
-    <Box sx={{  width: "100%",  marginTop: 2 }}>
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Box sx={{    marginTop: '-2rem' }}>
       <Typography
         gutterBottom
         variant="h5"
-        sx={{ paddingLeft: '6rem', paddingTop: '-2rem', margin: 0 ,fontWeight:600,fontSize:'32px'}}
+        sx={{ paddingLeft: '6rem', paddingTop: '-4rem', margin: 0 ,fontWeight:600,fontSize:'30px'}}
         className="tableheader"
       >
         Candidate Details
       </Typography>
+    <Paper sx={{ width: "95%", overflow: "hidden" ,marginLeft:'4rem'}}>
+      
     <TableContainer sx={{
             marginTop: 0,
           
@@ -83,7 +85,7 @@ const CandidateTable:React.FunctionComponent=()=> {
               backgroundColor: "#000000",
             },
           }} >
-      <Table stickyHeader sx={{ width: '90%' ,marginLeft:'7rem',marginRight:'0rem',margin:'auto',tableLayout:'auto'}} aria-label="customized table">
+      <Table stickyHeader sx={{ width: '95%' ,marginLeft:'9rem',marginRight:'0rem',margin:'auto',tableLayout:'auto'}} aria-label="customized table">
         <TableHead >
           <TableRow >
             <StyledTableCell   style={{fontWeight:600}}>Name</StyledTableCell>

@@ -141,7 +141,7 @@ const NavBar: React.FunctionComponent = () => {
     console.log(IsSidebarOpen);
   };
   const hrlinks = [
-    { title: 'Dashboard', path: '/Dashboard', icon: <HomeIcon /> },
+    { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
     { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
     { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
     { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },

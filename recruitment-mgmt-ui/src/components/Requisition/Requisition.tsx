@@ -13,11 +13,11 @@ import {
 
 
 const skills = ["react", "java", "dotnet"];
-const NotRequired = [""];
+// const NotRequired = [""];
 
 const Requisition :React.FunctionComponent= () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
+  // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -32,14 +32,6 @@ const Requisition :React.FunctionComponent= () => {
          Create Job Openings
         </Typography>
         <Box component="form"  sx={{ mt: 1 }}>
-        <TextField
-            margin="normal"
-            fullWidth
-            label="Job Id"
-            type="text"
-            name="role"
-            
-          />
           <TextField
             margin="normal"
             fullWidth
@@ -79,34 +71,7 @@ const Requisition :React.FunctionComponent= () => {
               
               />
             )}
-          />
-
-          
-          <Autocomplete
-            multiple
-            id="Notrequired"
-            options={NotRequired}
-            value={autoCompleteKeyword}
-            onChange={(e, newval) => {
-              setAutoCompleteKeyword(newval);
-           
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Not Required"
-                placeholder="Not Required"
-                margin="normal"
-                fullWidth
-                name="notrequired"
-             
-              
-              />
-            )}
-          />
-
-        
+          />    
 
           <TextField
             margin="normal"

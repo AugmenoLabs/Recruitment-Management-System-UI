@@ -10,6 +10,7 @@ import JobOpenings from './JobOpening';
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 // const useStyles=makeStyles(theme=>({
 //     root:{
@@ -43,7 +44,13 @@ const Data=[{
 },{
   jobtitle:'Java Developer',openings:3,location:'Banglore',JobId:200234,skill:3,exp:1
 }]
+
+
 const JobCards:React.FunctionComponent = ()=>{
+  const history = useNavigate();
+const navigateform=():void=>{
+history('/jobdescription')
+}
   const current = new Date();
   const date=`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   // const [expanded, setExpanded] = React.useState(false);
@@ -75,7 +82,9 @@ const JobCards:React.FunctionComponent = ()=>{
         title={`${elem.jobtitle}`}
         action={
           <CardActions>
-          <Button size="small" variant='contained'>Apply</Button>
+          <Button 
+           onClick={navigateform}
+            size="small" variant='contained'>Apply</Button>
         
         </CardActions>
         }
@@ -135,7 +144,7 @@ const JobCards:React.FunctionComponent = ()=>{
     </Grid>
     <Stack spacing={2}>
      
-      <Pagination count={10} color="primary" />
+      <Pagination style={{alignItems:'center',justifyContent:'center'}} count={10} color="primary" />
      
     </Stack>
     </Box>

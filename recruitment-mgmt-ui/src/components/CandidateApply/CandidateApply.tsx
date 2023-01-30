@@ -1,9 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
+import React ,{ useState }from "react";
 // import { useFormik } from 'formik';
-
 // import { toast } from "react-toastify";
-
 import {
   Container,
   Box,
@@ -12,61 +9,16 @@ import {
   Button,
   Autocomplete,
 } from "@mui/material";
-import { useState } from "react";
+
 
 const skills = ["react", "java", "dotnet"];
-const NotRequired = [""];
+// const NotRequired = [""];
 
-const CandidateApply = () => {
+const CandidateApply:React.FunctionComponent = () => {
   
-
-  const history = useNavigate();
-
-  //for tags
   
-//   const formik = useFormik({
-//     initialValues: {
-//       role: "",
-//       job: "",
-//       experience: "",
-//       qualification: "",
-//       vacancies: "",
-//       skills: "",
-//       notrequired: "",
-    
-//     },
-    
-//     validate: (values:any) => {
-//       let errors: any = {};
-
-//       if (!values.role) {
-//         errors.role = "Please enter the Role/Designation.";
-//       }
-
-//       if (!values.job) {
-//         errors.job = "Please enter the Job Description.";
-//       }
-//       if (!values.experience) {
-//         errors.experience = "Please enter the experience required";
-//       }
-//       if (!values.qualification) {
-//         errors.qualification = "Please enter the qualification";
-//       }
-
-//       if (!values.vacancies) {
-//         errors.vacancies = "Please enter the no. of vacancies";
-//       }
-
-//       if (!values.skills) {
-//         errors.skills = "Please enter the skills";
-//       }
-
-//       return errors;
-//     },
-//   });
-
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
+  // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -125,18 +77,6 @@ const CandidateApply = () => {
                 margin="normal"
                 fullWidth
                 name="skills"
-               
-                onKeyDown={(e) => {
-                  if (
-                    e.code === "Enter" &&
-                    (e.target as HTMLInputElement).value
-                  ) {
-                    const val = (e.target as HTMLInputElement).value;
-                    setAutoCompleteValue(autoCompleteValue.concat(val));
-                    let tagslist = autoCompleteValue.concat(val);
-                   
-                  }
-                }}
               />
             )}
           />
