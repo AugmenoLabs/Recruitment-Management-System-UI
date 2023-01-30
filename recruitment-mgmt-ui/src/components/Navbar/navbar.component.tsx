@@ -26,8 +26,12 @@ import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-const drawerWidth = 240;
 
+import type { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavbarActions } from '../../redux/Navbar/slice';
+
+const drawerWidth = 240;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -111,6 +115,12 @@ const NavBar: React.FunctionComponent = () => {
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
+  // The `state` arg is correctly typed as `RootState` already
+  const IsSidebarOpen = useSelector(
+    (state: RootState) => state.Navbar.IsSidebarOpen
+  );
+  const dispatch = useDispatch();
+
   const handleProfileMenuOpen = (
     event: React.MouseEvent<HTMLElement>
   ): void => {
@@ -121,7 +131,9 @@ const NavBar: React.FunctionComponent = () => {
   };
 
   const handleDrawerOpen = (): void => {
+    console.log(IsSidebarOpen);
     setOpen(true);
+    dispatch(NavbarActions.changeSidebar());
   };
 
   const handleMobileMenuClose = (): void => {
@@ -231,7 +243,7 @@ const NavBar: React.FunctionComponent = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Augmento labs Recruitment
+           Augmento labs Recruitment 
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
