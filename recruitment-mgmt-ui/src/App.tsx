@@ -1,9 +1,6 @@
 import React from 'react';
 import './App.css';
 import {HashRouter, Route, Routes } from 'react-router-dom';
-
-import Dashboard from './pages/Dashboard/dashboard.component';
-
 import MiniDrawer from './components/Navbar/navbar.component'
 import JobCards from './components/Dashboard/JobCard';
 import Requisition from './components/Requisition/Requisition';
