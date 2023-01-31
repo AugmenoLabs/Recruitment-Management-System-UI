@@ -308,11 +308,6 @@ const NavBar: React.FunctionComponent = () => {
           })}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Typography paragraph></Typography>
-        <Typography paragraph></Typography>
-      </Box>
     </Box>
   );
 };

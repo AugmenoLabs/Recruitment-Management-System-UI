@@ -14,26 +14,28 @@ import CandidateFinalTable from './components/CandidateTable/CandidateFinalTable
 import CandidateApply from './components/CandidateApply/CandidateApply';
 import JobDescription from './components/Dashboard/JobDescription';
 
-// import { styled } from '@mui/material/styles';
-
-// const AppBox = styled(Box, {
-//   shouldForwardProp: (prop:string) => prop !== 'open',
-// })(( theme, open:string ) => ({
-//   zIndex: theme.zIndex.drawer + 1,
-//   boxShadow: 'none',
-//   transition: theme.transitions.create(['width', 'margin'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...((open ?? true) && {
-//     marginLeft: 240,
-//     width: `calc(100% - 240px)`,
-//     transition: theme.transitions.create(['width', 'margin'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
+import { styled } from '@mui/material/styles';
+interface IProps {
+  IsSidebarOpen: boolean;
+}
+const AppBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<IProps>(({ theme, IsSidebarOpen }) => ({
+  marginLeft: 64,
+  marginTop: 64,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...((IsSidebarOpen ?? true) && {
+    marginLeft: 240,
+    width: `calc(100% - ${240}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
 const App: React.FunctionComponent = () => {
   const IsSidebarOpen = useSelector(
@@ -43,12 +45,7 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <HashRouter>
         <Navbar />
-        <Box
-          style={{
-            marginTop: '0rem',
-            marginLeft: `${IsSidebarOpen ? 240 : 66}px`,
-          }}
-        >
+        <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
             <Route path="/" element={<JobCards />} />
             <Route path="/jobdescription" element={<JobDescription />} />
@@ -56,7 +53,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/requisition" element={<Requisition />} />
             <Route path="/candidatedetails" element={<CandidateFinalTable />} />
           </Routes>
-        </Box>
+        </AppBox>
       </HashRouter>
     </div>
   );
