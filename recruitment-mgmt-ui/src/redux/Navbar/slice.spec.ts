@@ -1,4 +1,4 @@
-import {  NavbarReducer, NavbarActions, NavbarParam } from './slice';
+import { NavbarReducer, NavbarActions, NavbarParam } from './slice';
 
 describe('counter reducer', () => {
   const initialState: NavbarParam = {
@@ -11,13 +11,18 @@ describe('counter reducer', () => {
   });
 
   it('should handle increment', () => {
-    const actual = NavbarReducer(initialState, NavbarActions.changeSidebar());
+    const actual = NavbarReducer(
+      initialState,
+      NavbarActions.changeSidebar(false)
+    );
     expect(actual.IsSidebarOpen).toEqual(false);
   });
 
   it('should handle decrement', () => {
-    const actual = NavbarReducer(initialState, NavbarActions.changeSidebar());
+    const actual = NavbarReducer(
+      initialState,
+      NavbarActions.changeSidebar(true)
+    );
     expect(actual.IsSidebarOpen).toEqual(true);
   });
-
 });

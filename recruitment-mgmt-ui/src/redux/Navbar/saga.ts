@@ -4,7 +4,7 @@ import { NavbarActions } from './slice';
 
 export function* watchChangeSidebarAsync(): Generator<Effect, void> {
   yield delay(1000);
-  yield put(NavbarActions.changeSidebar());
+  yield put(NavbarActions.changeSidebar(false));
 }
 
 const NavbarSagas = watchChangeSidebarAsync;

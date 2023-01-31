@@ -28,8 +28,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { useNavigate } from 'react-router-dom';
 
-import type { RootState } from '../../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { NavbarActions } from '../../redux/Navbar/slice';
 
 const drawerWidth = 240;
@@ -105,8 +104,9 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const NavBar: React.FunctionComponent = () => {
-  const [MobileMenuMore, setMobileMenuMore] =
-    useState<null | HTMLElement>(null);
+  const [MobileMenuMore, setMobileMenuMore] = useState<null | HTMLElement>(
+    null
+  );
 
   const isMobileMenuOpen = Boolean(MobileMenuMore);
   const theme = useTheme();
@@ -115,11 +115,8 @@ const NavBar: React.FunctionComponent = () => {
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
-  const IsSidebarOpen = useSelector(
-    (state: RootState) => state.Navbar.IsSidebarOpen
-  );
   const dispatch = useDispatch();
-  
+
   const navigate = useNavigate();
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>): void => {
@@ -127,9 +124,8 @@ const NavBar: React.FunctionComponent = () => {
   };
 
   const handleDrawerOpen = (): void => {
-    console.log(IsSidebarOpen);
     setOpen(true);
-    dispatch(NavbarActions.changeSidebar());
+    dispatch(NavbarActions.changeSidebar(true));
   };
 
   const handleMobileMenuClose = (): void => {
@@ -137,8 +133,8 @@ const NavBar: React.FunctionComponent = () => {
   };
 
   const handleDrawerClose = (): void => {
-    setOpen(false);    
-    console.log(IsSidebarOpen);
+    setOpen(false);
+    dispatch(NavbarActions.changeSidebar(false));
   };
   const hrlinks = [
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
@@ -200,7 +196,7 @@ const NavBar: React.FunctionComponent = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"

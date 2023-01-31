@@ -1,7 +1,6 @@
 import { runSaga } from 'redux-saga';
 import { AnyAction } from '@reduxjs/toolkit';
-import {watchChangeSidebarAsync
-} from './saga';
+import { watchChangeSidebarAsync } from './saga';
 import { NavbarActions } from './slice';
 
 describe('counter saga', () => {
@@ -13,7 +12,8 @@ describe('counter saga', () => {
     };
 
     await runSaga(fakeStore, watchChangeSidebarAsync).toPromise();
-    expect(dispatchedActions).toContainEqual(NavbarActions.changeSidebar());
+    expect(dispatchedActions).toContainEqual(
+      NavbarActions.changeSidebar(false)
+    );
   });
-
 });
