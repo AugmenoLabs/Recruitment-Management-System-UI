@@ -1,6 +1,7 @@
 import React ,{ useState }from "react";
 // import { useFormik } from 'formik';
 // import { toast } from "react-toastify";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   Container,
   Box,
@@ -8,6 +9,9 @@ import {
   Typography,
   Button,
   Autocomplete,
+  Grid,
+  Card,
+  IconButton,
 } from "@mui/material";
 
 
@@ -20,22 +24,25 @@ const CandidateApply:React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="lg" style={{marginLeft:'5rem'}}>
       <Box
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "flex-start",
         }}
       >
-        <Typography component="h1" variant="h4" style={{marginTop:'-5rem'}}>
+        <Typography component="h1" variant="h5" style={{marginTop:'-6rem',fontWeight:600}}>
          Apply for Jobs
         </Typography>
-        <Box component="form"  sx={{ mt: 1 }}>
+        <Card style={{width:'97%',marginTop:'0.5rem',backgroundColor:'lavender'}}>
+        <Grid container spacing={7}>
+          <Grid  item xs={5.5} direction='column' style={{marginLeft:'1rem',marginRight:'2rem'}}>
         <TextField
             margin="normal"
             fullWidth
+            size='small'
             label="Candidate Name"
             type="text"
             name="role"
@@ -43,23 +50,22 @@ const CandidateApply:React.FunctionComponent = () => {
           />
           <TextField
             margin="normal"
+            size='small'
             fullWidth
             label="Contact No."
             type="text"
             name="role"
             
           />
-       
           <TextField
             margin="normal"
             fullWidth
             label="Email"
             type="text"
             name="job"
-           
+           size="small"
           />
-        
-          <Autocomplete
+           <Autocomplete
             multiple
             id="Skills"
             options={skills}
@@ -76,10 +82,27 @@ const CandidateApply:React.FunctionComponent = () => {
                 placeholder="Skills"
                 margin="normal"
                 fullWidth
+                size='small'
                 name="skills"
               />
             )}
           />
+        {/* <TextField
+            margin="normal"
+            fullWidth
+            label="Upload Resume"
+            type="file"
+            name="vacancies"
+           
+          /> */}
+          <Box sx={{border:1,borderColor:'gray',marginTop:'1rem',borderRadius:'3px'}}>
+          <IconButton><CloudUploadIcon/></IconButton>
+            <input type='file' />
+            </Box>
+       </Grid>
+       <Grid  item xs={5.5} direction='column' >
+          
+         
 
           
           
@@ -92,7 +115,7 @@ const CandidateApply:React.FunctionComponent = () => {
             label="Experience"
             type="text"
             name="experience"
-           
+            size='small'
           />
         
           <TextField
@@ -100,6 +123,7 @@ const CandidateApply:React.FunctionComponent = () => {
             fullWidth
             label="Current Ctc"
             type="text"
+            size='small'
          
           />
           <TextField
@@ -107,6 +131,7 @@ const CandidateApply:React.FunctionComponent = () => {
             fullWidth
             label="Expected Ctc"
             type="text"
+            size='small'
          
           />
          
@@ -116,7 +141,7 @@ const CandidateApply:React.FunctionComponent = () => {
             label="Preferred Location"
             type="text"
             name="vacancies"
-           
+           size='small'  
           />
          
          <TextField
@@ -125,20 +150,16 @@ const CandidateApply:React.FunctionComponent = () => {
             label="Expected Joining Date"
             type="text"
             name="vacancies"
+            size='small'
            
           />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Upload Resume"
-            type="file"
-            name="vacancies"
-           
-          />
-         
+          
+</Grid>
+</Grid>         
           <Button
             type="submit"
-            fullWidth
+            size='large'
+           style={{alignItems:'center',justifyContent:'center',marginLeft:'32rem'}}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
@@ -152,7 +173,7 @@ const CandidateApply:React.FunctionComponent = () => {
           >
             Cancel
           </Button> */}
-        </Box>
+        </Card>
       </Box>
     </Container>
   );

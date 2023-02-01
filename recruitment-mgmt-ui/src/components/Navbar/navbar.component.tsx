@@ -199,8 +199,9 @@ const NavBar: React.FunctionComponent = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
+     
+      <AppBar position="fixed" open={open} style={{backgroundColor:"whitesmoke",color:'black',borderRadius:'2px'}}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -264,7 +265,8 @@ const NavBar: React.FunctionComponent = () => {
         open={open}
         PaperProps={{
           sx: {
-            backgroundColor: '#1976d2',
+            top:'2%',
+            backgroundColor: 'black',
             color: 'white',
           },
         }}
@@ -292,6 +294,7 @@ const NavBar: React.FunctionComponent = () => {
                     px: 2.5,
                   }}
                 >
+                  
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
