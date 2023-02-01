@@ -9,47 +9,33 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 // import { deflate } from 'zlib';
 
-interface Data {
-  jobID: number;
-  carbs: number;
-  fat: number;
-  account: string;
-  protein: number;
-}
-
-function createData(
+interface JobOpeningData {
   account: string,
   jobID: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): Data {
-  return {
-    account,
-    jobID,
-    fat,
-    carbs,
-    protein,
-  };
+  postedOn: string,
+  experience: string,
+  position:string,
+  team:string,
+  openposition:number,
 }
 
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
+const rows :JobOpeningData[]= [
+ {jobID:2301,account:'Honeywell',postedOn:'01/02/2022',experience:'2-4',position:'Frontend Developer',
+team:'XDR',openposition:2},
+{jobID:2302,account:'LG',postedOn:'01/02/2022',experience:'3-5',position:'Frontend Developer',
+team:'Chatbot',openposition:5},
+{jobID:2303,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'Polaris',openposition:3},
+{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'RMS',openposition:2},
+{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'XDR',openposition:2},
+{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',team:'XDR',openposition:2}
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
@@ -92,7 +78,7 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof JobOpeningData;
   label: string;
   numeric: boolean;
 }
@@ -105,41 +91,53 @@ const headCells: readonly HeadCell[] = [
     label: 'JOB ID',
   },
   {
+    id: 'position',
+    numeric: true,
+    disablePadding: false,
+    label: 'Position',
+  },
+  {
     id: 'account',
-    numeric: false,
-    disablePadding: true,
-    label: 'ACCOUNT',
-  },
-  {
-    id: 'fat',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Account',
   },
   {
-    id: 'carbs',
+    id: 'team',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Team ',
   },
   {
-    id: 'protein',
+    id: 'openposition',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Open Position',
+  },
+  {
+    id: 'experience',
+    numeric: true,
+    disablePadding: false,
+    label: 'Experience Req',
+  },
+  {
+    id: 'postedOn',
+    numeric: true,
+    disablePadding: false,
+    label: 'Posted On',
   },
 ];
 
 const JobOpeningTable: React.FunctionComponent = () => {
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('jobID');
+  const [orderBy, setOrderBy] = React.useState<keyof JobOpeningData>('jobID');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof JobOpeningData
   ): void => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -181,7 +179,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
 
   const isSelected = (account: string): boolean => selected.includes(account);
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof JobOpeningData) => (event: React.MouseEvent<unknown>) => {
       handleRequestSort(event, property);
     };
 
@@ -198,10 +196,24 @@ const JobOpeningTable: React.FunctionComponent = () => {
         justifyContent: 'center',
       }}
     >
-      <Paper sx={{ mb: 2, alignItems: 'center' }}>
-        <TableContainer>
+      <Paper sx={{  alignItems: 'center' }}>
+        <TableContainer sx={{
+            marginTop: 0,
+          
+            "&::-webkit-scrollbar": {
+              width: "6px",
+              backgroundColor: "#F7F7F7",
+            },
+            "&::-webkit-scrollbar-track": {
+              boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+              backgroundColor: "#F7F7F7",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#000000",
+            },
+          }} >
           <Table
-            sx={{ minWidth: 750 }}
+           stickyHeader
             aria-labelledby="tableTitle"
             size={'medium'}
           >
@@ -210,7 +222,8 @@ const JobOpeningTable: React.FunctionComponent = () => {
                 {headCells.map((headCell) => (
                   <TableCell
                     key={headCell.id}
-                    align={headCell.numeric ? 'right' : 'left'}
+                    style={{fontWeight:600}}
+                    align={headCell.numeric ? 'left' : 'center'}
                     padding={headCell.disablePadding ? 'none' : 'normal'}
                     sortDirection={orderBy === headCell.id ? order : false}
                   >
@@ -249,17 +262,22 @@ const JobOpeningTable: React.FunctionComponent = () => {
                       selected={isItemSelected}
                     >
                     
-                      <TableCell align="right">{row.jobID}</TableCell>
+                      <TableCell align="center">{row.jobID}</TableCell>
                       <TableCell
                         component="th"
                         scope="row"
+                        align='center'
                         padding="none"
                       >
-                        {row.account}
+                        {row.position}
                       </TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="center">{row.account}</TableCell>
+                      <TableCell align="center">{row.team}</TableCell>
+                      <TableCell align="center">{row.openposition}</TableCell>
+                      <TableCell align="center">{row.experience}</TableCell>
+                      <TableCell align="center">{row.postedOn}</TableCell>
+                      <TableCell sx={{width:'0.5%'}}><EditIcon/></TableCell>
+              <TableCell sx={{width:'0.5%'}}><DeleteIcon/></TableCell>
                     </TableRow>
                   );
                 })}
@@ -269,7 +287,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
                     height: 53 * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={5} />
                 </TableRow>
               )}
             </TableBody>

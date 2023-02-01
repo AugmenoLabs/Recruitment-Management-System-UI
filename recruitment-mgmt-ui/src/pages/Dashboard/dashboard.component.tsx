@@ -44,7 +44,7 @@ const Dashboard: React.FunctionComponent = () => {
               }}
             >
               <FormatListBulletedIcon
-                color={IsListView ? 'primary' : 'disabled'}
+                color={!IsListView ? 'primary' : 'disabled'}
               />
             </IconButton>
             <IconButton
@@ -53,12 +53,12 @@ const Dashboard: React.FunctionComponent = () => {
                 dispatch(NavbarActions.changeListView(false));
               }}
             >
-              <GridViewIcon color={!IsListView ? 'primary' : 'disabled'} />
+              <GridViewIcon color={IsListView ? 'primary' : 'disabled'} />
             </IconButton>
           </ButtonGroup>
         </Box>
       </Box>
-      {!IsListView ? <JobOpeningTable /> : <JobCards />}
+      {IsListView ? <JobOpeningTable /> : <JobCards />}
     </>
   );
 };

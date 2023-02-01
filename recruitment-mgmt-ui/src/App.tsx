@@ -7,9 +7,9 @@ import Box from '@mui/material/Box';
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
 
-import Navbar from './components/Navbar/Navbar.component';
+import NavBar from './components/Navbar/navbar.component';
 
-import Dashboard from "./pages/Dashboard/Dashboard.component";
+import Dashboard from "./pages/Dashboard/dashboard.component";
 
 import Requisition from './components/Requisition/Requisition';
 import CandidateFinalTable from './components/CandidateTable/CandidateFinalTable';
@@ -46,7 +46,7 @@ const App: React.FunctionComponent = () => {
   return (
     <div className="App">
       <HashRouter>
-        <Navbar />
+        <NavBar />
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
