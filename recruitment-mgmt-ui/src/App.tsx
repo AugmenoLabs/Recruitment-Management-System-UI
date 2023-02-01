@@ -7,8 +7,10 @@ import Box from '@mui/material/Box';
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
 
-import Navbar from './components/Navbar/navbar.component';
-import JobCards from './components/Dashboard/JobCard';
+import Navbar from './components/Navbar/Navbar.component';
+
+import Dashboard from "./pages/Dashboard/Dashboard.component";
+
 import Requisition from './components/Requisition/Requisition';
 import CandidateFinalTable from './components/CandidateTable/CandidateFinalTable';
 import CandidateApply from './components/CandidateApply/CandidateApply';
@@ -47,7 +49,7 @@ const App: React.FunctionComponent = () => {
         <Navbar />
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
-            <Route path="/" element={<JobCards />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/jobdescription" element={<JobDescription />} />
             <Route path="/applyforjobs" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
