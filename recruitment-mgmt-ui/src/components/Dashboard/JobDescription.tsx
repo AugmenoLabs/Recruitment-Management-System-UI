@@ -21,7 +21,7 @@ const JobDescription: React.FunctionComponent = () => {
   return (
     <div>
       <Box>
-        <Card style={{ marginLeft: '5rem', marginTop: '-3rem', width: '93%' }}>
+        <Card style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%', }}>
           <Card style={{ backgroundColor: "lavender" }}>
             <CardContent>
               <Box style={{ display: 'flex' }}>

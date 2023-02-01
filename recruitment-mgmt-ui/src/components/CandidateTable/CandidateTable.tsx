@@ -59,16 +59,16 @@ const rows:CandidateTableDataType[]= [
 
 const CandidateTable:React.FunctionComponent=()=> {
   return (
-    <Box sx={{    marginTop: '-2rem' }}>
+    <Box sx={{    marginTop: '5rem' }}>
       <Typography
         gutterBottom
         variant="h5"
-        sx={{ paddingLeft: '6rem', paddingTop: '-4rem', margin: 0 ,fontWeight:600,fontSize:'30px'}}
+        sx={{ paddingLeft: '2rem', paddingTop: '0.7rem', margin: 0 ,fontWeight:600,fontSize:'30px'}}
         className="tableheader"
       >
         Candidate Details
       </Typography>
-    <Paper sx={{ width: "95%", overflow: "hidden" ,marginLeft:'4rem'}}>
+    <Paper sx={{ width: "100%", overflow: "hidden" ,marginLeft:'0rem',marginTop:'1rem'}}>
       
     <TableContainer sx={{
             marginTop: 0,

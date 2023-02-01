@@ -112,8 +112,8 @@ const JobCards: React.FunctionComponent = () => {
   }/${current.getFullYear()}`;
   return (
     <>
-      <Box style={{ width: 'fit-content' }}>
-        <Grid style={{ display: 'flex' }}>
+      <Box style={{ width: 'fit-content' }} >
+        <Grid style={{ display: 'flex' }} justifyContent='flex-start' alignItems='flex-start'>
           <JobOpenings />
         </Grid>
         <Grid

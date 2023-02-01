@@ -24,19 +24,19 @@ const CandidateApply:React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
-    <Container component="main" maxWidth="lg" style={{marginLeft:'5rem'}}>
+    <Container component="main" maxWidth="lg" style={{marginLeft:'1rem'}}>
       <Box
         sx={{
-          marginTop: 8,
+          
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
         }}
       >
-        <Typography component="h1" variant="h5" style={{marginTop:'-6rem',fontWeight:600}}>
+        <Typography component="h1" variant="h5" style={{marginTop:'2rem',fontWeight:600}}>
          Apply for Jobs
         </Typography>
-        <Card style={{width:'97%',marginTop:'0.5rem',backgroundColor:'lavender'}}>
+        <Card style={{width:'97%',marginTop:'1rem',backgroundColor:'lavender'}}>
         <Grid container spacing={7}>
           <Grid  item xs={5.5} direction='column' style={{marginLeft:'1rem',marginRight:'2rem'}}>
         <TextField

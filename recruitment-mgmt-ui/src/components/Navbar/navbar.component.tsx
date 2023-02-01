@@ -198,7 +198,7 @@ const NavBar: React.FunctionComponent = () => {
      
      
       <CssBaseline />
-      <AppBar position="fixed" open={open} style={{backgroundColor:"whitesmoke",color:'black',borderRadius:'2px'}}>
+      <AppBar position="fixed" open={open} sx={{ boxShadow:1} } style={{backgroundColor:"white",color:'black',borderRadius:'2px'}}>
         <Toolbar>
           <IconButton
             color="inherit"
