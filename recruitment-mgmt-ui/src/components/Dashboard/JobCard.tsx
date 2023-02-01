@@ -13,7 +13,7 @@ import {
   Pagination,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import JobOpenings from './JobOpening';
+// import JobOpenings from './JobOpening';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
@@ -113,9 +113,7 @@ const JobCards: React.FunctionComponent = () => {
   return (
     <>
       <Box style={{ width: 'fit-content' }}>
-        <Grid style={{ display: 'flex' }}>
-          <JobOpenings />
-        </Grid>
+      
         <Grid
           container
           spacing={0}
