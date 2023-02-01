@@ -252,7 +252,6 @@ const JobOpeningTable: React.FunctionComponent = () => {
                       <TableCell align="right">{row.jobID}</TableCell>
                       <TableCell
                         component="th"
-                        id={labelId}
                         scope="row"
                         padding="none"
                       >
