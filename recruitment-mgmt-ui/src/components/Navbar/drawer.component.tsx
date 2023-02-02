@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -25,6 +26,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import LogoutIcon from '@mui/icons-material/Logout';
+import keycloak from 'keycloak-js';
+import { useKeycloak } from '@react-keycloak/web';
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -125,11 +129,14 @@ const MiniDrawer: React.FunctionComponent = () => {
   const handleDrawerClose = (): void => {
     setOpen(false);
   };
+  var logoutOptions = { redirectUri : 'http://localhost:3000' };
+  const { keycloak, initialized } = useKeycloak();
   const hrlinks = [
     { title: 'Dashboard', path: '/Dashboard', icon: <HomeIcon /> },
     { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
     { title: 'Candidate', path: '/resume', icon: <AccountBoxIcon /> },
     { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
+    { title: 'Logout', path: '/Logout', icon: <LogoutIcon /> },
   ];
   return (
     <Box sx={{ display: 'flex' }}>
@@ -188,6 +195,11 @@ const MiniDrawer: React.FunctionComponent = () => {
               aria-haspopup="true"
             >
               <SettingsSuggestRoundedIcon />
+            </IconButton>
+            <IconButton
+            onClick={() => keycloak.logout(logoutOptions)}
+            >
+              <LogoutIcon/>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

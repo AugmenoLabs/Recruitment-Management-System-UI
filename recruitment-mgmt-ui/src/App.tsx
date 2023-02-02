@@ -1,16 +1,26 @@
-import React from 'react';
-import './App.css';
+/* eslint-disable */
+import React from "react";
+import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./Auth/PrivateRoute";
+import MiniDrawer from "./components/Navbar/drawer.component";
+import Dashboard from "./pages/Dashboard/dashboard.component";
+import LoginComp from "./components/LoginComp/LoginComp";
+// import keycloak from "./Auth/keycloak";
+// import LoginComp from "./components/LoginComp/LoginComp";
 
-import {HashRouter, Route, Routes } from 'react-router-dom';
 
-import Dashboard from './pages/Dashboard/dashboard.component';
 
-import MiniDrawer from './components/Navbar/drawer.component';
-// import Navbar from './components/Navbar/navbar.component';
+
 
 const App: React.FunctionComponent = () => {
-  return (
-    <div className="App">
+  
+  const { keycloak, initialized } = useKeycloak();
+  console.log(keycloak);
+  return (<>
+  
+    
+      
       <MiniDrawer />
       <HashRouter>
         <Routes>
@@ -18,8 +28,12 @@ const App: React.FunctionComponent = () => {
           <Route path="dashboard" element={<Dashboard />} />
         </Routes>
       </HashRouter>
-    </div>
+  
+    
+    
+    </>
   );
-};
+}
+;
 
 export default App;
