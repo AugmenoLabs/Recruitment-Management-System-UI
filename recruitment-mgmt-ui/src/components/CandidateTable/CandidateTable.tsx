@@ -9,17 +9,18 @@ import TableRow from '@mui/material/TableRow';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Paper,  Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
+import ScheduleInterview from '../Interview/ScheduleInterview';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
-width:'16%'
+    width: '16%',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    width:'16%'
+    width: '16%',
   },
 }));
 
@@ -32,96 +33,171 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-interface CandidateTableDataType{
-  name: string,
-  mobile: string,
-  email: string,
-  position: string,
-  status: string,
+interface CandidateTableDataType {
+  name: string;
+  mobile: string;
+  email: string;
+  position: string;
+  status: string;
 }
 
 // function createData(
 // {  name, mobile, email, position, status }:CandidateTableDataType
 // ) {
 //   return {
-//      name, mobile, email, position, status 
+//      name, mobile, email, position, status
 //     };
 // }
 
-const rows:CandidateTableDataType[]= [
-  {name:'Sneha Kothari',mobile: '9099876543', email:'a@gmail.com', position:'Frontend',status: 'Applied'},
- {name:'Anshu Wadhwani', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Pending'},
-{name:'Shubham Kumawat', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Applied'},
-{name:'Sneha Kothari',mobile: '9099876543', email:'a@gmail.com', position:'Frontend',status: 'Applied'},
-{name:'Anshu Wadhwani', mobile:'9099876543', email:'a@gmail.com', position:'Frontend', status:'Pending'},
-
+const rows: CandidateTableDataType[] = [
+  {
+    name: 'Sneha Kothari',
+    mobile: '9099876543',
+    email: 'a@gmail.com',
+    position: 'Frontend',
+    status: 'Applied',
+  },
+  {
+    name: 'Anshu Wadhwani',
+    mobile: '9099876543',
+    email: 'a@gmail.com',
+    position: 'Frontend',
+    status: 'Pending',
+  },
+  {
+    name: 'Shubham Kumawat',
+    mobile: '9099876543',
+    email: 'a@gmail.com',
+    position: 'Frontend',
+    status: 'Applied',
+  },
+  {
+    name: 'Sneha Kothari',
+    mobile: '9099876543',
+    email: 'a@gmail.com',
+    position: 'Frontend',
+    status: 'Applied',
+  },
+  {
+    name: 'Anshu Wadhwani',
+    mobile: '9099876543',
+    email: 'a@gmail.com',
+    position: 'Frontend',
+    status: 'Pending',
+  },
 ];
 
-const CandidateTable:React.FunctionComponent=()=> {
+const CandidateTable: React.FunctionComponent = () => {
   return (
-    <Box sx={{    marginTop: '5rem' }}>
+    <Box sx={{ marginTop: '5rem' }}>
       <Typography
         gutterBottom
         variant="h5"
-        sx={{ paddingLeft: '2rem', paddingTop: '0.7rem', margin: 0 ,fontWeight:600,fontSize:'30px'}}
+        sx={{
+          paddingLeft: '2rem',
+          paddingTop: '0.7rem',
+          margin: 0,
+          fontWeight: 600,
+          fontSize: '30px',
+        }}
         className="tableheader"
       >
         Candidate Details
       </Typography>
-    <Paper sx={{ width: "100%", overflow: "hidden" ,marginLeft:'0rem',marginTop:'1rem'}}>
-      
-    <TableContainer sx={{
+      <Paper
+        sx={{
+          width: '100%',
+          overflow: 'hidden',
+          marginLeft: '0rem',
+          marginTop: '1rem',
+        }}
+      >
+        <TableContainer
+          sx={{
             marginTop: 0,
-          
-            "&::-webkit-scrollbar": {
-              width: "6px",
-              backgroundColor: "#F7F7F7",
+
+            '&::-webkit-scrollbar': {
+              width: '6px',
+              backgroundColor: '#F7F7F7',
             },
-            "&::-webkit-scrollbar-track": {
+            '&::-webkit-scrollbar-track': {
               boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
-              backgroundColor: "#F7F7F7",
+              backgroundColor: '#F7F7F7',
             },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#000000",
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: '#000000',
             },
-          }} >
-      <Table stickyHeader sx={{ width: '95%' ,marginLeft:'9rem',marginRight:'0rem',margin:'auto',tableLayout:'auto'}} aria-label="customized table">
-        <TableHead >
-          <TableRow >
-            <StyledTableCell   style={{fontWeight:600}}>Name</StyledTableCell>
-            <StyledTableCell  align="center"  style={{fontWeight:600}}>Mobile No.</StyledTableCell>
-            <StyledTableCell align="center"  style={{fontWeight:600}} >Email</StyledTableCell>
-            <StyledTableCell align="center"  style={{fontWeight:600}} >Position</StyledTableCell>
-            <StyledTableCell align="center"  style={{fontWeight:600}} >Status</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableHead></TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell className="cell"
-                        component="th"
-                        scope="row"
-                        padding="none"
-                        width="10%"
-                        >
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell  align="center">{row.mobile}</StyledTableCell>
-              <StyledTableCell align="center">{row.email}</StyledTableCell>
-              <StyledTableCell align="center">{row.position}</StyledTableCell>
-              <StyledTableCell align="center">{row.status}</StyledTableCell>
-              <TableCell sx={{width:'1%'}} ><DownloadIcon/></TableCell>
-              <TableCell sx={{width:'0.5%'}}><EditIcon/></TableCell>
-              <TableCell sx={{width:'0.5%'}}><DeleteIcon/></TableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </Paper>
+          }}
+        >
+          <Table
+            stickyHeader
+            sx={{
+              width: '95%',
+              marginLeft: '9rem',
+              marginRight: '0rem',
+              margin: 'auto',
+              tableLayout: 'auto',
+            }}
+            aria-label="customized table"
+          >
+            <TableHead>
+              <TableRow>
+                <StyledTableCell style={{ fontWeight: 600 }}>
+                  Name
+                </StyledTableCell>
+                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
+                  Mobile No.
+                </StyledTableCell>
+                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
+                  Email
+                </StyledTableCell>
+                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
+                  Position
+                </StyledTableCell>
+                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
+                  Status
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableHead></TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <StyledTableRow key={row.name}>
+                  <StyledTableCell
+                    className="cell"
+                    component="th"
+                    scope="row"
+                    padding="none"
+                    width="10%"
+                  >
+                    {row.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.mobile}</StyledTableCell>
+                  <StyledTableCell align="center">{row.email}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.position}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.status}</StyledTableCell>
+                  <TableCell sx={{ width: '1%' }}>
+                    <ScheduleInterview/>
+                  </TableCell>
+                  <TableCell sx={{ width: '1%' }}>
+                    <DownloadIcon />
+                  </TableCell>
+                  <TableCell sx={{ width: '0.5%' }}>
+                    <EditIcon />
+                  </TableCell>
+                  <TableCell sx={{ width: '0.5%' }}>
+                    <DeleteIcon />
+                  </TableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </Box>
   );
-}
+};
 
 export default CandidateTable;
