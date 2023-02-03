@@ -1,179 +1,164 @@
-import React ,{ useState }from "react";
+import React, { useState } from 'react';
 // import { useFormik } from 'formik';
 // import { toast } from "react-toastify";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   Container,
   Box,
-  TextField,
   Typography,
   Button,
-  Autocomplete,
   Grid,
   Card,
-  IconButton,
-} from "@mui/material";
+  Stepper,
+  Step,
+  StepLabel,
+} from '@mui/material';
+// import { useFormik } from "formik";
+import Candidatepi from './Candidatepi';
+import Candidatejob from './Candidatejob';
+import CandidateCompensation from './CandidateCompensation';
+import Candidateresume from './Candidateresume';
 
-
-const skills = ["react", "java", "dotnet"];
+const steps = [
+  'Personal Details',
+  'Professional Details',
+  'Offer Details',
+  'Upload Resume',
+];
+// const skills = ["react", "java", "dotnet"];
 // const NotRequired = [""];
 
-const CandidateApply:React.FunctionComponent = () => {
-  
-  
-  const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
+const CandidateApply: React.FunctionComponent = () => {
+  const [activeStep, setActiveStep] = useState(0);
+
+  // const handleNext = ():any => {
+  //   let newSkipped = skipped;
+  //   if (isStepSkipped(activeStep))
+  //   {
+  //     newSkipped = new Set(newSkipped.values());
+  //     newSkipped.delete(activeStep);
+  //   }
+
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped(newSkipped);
+  // };
+  const handleBack = (): void => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  const handleNext = (): void => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  // const handleSkip = ()=> {
+  //   if (!isStepOptional(activeStep)) {
+  //     // You probably want to guard against something like this,
+  //     // it should never occur unless someone's actively trying to break something.
+  //     throw new Error("You can't skip a step that isn't optional.");
+  //   }
+
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped((prevSkipped) => {
+  //     const newSkipped = new Set(prevSkipped.values());
+  //     newSkipped.add(activeStep);
+  //     return newSkipped;
+  //   });
+  // };
+
+  // const handleReset = () :void=> {
+  //   setActiveStep(0);
+  // };
+
+  const formContent: any = (step: any) => {
+    switch (step) {
+      case 0:
+        return <Candidatepi />;
+      case 1:
+        return <Candidatejob />;
+      case 2:
+        return <CandidateCompensation />;
+      case 3:
+        return <Candidateresume />;
+    }
+  };
+
+  // const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
-    <Container component="main" maxWidth="lg" style={{marginLeft:'1rem'}}>
+    <Container component="main" maxWidth="lg" style={{ marginLeft: '1rem' }}>
       <Box
         sx={{
-          
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
         }}
       >
-        <Typography component="h1" variant="h5" style={{marginTop:'2rem',fontWeight:600}}>
-         Apply for Jobs
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{ marginTop: '2rem', fontWeight: 600 }}
+        >
+          Apply for Jobs
         </Typography>
-        <Card style={{width:'97%',marginTop:'1rem',backgroundColor:'lavender'}}>
-        <Grid container spacing={7}>
-          <Grid  item xs={5.5} direction='column' style={{marginLeft:'1rem',marginRight:'2rem'}}>
-        <TextField
-            margin="normal"
-            fullWidth
-            size='small'
-            label="Candidate Name"
-            type="text"
-            name="role"
-            
-          />
-          <TextField
-            margin="normal"
-            size='small'
-            fullWidth
-            label="Contact No."
-            type="text"
-            name="role"
-            
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Email"
-            type="text"
-            name="job"
-           size="small"
-          />
-           <Autocomplete
-            multiple
-            id="Skills"
-            options={skills}
-            value={autoCompleteValue}
-            onChange={(e, newval) => {
-              setAutoCompleteValue(newval);
-           
+        <Grid container justifyContent="center" alignItems="center">
+          <Card
+            style={{
+              width: '90%',
+              marginTop: '1rem',
+              backgroundColor: 'lavender',
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Skills"
-                placeholder="Skills"
-                margin="normal"
-                fullWidth
-                size='small'
-                name="skills"
-              />
+          >
+            <Stepper
+              activeStep={activeStep}
+              style={{
+                marginTop: '2rem',
+                marginLeft: '4rem',
+                marginRight: '4rem',
+              }}
+            >
+              {steps.map((label, index) => (
+                <Step key={index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            {activeStep === steps.length ? (
+              <Typography>Thankyou for applying</Typography>
+            ) : (
+              <Grid container direction="column">
+                <Grid item>{formContent(activeStep)}</Grid>
+                <Box
+                  component="span"
+                  m={1}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    marginLeft: '2rem',
+                    marginBottom: '2rem',
+                    marginRight: '2rem',
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 8 }}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    sx={{ alignItems: 'flex-end' }}
+                  >
+                    {activeStep === steps.length - 1 ? 'Apply' : 'Next'}
+                  </Button>
+                </Box>
+              </Grid>
             )}
-          />
-        {/* <TextField
-            margin="normal"
-            fullWidth
-            label="Upload Resume"
-            type="file"
-            name="vacancies"
-           
-          /> */}
-          <Box sx={{border:1,borderColor:'gray',marginTop:'1rem',borderRadius:'3px'}}>
-          <IconButton><CloudUploadIcon/></IconButton>
-            <input type='file' />
-            </Box>
-       </Grid>
-       <Grid  item xs={5.5} direction='column' >
-          
-         
-
-          
-          
-
-        
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Experience"
-            type="text"
-            name="experience"
-            size='small'
-          />
-        
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Current Ctc"
-            type="text"
-            size='small'
-         
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Expected Ctc"
-            type="text"
-            size='small'
-         
-          />
-         
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Preferred Location"
-            type="text"
-            name="vacancies"
-           size='small'  
-          />
-         
-         <TextField
-            margin="normal"
-            fullWidth
-            label="Expected Joining Date"
-            type="text"
-            name="vacancies"
-            size='small'
-           
-          />
-          
-</Grid>
-</Grid>         
-          <Button
-            type="submit"
-            size='large'
-           style={{alignItems:'center',justifyContent:'center',marginLeft:'32rem'}}
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Apply
-          </Button>
-          {/* <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Cancel
-          </Button> */}
-        </Card>
+          </Card>
+        </Grid>
       </Box>
     </Container>
   );

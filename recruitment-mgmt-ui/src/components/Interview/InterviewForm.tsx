@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 // import { useFormik } from 'formik';
-import "./Requisition.css";
 // import { toast } from "react-toastify";
 import {
   Container,
@@ -17,7 +16,7 @@ import {
 const skills = ["react", "java", "dotnet"];
 // const NotRequired = [""];
 
-const Requisition :React.FunctionComponent= () => {
+const InterviewForm :React.FunctionComponent= () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
@@ -193,4 +192,4 @@ const Requisition :React.FunctionComponent= () => {
   );
 };
 
-export default Requisition;
+export default InterviewForm;

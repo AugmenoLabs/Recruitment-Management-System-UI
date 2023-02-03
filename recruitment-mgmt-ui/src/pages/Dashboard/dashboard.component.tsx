@@ -19,10 +19,14 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import JobCards from '../../components/Dashboard/JobCard';
 import JobOpeningTable from '../../components/JobOpeningTable/JobOpeningTable.component';
 import GridViewIcon from '@mui/icons-material/GridView';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FunctionComponent = () => {
   const IsListView = useSelector((state: RootState) => state.Navbar.IsListView);
-
+  const history = useNavigate();
+  const navigateform = (): void => {
+    history('/requisition');
+  };
   const dispatch = useDispatch();
   return (
     <>
@@ -31,7 +35,7 @@ const Dashboard: React.FunctionComponent = () => {
           JOB OPENINGS
         </Typography>
         <Box className="button-section">
-          <Button variant="contained">New Position</Button>
+          <Button variant="contained" onClick={navigateform}>New Position</Button>
           <ButtonGroup
             variant="contained"
             aria-label="outlined primary button group"

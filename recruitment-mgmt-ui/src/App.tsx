@@ -20,6 +20,8 @@ import { styled } from '@mui/material/styles';
 import AddAccount from './components/Account/AddAccount';
 import AddProject from './components/Project/AddProject';
 import AccountTable from './components/Account/AccountTable';
+import InterviewForm from './components/Interview/InterviewForm';
+import InterviewFinalTable from './components/Interview/InterviewFinalTable';
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -60,6 +62,8 @@ const App: React.FunctionComponent = () => {
             <Route path="/AddAccount" element={<AddAccount />} />
             <Route path="/AddProject" element={<AddProject />} />
             <Route path="/Accountdetails" element={<AccountTable/>} />
+            <Route path="/scheduleinterview" element={<InterviewForm />} />
+            <Route path="/interviewdetails" element={<InterviewFinalTable />} />
           </Routes>
         </AppBox>
       </HashRouter>
