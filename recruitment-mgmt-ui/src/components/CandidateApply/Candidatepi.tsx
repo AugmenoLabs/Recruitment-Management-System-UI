@@ -113,6 +113,14 @@ const Candidatepi: React.FunctionComponent = () => {
             type="text"
             name="vacancies"
           />
+         <TextField
+          margin="normal"
+          fullWidth
+          label="Qualification"
+          size="small"
+          type="text"
+          name="vacancies"
+        />
 
           <FormControl style={{ marginLeft: '0.4rem', marginTop: '0.4rem' }}>
             <FormLabel id="demo-radio-buttons-group-label">

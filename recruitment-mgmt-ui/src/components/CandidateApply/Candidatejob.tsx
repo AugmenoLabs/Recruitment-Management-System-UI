@@ -1,4 +1,4 @@
-import { Autocomplete, Grid, TextField } from '@mui/material';
+import { Autocomplete, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 const skills = ['react', 'java', 'dotnet'];
@@ -10,6 +10,10 @@ const Candidatejob: React.FunctionComponent = () => {
   };
   const handleRemoveSkills: any = (value: any) => {
     value.setFieldValue('skills', value);
+  };
+  const [jobType, setjobType] = React.useState('');
+  const handleChange: any = (event: SelectChangeEvent) => {
+    setjobType(event.target.value);
   };
 
   return (
@@ -64,11 +68,31 @@ const Candidatejob: React.FunctionComponent = () => {
             />
           )}
         />
-
+<FormControl style={{ width: '40%' }} size="small">
+          <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={jobType}
+            label="Available to join as"
+            onChange={handleChange}
+          >
+            <MenuItem value="yes">Full Time</MenuItem>
+            <MenuItem value="no">Part Time</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           margin="normal"
           style={{ width: '40%' }}
           label="Job ID"
+          type="text"
+          name="vacancies"
+          size="small"
+        />
+        <TextField
+          margin="normal"
+          style={{ width: '40%' }}
+          label="Notice Period"
           type="text"
           name="vacancies"
           size="small"
