@@ -27,7 +27,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { useNavigate } from 'react-router-dom';
-
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
 import { NavbarActions } from '../../redux/Navbar/slice';
 
@@ -138,7 +138,7 @@ const NavBar: React.FunctionComponent = () => {
   };
   const hrlinks = [
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
-    { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
+    { title: 'Resume', path: '/AccountDetails', icon: <FileCopyIcon /> },
     { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
     { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
   ];
@@ -159,6 +159,19 @@ const NavBar: React.FunctionComponent = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="Add menu"
+          aria-controls="show add options"
+          color="inherit"
+        >
+          <Badge badgeContent={0} color="error">
+            <AddBoxIcon />
+          </Badge>
+        </IconButton>
+        <p>Add</p>
+      </MenuItem>
+      <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={0} color="error">
             <MailIcon />
@@ -173,7 +186,7 @@ const NavBar: React.FunctionComponent = () => {
           color="inherit"
         >
           <Badge badgeContent={0} color="error">
-            <NotificationsIcon />
+            <AddBoxIcon />
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -190,6 +203,7 @@ const NavBar: React.FunctionComponent = () => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      
     </Menu>
   );
 
