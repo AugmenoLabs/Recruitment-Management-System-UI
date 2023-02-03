@@ -17,6 +17,8 @@ import CandidateApply from './components/CandidateApply/CandidateApply';
 import JobDescription from './components/Dashboard/JobDescription';
 
 import { styled } from '@mui/material/styles';
+import InterviewForm from './components/Interview/InterviewForm';
+import InterviewFinalTable from './components/Interview/InterviewFinalTable';
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -54,6 +56,8 @@ const App: React.FunctionComponent = () => {
             <Route path="/applyforjobs" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
             <Route path="/candidatedetails" element={<CandidateFinalTable />} />
+            <Route path="/scheduleinterview" element={<InterviewForm />} />
+            <Route path="/interviewdetails" element={<InterviewFinalTable />} />
           </Routes>
         </AppBox>
       </HashRouter>

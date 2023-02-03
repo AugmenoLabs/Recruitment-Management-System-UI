@@ -140,7 +140,7 @@ const NavBar: React.FunctionComponent = () => {
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
     { title: 'Resume', path: '/resumedata', icon: <FileCopyIcon /> },
     { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
-    { title: 'Calendar', path: '/calendar', icon: <CalendarMonthIcon /> },
+    { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
   ];
   const renderMobileMenu = (
     <Menu

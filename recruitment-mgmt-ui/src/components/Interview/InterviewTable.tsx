@@ -77,7 +77,7 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
-const CandidateTable:React.FunctionComponent=()=> {
+const InterviewTable:React.FunctionComponent=()=> {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const emptyRows =
@@ -203,4 +203,4 @@ const CandidateTable:React.FunctionComponent=()=> {
   );
 }
 
-export default CandidateTable;
+export default InterviewTable;

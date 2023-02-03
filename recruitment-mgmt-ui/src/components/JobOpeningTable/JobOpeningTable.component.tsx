@@ -9,9 +9,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
+import { Link } from 'react-router-dom';
 // import { deflate } from 'zlib';
 
 interface JobOpeningData {
@@ -22,20 +21,22 @@ interface JobOpeningData {
   position:string,
   team:string,
   openposition:number,
+  skills:string,
 }
 
 const rows :JobOpeningData[]= [
  {jobID:2301,account:'Honeywell',postedOn:'01/02/2022',experience:'2-4',position:'Frontend Developer',
-team:'XDR',openposition:2},
+team:'XDR',openposition:2,skills:'React'},
 {jobID:2302,account:'LG',postedOn:'01/02/2022',experience:'3-5',position:'Frontend Developer',
-team:'Chatbot',openposition:5},
+team:'Chatbot',openposition:5,skills:'.Net'},
 {jobID:2303,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
-team:'Polaris',openposition:3},
-{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
-team:'RMS',openposition:2},
-{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
-team:'XDR',openposition:2},
-{jobID:3,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',team:'XDR',openposition:2}
+team:'Polaris',openposition:3,skills:'Java'},
+{jobID:2304,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'RMS',openposition:2,skills:'Java'},
+{jobID:2305,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'XDR',openposition:2,skills:'Java'},
+{jobID:2306,account:'Honeywell',postedOn:'01/02/2022',experience:'2',position:'Frontend Developer',
+team:'XDR',openposition:2,skills:'Java'}
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
@@ -106,7 +107,7 @@ const headCells: readonly HeadCell[] = [
     id: 'team',
     numeric: true,
     disablePadding: false,
-    label: 'Team ',
+    label: 'Project ',
   },
   {
     id: 'openposition',
@@ -118,7 +119,13 @@ const headCells: readonly HeadCell[] = [
     id: 'experience',
     numeric: true,
     disablePadding: false,
-    label: 'Experience Req',
+    label: 'Experience',
+  },
+  {
+    id: 'skills',
+    numeric: true,
+    disablePadding: false,
+    label: 'Skills',
   },
   {
     id: 'postedOn',
@@ -262,7 +269,14 @@ const JobOpeningTable: React.FunctionComponent = () => {
                       selected={isItemSelected}
                     >
                     
-                      <TableCell align="center">{row.jobID}</TableCell>
+                      <TableCell  align="center" color='blue'>
+                      <Link
+                    
+                    to={`/jobdescription`}
+                    style={{ textDecoration: 'blue', color: 'blue' }}
+                  >
+                  {row.jobID}  
+                  </Link></TableCell>
                       <TableCell
                         component="th"
                         scope="row"
@@ -275,9 +289,9 @@ const JobOpeningTable: React.FunctionComponent = () => {
                       <TableCell align="center">{row.team}</TableCell>
                       <TableCell align="center">{row.openposition}</TableCell>
                       <TableCell align="center">{row.experience}</TableCell>
+                      <TableCell align="center">{row.skills}</TableCell>
                       <TableCell align="center">{row.postedOn}</TableCell>
-                      <TableCell sx={{width:'0.5%'}}><EditIcon/></TableCell>
-              <TableCell sx={{width:'0.5%'}}><DeleteIcon/></TableCell>
+                      
                     </TableRow>
                   );
                 })}
