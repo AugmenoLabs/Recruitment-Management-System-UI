@@ -18,14 +18,21 @@ import Candidatejob from './Candidatejob';
 import CandidateCompensation from './CandidateCompensation';
 import Candidateresume from './Candidateresume';
 
+
+
+
 const steps = [
   'Personal Details',
-  'Professional Details',
-  'Offer Details',
-  'Upload Resume',
+ 'Professional Details',
+ 'Offer Details','Upload Resume',
 ];
+
+
+
 // const skills = ["react", "java", "dotnet"];
 // const NotRequired = [""];
+
+
 
 const CandidateApply: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -46,6 +53,9 @@ const CandidateApply: React.FunctionComponent = () => {
   };
   const handleNext = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleStep = (index: number) :void => {
+    setActiveStep(index);
   };
 
   // const handleSkip = ()=> {
@@ -116,15 +126,23 @@ const CandidateApply: React.FunctionComponent = () => {
             >
               {steps.map((label, index) => (
                 <Step key={index}>
-                  <StepLabel>{label}</StepLabel>
+                           
+                  <StepLabel onClick={()=>handleStep(index)}>
+                   {label}</StepLabel>
+                
+  
                 </Step>
               ))}
             </Stepper>
 
             {activeStep === steps.length ? (
-              <Typography>Thankyou for applying</Typography>
-            ) : (
-              <Grid container direction="column">
+              <>            
+                <Typography>Thankyou for applying</Typography>
+             
+              </>)
+               : (
+                
+ <Grid container direction="column">
                 <Grid item>{formContent(activeStep)}</Grid>
                 <Box
                   component="span"

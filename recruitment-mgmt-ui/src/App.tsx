@@ -19,6 +19,10 @@ import JobDescription from './components/Dashboard/JobDescription';
 import { styled } from '@mui/material/styles';
 import InterviewForm from './components/Interview/InterviewForm';
 import InterviewFinalTable from './components/Interview/InterviewFinalTable';
+import Candidatepi from './components/CandidateApply/Candidatepi';
+import Candidatejob from './components/CandidateApply/Candidatejob';
+import CandidateCompensation from './components/CandidateApply/CandidateCompensation';
+import Candidateresume from './components/CandidateApply/Candidateresume';
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -53,6 +57,12 @@ const App: React.FunctionComponent = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/jobdescription" element={<JobDescription />} />
+            <Route path="/candidatecompensation" element={<CandidateCompensation />} />
+            <Route path="/uploadresume" element={<Candidateresume />} />
+            
+            
+            <Route path="/candidatepi" element={<Candidatepi />} />
+            <Route path="/candidatejob" element={<Candidatejob />} />
             <Route path="/applyforjobs" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
             <Route path="/candidatedetails" element={<CandidateFinalTable />} />
