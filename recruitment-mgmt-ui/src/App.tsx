@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import NavBar from './components/Navbar/navbar.component';
 import Dashboard from "./pages/Dashboard/dashboard.component";
 import Requisition from './components/Requisition/Requisition';
-import CandidateFinalTable from './components/CandidateTable/CandidateFinalTable';
+import CandidateTable from './components/CandidateTable/CandidateTable';
 import CandidateApply from './components/CandidateApply/CandidateApply';
 import { styled } from '@mui/material/styles';
 import AddAccount from './components/Account/AddAccount';
@@ -59,13 +59,11 @@ const App: React.FunctionComponent = () => {
             <Route path="/jobdescription" element={<FinalJD />} />
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
-            
-            
             <Route path="/candidatepi" element={<Candidatepi />} />
             <Route path="/candidatejob" element={<Candidatejob />} />
             <Route path="/applyforjobs" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
-            <Route path="/candidatedetails" element={<CandidateFinalTable />} />
+            <Route path="/candidatedetails" element={<CandidateTable />} />
             <Route path="/AddAccount" element={<AddAccount />} />
             <Route path="/AddProject" element={<AddProject />} />
             <Route path="/Accountdetails" element={<AccountTable/>} />

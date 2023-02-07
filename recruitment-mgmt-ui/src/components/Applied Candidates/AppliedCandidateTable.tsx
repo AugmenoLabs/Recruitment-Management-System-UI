@@ -8,42 +8,54 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import ScheduleInterview from '../Interview/ScheduleInterview';
+import EditCandidateStatus from './EditCandidateStatus';
 
 
 interface CandidateData {
     vendor:string,
-
     candidatename:string,
   Contact: number,
     email: string,
+    date:string,
     status: string,
+    screening:string,
     L1:string,
     L2:string,
-    HR:string
+    Managerial:string,
+    HR:string,
+    Offer:string,
+    Hired:string,
 }
 
 
 function createData(
  vendor:string,
-  candidatename:string,
-Contact: number,
-  email: string,
-  status: string,
-  L1:string,
-  L2:string,
-  HR:string,
+    candidatename:string,
+  Contact: number,
+    email: string,
+    date:string,
+    status: string,
+    screening:string,
+    L1:string,
+    L2:string,
+    Managerial:string,
+    HR:string,
+    Offer:string,
+    Hired:string,
 ): CandidateData {
   return {
- vendor,candidatename,Contact,email,status,L1,L2,HR };
+ vendor,candidatename,Contact,email,date,status,screening,L1,L2,Managerial,HR,Offer,Hired };
 }
 
 const rows = [
-  createData( 'Linkedin', 'Sneha',7089336292,'kotahri.sneha05@gmail.com','Scheduled for L1','Scheduled','Pending','Pending'),
-  createData(  'Indeed','Sneha',7089336292,'kotahri.sneha05@gmail.com','Scheduled for L1','Scheduled','Pending','Pending'),
-  createData(  'Linkedin','Sneha',7089336292,'kotahri.sneha05@gmail.com','Applied','Scheduled','Pending','Pending'),
-  createData(  'Indeed','Sneha',7089336292,'kotahri.sneha05@gmail.com','Rejected','Scheduled','Pending','Pending'),
-  createData( 'Linkedin', 'Sneha',7089336292,'kotahri.sneha05@gmail.com','Schedule for L1','Scheduled','Pending','Pending'),
-  
+
+  createData( 'Linkedin', 'Sneha',7089996292,'kothari.sneha05@gmail.com','04/01/23','Scheduled for L1','Accepted','Scheduled','Pending','Pending','Pending','Not Accepted','No'),
+  createData( 'Indeed', 'Anshu',7089336592,'kothari.sneha05@gmail.com','04/01/23','Scheduled for L2','Accepted','Selected','Scheduled','Pending','Pending','Not Accepted','No'),
+  createData( 'Social', 'Sanjeev',7089366292,'kothari.sneha05@gmail.com','04/01/23','Screening Reject','Rejected','Pending','Pending','Pending','Pending','Not Accepted','No'),
+  createData( 'Linkedin', 'Shivani',703336292,'kothari.sneha05@gmail.com','04/01/23','Scheduled for HR','Accepted','Selected','Selected','Selected','Scheduled','Not Accepted','No'),
+  createData( 'Naukari', 'Anjali',9089336292,'kothari.sneha05@gmail.com','04/01/23','Scheduled for L1','Accepted','Scheduled','Pending','Pending','Pending','Not Accepted','No'),
+  createData( 'Linkedin', 'Sneha',8089356292,'kothari.sneha05@gmail.com','04/01/23','Scheduled for L1','Accepted','Scheduled','Pending','Pending','Pending','Not Accepted','No'),
 ];
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -86,11 +98,24 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: 'Email',
   },
+  
+  {
+    id: 'date',
+    numeric: true,
+    disablePadding: false,
+    label: 'Date',
+  },
   {
     id: 'status',
     numeric: true,
     disablePadding: false,
     label: 'Status ',
+  },
+  {
+    id: 'screening',
+    numeric: true,
+    disablePadding: false,
+    label: 'Screening',
   },
   {
     id: 'L1',
@@ -105,10 +130,28 @@ const headCells: readonly HeadCell[] = [
     label: 'L2',
   },
   {
+    id: 'Managerial',
+    numeric: true,
+    disablePadding: false,
+    label: 'Mangerial',
+  },
+  {
     id: 'HR',
     numeric: true,
     disablePadding: false,
     label: 'HR',
+  },
+  {
+    id: 'Offer',
+    numeric: true,
+    disablePadding: false,
+    label: 'Offer',
+  },
+  {
+    id: 'Hired',
+    numeric: true,
+    disablePadding: false,
+    label: 'Hired',
   },
 ];
 
@@ -160,22 +203,24 @@ const AppliedCandidateTable:React.FunctionComponent=()=> {
   return (
     <Box style={{
         marginTop:'2rem',
-      width: '100%',
+      width: '95%',
+      marginLeft:'2.5%',
+    
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-      <Paper sx={{  alignItems: 'center' }} >
+      <Paper sx={{  alignItems: 'center' ,overflowX:'auto'}} >
       
         <TableContainer sx={{
             marginTop: '0',
-          
+          overflowX:'scroll',
             "&::-webkit-scrollbar": {
-              width: "6px",
+              width: "4px",
               backgroundColor: "#F7F7F7",
             },
             "&::-webkit-scrollbar-track": {
-              boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
+              boxShadow: `inset 0 0 4px rgba(0, 0, 0, 0.3)`,
               backgroundColor: "#F7F7F7",
             },
             "&::-webkit-scrollbar-thumb": {
@@ -186,6 +231,7 @@ const AppliedCandidateTable:React.FunctionComponent=()=> {
            stickyHeader
            aria-labelledby="tableTitle"
            size={'medium'}
+           style={{minWidth:'80%'}}
           >
           <TableHead>
       <TableRow>
@@ -238,11 +284,23 @@ const AppliedCandidateTable:React.FunctionComponent=()=> {
                     </TableCell>
                     <TableCell align="center">{row.Contact}</TableCell>
                     <TableCell  align="center">{row.email}</TableCell>
+                    <TableCell  align="center">{row.date}</TableCell>
+
                     <TableCell align="center">{row.status} </TableCell>
+                    <TableCell  align="center">{row.screening}</TableCell>
                     <TableCell  align="center">{row.L1}</TableCell>
                     <TableCell  align="center">{row.L2}</TableCell>
+                    <TableCell  align="center">{row.Managerial}</TableCell>
                     <TableCell align="center">{row.HR}</TableCell>
-
+                    <TableCell  align="center">{row.Offer}</TableCell>
+                    <TableCell  align="center">{row.Hired}</TableCell>
+                    
+                    <TableCell>
+                          <ScheduleInterview />
+                        </TableCell>
+                        <TableCell>
+                          <EditCandidateStatus />
+                        </TableCell>
                   </TableRow>
                 );
               })}

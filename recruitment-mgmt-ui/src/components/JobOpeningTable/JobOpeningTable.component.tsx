@@ -191,7 +191,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.numeric ? 'center' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -298,16 +298,17 @@ history('/applyforjobs')
 
   return (
     <Box style={{
-      width: '100%',
+      width: '95%',
+      marginLeft:'2.5%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-      <Paper sx={{  alignItems: 'center' }} >
+      <Paper sx={{  alignItems: 'center' ,overflowX:'auto'}} >
       
         <TableContainer sx={{
-            marginTop: 0,
-          
+            marginTop: '0',
+            overflowX:'auto',
             "&::-webkit-scrollbar": {
               width: "6px",
               backgroundColor: "#F7F7F7",

@@ -1,11 +1,8 @@
 import React from 'react';
 import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
+  
   Grid,
-  Radio,
-  RadioGroup,
+ 
   TextField,
 } from '@mui/material';
 
@@ -73,32 +70,6 @@ const Candidatepi: React.FunctionComponent = () => {
           type="text"
           name="vacancies"
         />
-        <FormControl style={{ marginLeft: '0.4rem', marginTop: '0.4rem' }}>
-            <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio size="small" />}
-                label="Female"
-              />
-              <FormControlLabel
-                value="male"
-                control={<Radio size="small" />}
-                label="Male"
-              />
-              <FormControlLabel
-                value="other"
-                control={<Radio size="small" />}
-                label="Other"
-              />
-            </RadioGroup>
-          </FormControl>
-
         
         </Grid>
       </Grid>

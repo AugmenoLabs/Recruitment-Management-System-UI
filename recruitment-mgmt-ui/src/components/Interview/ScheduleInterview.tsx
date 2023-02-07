@@ -5,7 +5,9 @@ import {
   DialogContent,
   DialogTitle,
   Fab,
+  FormControl,
   TextField,
+  InputLabel,Select,MenuItem, SelectChangeEvent
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -22,6 +24,12 @@ const ScheduleInterview: React.FunctionComponent = () => {
 
   const handleClose = (): void => {
     setOpen(false);
+  };
+  const [round, setRound] = React.useState('');
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleChange = (event: SelectChangeEvent) => {
+    setRound(event.target.value );
   };
 
   const [startvalue, setstartValue] = React.useState<Dayjs | null>(dayjs());
@@ -48,16 +56,58 @@ const ScheduleInterview: React.FunctionComponent = () => {
             fullWidth
             variant="standard"
           />
+
           <TextField
             margin="normal"
             autoFocus
-            multiline
-            maxRows={4}
             id="name"
-            label="Details"
+            label="To"
             fullWidth
             variant="standard"
           />
+           <TextField
+            margin="normal"
+            autoFocus
+            
+            id="name"
+            label="CC"
+            fullWidth
+            variant="standard"
+          />
+           <TextField
+            margin="normal"
+            autoFocus
+           
+            id="name"
+            label="BCC"
+            fullWidth
+            variant="standard"
+          />
+           <TextField
+            margin="normal"
+            autoFocus
+           type='file'
+            id="name"
+            label="Resume"
+            fullWidth
+            variant="standard"
+          />
+           <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Round</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={round}
+          label="Round"
+          onChange={handleChange}
+        >
+          <MenuItem value={10}>L1</MenuItem>
+          <MenuItem value={20}>L2</MenuItem>
+          <MenuItem value={30}>Managerial</MenuItem>
+          <MenuItem value={30}>HR</MenuItem>
+        </Select>
+      </FormControl>
+
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
               renderInput={(props) => (
