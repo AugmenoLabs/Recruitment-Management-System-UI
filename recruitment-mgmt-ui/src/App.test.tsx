@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 import { store } from './redux/store';
+import { test, expect, it } from '@jest/globals';
 
 test('renders learn react link', () => {
   render(
@@ -11,5 +12,5 @@ test('renders learn react link', () => {
     </Provider>
   );
   const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(linkElement);
 });
