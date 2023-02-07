@@ -1,4 +1,6 @@
 import { counterReducer, counterActions, ICounterSlice } from './slice';
+import { describe, expect, it } from '@jest/globals';
+
 
 describe('counter reducer', () => {
   const initialState: ICounterSlice = {
