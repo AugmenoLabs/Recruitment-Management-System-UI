@@ -4,19 +4,40 @@ import {
   Card,
   CardContent,
   Divider,
-  IconButton,
+  styled,
   Typography,
+  Collapse,
 } from '@mui/material';
 import React from 'react';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
-// import ShareIcon from '@mui/icons-material/Share';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const JobDescription: React.FunctionComponent = () => {
+  const [expanded, setExpanded] = React.useState(false);
   const history = useNavigate();
   const navigateform = (): void => {
     history('/applyforjobs');
+  };
+  const handleExpandClick = ():void => {
+    setExpanded(!expanded);
   };
   return (
     <div>
@@ -87,14 +108,34 @@ const JobDescription: React.FunctionComponent = () => {
                 >
                   Openings:4
                 </Typography>
+                <Typography
+                  style={{
+                    marginLeft: '3rem',
+                    color: 'gray',
+                    fontSize: '13px',
+                  }}
+                >
+                  No. of Candidate Applied:10
+                </Typography>
+                <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
               </Box>
             </CardContent>
           </Card>
           <Card>
-            <CardContent>
+          <Collapse in={expanded} timeout="auto" unmountOnExit> 
+              <CardContent>
+          
               <Typography variant="h6">Job Description</Typography>
+              
               <Divider />
-
+             
               <Typography style={{ fontSize: '14px', marginTop: '1rem' }}>
                 We are looking for someone who can stay updated with the new
                 tech in the market and also work on new ideas to incorporate the
@@ -206,6 +247,7 @@ const JobDescription: React.FunctionComponent = () => {
                 and systems.
               </Typography>
             </CardContent>
+            </Collapse>
           </Card>
         </Card>
       </Box>

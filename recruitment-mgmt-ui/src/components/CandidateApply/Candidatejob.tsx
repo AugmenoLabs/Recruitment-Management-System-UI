@@ -68,8 +68,8 @@ const Candidatejob: React.FunctionComponent = () => {
             />
           )}
         />
-<FormControl style={{ width: '40%' }} size="small">
-          <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
+<FormControl style={{ width: '40%' ,marginTop:'0.5rem'}} size="small">
+          <InputLabel id="demo-simple-select-label">Available to join as</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -81,14 +81,7 @@ const Candidatejob: React.FunctionComponent = () => {
             <MenuItem value="no">Part Time</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-          margin="normal"
-          style={{ width: '40%' }}
-          label="Job ID"
-          type="text"
-          name="vacancies"
-          size="small"
-        />
+       
         <TextField
           margin="normal"
           style={{ width: '40%' }}

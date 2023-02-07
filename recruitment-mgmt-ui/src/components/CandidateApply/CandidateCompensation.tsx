@@ -78,7 +78,7 @@ const CandidateCompensation: React.FunctionComponent = () => {
           name="experience"
           size="small"
         />
-        <FormControl style={{ width: '40%' }} size="small">
+        <FormControl style={{ width: '40%' ,marginTop:'0.6rem'}} size="small">
           <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
           <Select
             labelId="demo-simple-select-label"
