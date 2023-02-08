@@ -23,6 +23,10 @@ import Candidatejob from './components/CandidateApply/Candidatejob';
 import CandidateCompensation from './components/CandidateApply/CandidateCompensation';
 import Candidateresume from './components/CandidateApply/Candidateresume';
 import FinalJD from './components/Applied Candidates/FinalJD';
+import ManagementPage from './components/UserManagement/ManagementPage';
+import AddUser from './components/UserManagement/AddUser';
+import AddRole from './components/UserManagement/AddRole';
+import RoleMapping from './components/UserManagement/RoleMapping';
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -58,6 +62,11 @@ const App: React.FunctionComponent = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/jobdescription" element={<FinalJD />} />
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
+        
+            <Route
+              path="/candidatecompensation"
+              element={<CandidateCompensation />}
+            />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
             <Route path="/candidatejob" element={<Candidatejob />} />
@@ -66,9 +75,13 @@ const App: React.FunctionComponent = () => {
             <Route path="/candidatedetails" element={<CandidateTable />} />
             <Route path="/AddAccount" element={<AddAccount />} />
             <Route path="/AddProject" element={<AddProject />} />
-            <Route path="/Accountdetails" element={<AccountTable/>} />
+            <Route path="/Accountdetails" element={<AccountTable />} />
             <Route path="/scheduleinterview" element={<InterviewForm />} />
             <Route path="/interviewdetails" element={<InterviewFinalTable />} />
+            <Route path="/UserDetails" element={<ManagementPage />} />
+            <Route path="/AddUser" element={<AddUser/>} />
+            <Route path="/AddRole" element={<AddRole/>} />
+            <Route path="/RoleMapping" element={<RoleMapping/>} />
           </Routes>
         </AppBox>
       </HashRouter>
