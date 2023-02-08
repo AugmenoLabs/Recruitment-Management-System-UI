@@ -170,7 +170,7 @@ const CandidateApply: React.FunctionComponent = () => {
                     onClick={handleBack}
                     sx={{ mr: 8 }}
                   >
-                    Back
+                    Previous
                   </Button>
                   <Button
                     onClick={handleNext}

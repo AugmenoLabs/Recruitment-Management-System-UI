@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box,Menu,MenuItem,IconButton,Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,10 +8,10 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Paper from '@mui/material/Paper';
 import { Link, useNavigate } from 'react-router-dom';
-
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 import { visuallyHidden } from '@mui/utils';
 
@@ -162,6 +162,12 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: 'Posted On',
   },
+  {
+    id:'skills',
+    numeric: true,
+    disablePadding: false,
+    label: 'Action',
+  },
 ];
 
 interface EnhancedTableProps {
@@ -185,11 +191,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 
   return (
-    <TableHead>
+    <TableHead >
       <TableRow>
       
         {headCells.map((headCell) => (
-          <TableCell
+         <> <TableCell style={{fontWeight:700,backgroundColor:'lightgray'}}
+
             key={headCell.id}
             align={headCell.numeric ? 'center' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -207,7 +214,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 </Box>
               ) : null}
             </TableSortLabel>
+          
           </TableCell>
+        
+          </>
         ))}
       </TableRow>
     </TableHead>
@@ -225,7 +235,16 @@ const JobOpeningTable:React.FunctionComponent=()=> {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleClickmenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -305,7 +324,11 @@ history('/applyforjobs')
       justifyContent: 'center',
     }}>
       <Paper sx={{  alignItems: 'center' ,overflowX:'auto'}} >
-      
+      <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
         <TableContainer sx={{
             marginTop: '0',
             overflowX:'auto',
@@ -345,6 +368,7 @@ history('/applyforjobs')
                   return (
                     <TableRow
                     hover
+                 
                     onClick={(event) => {
                       handleClick(event, row.account)
                    }}
@@ -379,7 +403,30 @@ history('/applyforjobs')
                     <TableCell onClick={ navigatetojd} align="center">{row.experience}</TableCell>
                     <TableCell onClick={ navigatetojd} align="center">{row.skills}</TableCell>
                     <TableCell onClick={ navigatetojd} align="center">{row.postedOn}</TableCell>
-                    <TableCell align="center"><Button variant='contained' onClick={navigatetoapply}>Apply</Button></TableCell>
+                    <TableCell align="center">
+                    <IconButton
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClickmenu}
+      >
+      <MoreVertIcon/>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={navigatetoapply}>Apply</MenuItem>
+        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>Delete</MenuItem>
+      </Menu>
+      </TableCell>
                   </TableRow>
                 );
               })}
