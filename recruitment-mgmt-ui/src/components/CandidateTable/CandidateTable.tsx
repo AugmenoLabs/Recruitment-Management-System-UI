@@ -7,61 +7,76 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import DownloadIcon from '@mui/icons-material/Download';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 import { Box, Paper, TablePagination, Typography } from '@mui/material';
-import ScheduleInterview from '../Interview/ScheduleInterview';
+
 
 interface CandidateTableDataType {
   name: string;
+  vendor:string,
   mobile: string;
   email: string;
+  experience:number;
   position: string;
+  account:string,
+  project:string,
   status: string;
 }
-
-// function createData(
-// {  name, mobile, email, position, status }:CandidateTableDataType
-// ) {
-//   return {
-//      name, mobile, email, position, status
-//     };
-// }
 
 const rows: CandidateTableDataType[] = [
   {
     name: 'Sneha Kothari',
+    vendor:'linkedin',
     mobile: '9099876543',
     email: 'a@gmail.com',
+    experience:3,
     position: 'Frontend',
-    status: 'Applied',
+    account:'Honeywell',
+    project:'RMS',
+    status: 'Scheduled for L2',
   },
   {
     name: 'Anshu Wadhwani',
+    vendor:'linkedin',
     mobile: '9099876543',
     email: 'a@gmail.com',
+    experience:2,
     position: 'Frontend',
+    account:'LG',
+    project:'XDR',
     status: 'Pending',
   },
   {
-    name: 'Shubham Kumawat',
+    name: 'Sanjeev',
+    vendor:'Naukari',
     mobile: '9099876543',
     email: 'a@gmail.com',
+    experience:3,
     position: 'Frontend',
+    account:'Honeywell',
+    project:'RMS',
     status: 'Applied',
   },
   {
     name: 'Sneha Kothari',
+    vendor:'Naukari',
     mobile: '9099876543',
     email: 'a@gmail.com',
+    experience:5,
     position: 'Frontend',
+    account:'Honeywell',
+    project:'RMS',
     status: 'Applied',
   },
   {
     name: 'Anshu Wadhwani',
+    vendor:'Naukari',
     mobile: '9099876543',
     email: 'a@gmail.com',
+    experience:5,
     position: 'Frontend',
+    account:'Honeywell',
+    project:'RMS',
     status: 'Pending',
   },
 ];
@@ -80,6 +95,12 @@ const headCells: readonly HeadCell[] = [
     label: 'Candidate Name',
   },
   {
+    id: 'vendor',
+    numeric: true,
+    disablePadding: false,
+    label: 'Vendor Name',
+  },
+  {
     id: 'mobile',
     numeric: true,
     disablePadding: false,
@@ -92,12 +113,30 @@ const headCells: readonly HeadCell[] = [
     label: 'Email',
   },
   {
+    id: 'experience',
+    numeric: true,
+    disablePadding: false,
+    label: 'Experience',
+  },
+  
+  {
     id: 'position',
     numeric: true,
     disablePadding: false,
     label: 'Position ',
   },
-
+  {
+    id: 'account',
+    numeric: true,
+    disablePadding: false,
+    label: 'Account',
+  },
+  {
+    id: 'project',
+    numeric: true,
+    disablePadding: false,
+    label: 'Project',
+  },
   {
     id: 'status',
     numeric: true,
@@ -133,13 +172,14 @@ const CandidateTable: React.FunctionComponent = () => {
       <Box
         style={{
           marginTop: '1rem',
-          width: '100%',
+          width: '95%',
+      marginLeft:'2.5%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Paper sx={{ alignItems: 'center' }}>
+        <Paper sx={{ alignItems: 'center' ,overflowX:'auto'}}>
           <TableContainer
             sx={{
               '&::-webkit-scrollbar': {
@@ -189,21 +229,18 @@ const CandidateTable: React.FunctionComponent = () => {
                         >
                           {row.name}
                         </TableCell>
+                        <TableCell align="center">{row.vendor}</TableCell>
                         <TableCell align="center">{row.mobile}</TableCell>
                         <TableCell align="center">{row.email}</TableCell>
+                        <TableCell align="center">{row.experience}</TableCell>
                         <TableCell align="center">{row.position}</TableCell>
+                        <TableCell align="center">{row.account}</TableCell>
+                        <TableCell align="center">{row.project}</TableCell>
                         <TableCell align="center">{row.status}</TableCell>
-                        <TableCell>
-                          <ScheduleInterview />
-                        </TableCell>
+                       
                         <TableCell>
                           <DownloadIcon />
-                        </TableCell>
-                        <TableCell>
-                          <EditIcon />
-                        </TableCell>
-                        <TableCell>
-                          <DeleteIcon />
+                        
                         </TableCell>
                       </TableRow>
                     );

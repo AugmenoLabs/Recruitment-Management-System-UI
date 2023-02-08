@@ -139,8 +139,8 @@ const NavBar: React.FunctionComponent = () => {
   };
   const hrlinks = [
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
-    { title: 'Resume', path: '/AccountDetails', icon: <FileCopyIcon /> },
-    { title: 'Candidate', path: '/candidatedetails', icon: <AccountBoxIcon /> },
+    { title: 'Account', path: '/AccountDetails', icon:<AccountBoxIcon />  },
+    { title: 'Candidate', path: '/candidatedetails', icon: <FileCopyIcon /> },
     { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
     { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> }
   ];

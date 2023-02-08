@@ -6,16 +6,11 @@ import Box from '@mui/material/Box';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-
 import NavBar from './components/Navbar/navbar.component';
-
-import Dashboard from './pages/Dashboard/dashboard.component';
-
+import Dashboard from "./pages/Dashboard/dashboard.component";
 import Requisition from './components/Requisition/Requisition';
-import CandidateFinalTable from './components/CandidateTable/CandidateFinalTable';
+import CandidateTable from './components/CandidateTable/CandidateTable';
 import CandidateApply from './components/CandidateApply/CandidateApply';
-import JobDescription from './components/Dashboard/JobDescription';
-
 import { styled } from '@mui/material/styles';
 import AddAccount from './components/Account/AddAccount';
 import AddProject from './components/Project/AddProject';
@@ -30,6 +25,8 @@ import ManagementPage from './components/UserManagement/ManagementPage';
 import AddUser from './components/UserManagement/AddUser';
 import AddRole from './components/UserManagement/AddRole';
 import RoleMapping from './components/UserManagement/RoleMapping';
+import FinalJD from './components/Applied Candidates/FinalJD';
+import JobDescription from './components/Dashboard/JobDescription';
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -63,17 +60,18 @@ const App: React.FunctionComponent = () => {
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/jobdescription" element={<JobDescription />} />
             <Route
               path="/candidatecompensation"
               element={<CandidateCompensation />}
             />
+            <Route path="/jobdescription" element={<FinalJD />} />
+            <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
             <Route path="/candidatejob" element={<Candidatejob />} />
             <Route path="/applyforjobs" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
-            <Route path="/candidatedetails" element={<CandidateFinalTable />} />
+            <Route path="/candidatedetails" element={<CandidateTable />} />
             <Route path="/AddAccount" element={<AddAccount />} />
             <Route path="/AddProject" element={<AddProject />} />
             <Route path="/Accountdetails" element={<AccountTable />} />

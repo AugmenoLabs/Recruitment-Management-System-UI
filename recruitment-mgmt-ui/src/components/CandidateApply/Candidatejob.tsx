@@ -16,6 +16,11 @@ const Candidatejob: React.FunctionComponent = () => {
     setjobType(event.target.value);
   };
 
+  const [noticePeriod, setnoticePeriod] = React.useState('');
+  const handleChangeNotice: any = (event: SelectChangeEvent) => {
+    setnoticePeriod(event.target.value);
+  };
+
   return (
     <>
       <Grid
@@ -68,35 +73,61 @@ const Candidatejob: React.FunctionComponent = () => {
             />
           )}
         />
-<FormControl style={{ width: '40%' }} size="small">
-          <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
+<FormControl style={{ width: '40%' ,marginTop:'0.5rem'}} size="small">
+          <InputLabel id="demo-simple-select-label">Employment Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={jobType}
-            label="Available to join as"
+            label="Employment Type"
             onChange={handleChange}
           >
             <MenuItem value="yes">Full Time</MenuItem>
-            <MenuItem value="no">Part Time</MenuItem>
+            <MenuItem value="no">Contracter</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-          margin="normal"
-          style={{ width: '40%' }}
-          label="Job ID"
-          type="text"
-          name="vacancies"
-          size="small"
-        />
-        <TextField
-          margin="normal"
-          style={{ width: '40%' }}
-          label="Notice Period"
-          type="text"
-          name="vacancies"
-          size="small"
-        />
+       
+        <FormControl style={{ width: '40%' ,marginTop:'1rem'}} size="small">
+          <InputLabel id="demo-simple-select-label">Notice Period</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={noticePeriod}
+            label="Notice Period"
+            onChange={handleChangeNotice}
+          >
+            <MenuItem value="yes">Yes</MenuItem>
+            <MenuItem value="no">No</MenuItem>
+          </Select>
+        </FormControl>
+        {noticePeriod==='yes'?(
+          <>
+          
+           
+          <TextField
+           style={{ width: '40%'}}
+            label='Duration '
+           
+          
+            variant="outlined"
+            size='small'
+            margin="normal"
+          />
+         
+           <TextField
+            style={{ width: '40%' }}
+            label='Availabe to join '
+            
+            size='small'
+         
+            variant="outlined"
+            margin="normal"
+          />
+      </>):(
+        '')}
+    
+    
+
       </Grid>
     </>
   );

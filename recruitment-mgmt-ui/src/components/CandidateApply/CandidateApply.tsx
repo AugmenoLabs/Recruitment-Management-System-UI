@@ -102,11 +102,18 @@ const CandidateApply: React.FunctionComponent = () => {
         }}
       >
         <Typography
+          // component="h1"
+          variant="h6"
+          style={{ marginTop: '2rem', fontWeight: 500,color:'grey' }}
+        >
+          You are applying for
+        </Typography>
+        <Typography
           component="h1"
           variant="h5"
-          style={{ marginTop: '2rem', fontWeight: 600 }}
+          style={{ fontWeight: 600 }}
         >
-          Apply for Jobs
+          Frontend Developer-#2301
         </Typography>
         <Grid container justifyContent="center" alignItems="center">
           <Card
@@ -163,7 +170,7 @@ const CandidateApply: React.FunctionComponent = () => {
                     onClick={handleBack}
                     sx={{ mr: 8 }}
                   >
-                    Back
+                    Previous
                   </Button>
                   <Button
                     onClick={handleNext}
