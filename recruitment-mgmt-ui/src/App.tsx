@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-
 import NavBar from './components/Navbar/navbar.component';
 import Dashboard from "./pages/Dashboard/dashboard.component";
 import Requisition from './components/Requisition/Requisition';
@@ -22,11 +21,12 @@ import Candidatepi from './components/CandidateApply/Candidatepi';
 import Candidatejob from './components/CandidateApply/Candidatejob';
 import CandidateCompensation from './components/CandidateApply/CandidateCompensation';
 import Candidateresume from './components/CandidateApply/Candidateresume';
-import FinalJD from './components/Applied Candidates/FinalJD';
 import ManagementPage from './components/UserManagement/ManagementPage';
 import AddUser from './components/UserManagement/AddUser';
 import AddRole from './components/UserManagement/AddRole';
 import RoleMapping from './components/UserManagement/RoleMapping';
+import FinalJD from './components/Applied Candidates/FinalJD';
+
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -62,11 +62,8 @@ const App: React.FunctionComponent = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/jobdescription" element={<FinalJD />} />
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
-        
-            <Route
-              path="/candidatecompensation"
-              element={<CandidateCompensation />}
-            />
+      
+            <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
             <Route path="/candidatejob" element={<Candidatejob />} />

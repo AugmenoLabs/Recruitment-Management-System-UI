@@ -1,6 +1,7 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import AssignRole from './AssignRole';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Role name', minWidth: 300 },
@@ -46,24 +47,27 @@ const RoleMapping: React.FunctionComponent = () => {
         <Box sx={{ marginTop: '2rem', marginLeft: '4rem' }}>
           <div>
             <Box
-              // justifyContent="center"
+              justifyContent={'space-between'}
               // alignItems="center"
               display="flex"
               width={'80%'}
             >
-              <h4>Assigned Roles</h4>
-              <Button
-                variant="contained"
-                sx={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mt: 0,
-                  mb: 0,
-                  marginLeft: 75,
-                }}
-              >
-                UnAssign
-              </Button>
+              <Typography variant="h6">Assigned Roles</Typography>
+              <Box m={1} display="flex">
+                <AssignRole />
+                <Button
+                  variant="contained"
+                  sx={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mt: 0,
+                    mb: 0,
+                    ml: 5,
+                  }}
+                >
+                  UnAssign
+                </Button>
+              </Box>
             </Box>
           </div>
           <Paper
