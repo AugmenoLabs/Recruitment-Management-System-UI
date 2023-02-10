@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -31,7 +32,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
 import { NavbarActions } from '../../redux/Navbar/slice';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import keycloak from 'keycloak-js';
+import { useKeycloak } from '@react-keycloak/web';
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -137,12 +140,15 @@ const NavBar: React.FunctionComponent = () => {
     setOpen(false);
     dispatch(NavbarActions.changeSidebar(false));
   };
+
+  var logoutOptions = { redirectUri: 'http://localhost:3000' };
+  const { keycloak, initialized } = useKeycloak();
   const hrlinks = [
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
-    { title: 'Account', path: '/AccountDetails', icon:<AccountBoxIcon />  },
+    { title: 'Account', path: '/AccountDetails', icon: <AccountBoxIcon /> },
     { title: 'Candidate', path: '/candidatedetails', icon: <FileCopyIcon /> },
-    { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
-    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> }
+    {title: 'Interview',path: '/interviewdetails',icon: <CalendarMonthIcon />},
+    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon />},
   ];
   const renderMobileMenu = (
     <Menu
@@ -205,16 +211,22 @@ const NavBar: React.FunctionComponent = () => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      
     </Menu>
   );
 
   return (
     <Box sx={{ display: 'flex' }}>
-     
-     
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ boxShadow:1} } style={{backgroundColor:"white",color:'black',borderRadius:'2px'}}>
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{ boxShadow: 1 }}
+        style={{
+          backgroundColor: 'white',
+          color: 'black',
+          borderRadius: '2px',
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -249,13 +261,20 @@ const NavBar: React.FunctionComponent = () => {
             </IconButton>
             <IconButton
               size="large"
-              edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               color="inherit"
             >
               <AccountCircle />
+            </IconButton>
+
+            <IconButton 
+            size="large"
+            color="inherit"
+            edge="end"
+            onClick={() => keycloak.logout(logoutOptions)}>
+              <LogoutIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -278,7 +297,7 @@ const NavBar: React.FunctionComponent = () => {
         open={open}
         PaperProps={{
           sx: {
-            top:'2%',
+            top: '2%',
             backgroundColor: 'black',
             color: 'white',
           },
@@ -307,7 +326,6 @@ const NavBar: React.FunctionComponent = () => {
                     px: 2.5,
                   }}
                 >
-                  
                   <ListItemIcon
                     sx={{
                       minWidth: 0,

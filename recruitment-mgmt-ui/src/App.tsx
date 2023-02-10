@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
@@ -26,7 +26,7 @@ import AddUser from './components/UserManagement/AddUser';
 import AddRole from './components/UserManagement/AddRole';
 import RoleMapping from './components/UserManagement/RoleMapping';
 import FinalJD from './components/Applied Candidates/FinalJD';
-import JobDescription from './components/Dashboard/JobDescription';
+
 interface IProps {
   IsSidebarOpen: boolean;
 }
@@ -55,16 +55,13 @@ const App: React.FunctionComponent = () => {
   );
   return (
     <div className="App">
-      <HashRouter>
+      <BrowserRouter>
         <NavBar />
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route
-              path="/candidatecompensation"
-              element={<CandidateCompensation />}
-            />
             <Route path="/jobdescription" element={<FinalJD />} />
+            <Route path="/candidatecompensation" element={<CandidateCompensation />} />    
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
@@ -83,7 +80,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/RoleMapping" element={<RoleMapping/>} />
           </Routes>
         </AppBox>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 };
