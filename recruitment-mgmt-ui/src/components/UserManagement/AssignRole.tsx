@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-includes */
 import * as React from 'react';
 
 import Button from '@mui/material/Button';
@@ -39,6 +40,7 @@ const AssignRole: React.FunctionComponent = () => {
     },
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (event: SelectChangeEvent<typeof RoleName>) => {
     const {
       target: { value },
