@@ -1,17 +1,18 @@
-import { Autocomplete, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {  FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 
-const skills = ['react', 'java', 'dotnet'];
+// const skills = ['react', 'java', 'dotnet'];
+// 
+//   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
+//   const handleAddSkillTags: any = (value: any) => {
+//     const skillValue = value.toString();
+//     value.setFieldValue('skills', skillValue);
+//   };
+//   const handleRemoveSkills: any = (value: any) => {
+//     value.setFieldValue('skills', value);
+//   };
 const Candidatejob: React.FunctionComponent = () => {
-  const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const handleAddSkillTags: any = (value: any) => {
-    const skillValue = value.toString();
-    value.setFieldValue('skills', skillValue);
-  };
-  const handleRemoveSkills: any = (value: any) => {
-    value.setFieldValue('skills', value);
-  };
-  const [jobType, setjobType] = React.useState('');
+  const [jobType, setjobType] = useState('');
   const handleChange: any = (event: SelectChangeEvent) => {
     setjobType(event.target.value);
   };
@@ -39,7 +40,7 @@ const Candidatejob: React.FunctionComponent = () => {
           size="small"
         />
 
-        <Autocomplete
+        {/* <Autocomplete
           multiple
           size="small"
           style={{ width: '40%' }}
@@ -72,7 +73,7 @@ const Candidatejob: React.FunctionComponent = () => {
               }}
             />
           )}
-        />
+        /> */}
 <FormControl style={{ width: '40%' ,marginTop:'0.5rem'}} size="small">
           <InputLabel id="demo-simple-select-label">Employment Type</InputLabel>
           <Select
@@ -96,11 +97,13 @@ const Candidatejob: React.FunctionComponent = () => {
             label="Notice Period"
             onChange={handleChangeNotice}
           >
-            <MenuItem value="yes">Yes</MenuItem>
-            <MenuItem value="no">No</MenuItem>
-          </Select>
+            <MenuItem value="yes">Immediate</MenuItem>
+            <MenuItem value="no">Serving NoticePeriod</MenuItem>
+            <MenuItem value="yes">Yet to Ressign</MenuItem>
+ 
+            <MenuItem value="yes">Unemployed</MenuItem>         </Select>
         </FormControl>
-        {noticePeriod==='yes'?(
+        {/* {noticePeriod==='yes'?(
           <>
           
            
@@ -126,7 +129,7 @@ const Candidatejob: React.FunctionComponent = () => {
       </>):(
         '')}
     
-    
+     */}
 
       </Grid>
     </>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { useFormik } from 'formik';
 // import { toast } from "react-toastify";
 import {
-  Container,
+
   Box,
   Typography,
   Button,
@@ -93,12 +93,14 @@ const CandidateApply: React.FunctionComponent = () => {
   // const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   return (
-    <Container component="main" maxWidth="lg" style={{ marginLeft: '1rem' }}>
+   
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
+          marginLeft:'2%',
+          marginRight:'2%'
         }}
       >
         <Typography
@@ -118,7 +120,7 @@ const CandidateApply: React.FunctionComponent = () => {
         <Grid container justifyContent="center" alignItems="center">
           <Card
             style={{
-              width: '90%',
+              width: '100%',
               marginTop: '1rem',
               backgroundColor: 'lavender',
             }}
@@ -185,7 +187,7 @@ const CandidateApply: React.FunctionComponent = () => {
           </Card>
         </Grid>
       </Box>
-    </Container>
+   
   );
 };
 

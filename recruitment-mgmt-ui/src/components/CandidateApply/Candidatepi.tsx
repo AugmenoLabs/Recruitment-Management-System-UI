@@ -9,16 +9,16 @@ import {
 const Candidatepi: React.FunctionComponent = () => {
   return (
     <>
-      <Grid container spacing={5}>
-        <Grid
-          item
-          xs={5.5}
-          direction="column"
-          style={{ marginLeft: '1rem', marginRight: '2rem' }}
-        >
+      <Grid  container
+        direction="column" 
+        style={{ marginLeft: '1rem', marginRight: '2rem' }}
+        justifyContent="center"
+        alignItems="center">
+      
           <TextField
             margin="normal"
-            fullWidth
+            style={{ width: '40%' }}
+           
             size="small"
             label="Candidate Name"
             type="text"
@@ -27,14 +27,17 @@ const Candidatepi: React.FunctionComponent = () => {
           <TextField
             margin="normal"
             size="small"
-            fullWidth
+            style={{ width: '40%' }}
+           
             label="Contact No."
             type="text"
             name="role"
           />
           <TextField
             margin="normal"
-            fullWidth
+           
+            style={{ width: '40%' }}
+           
             label="Email"
             type="text"
             name="job"
@@ -42,16 +45,17 @@ const Candidatepi: React.FunctionComponent = () => {
           />
           
 
-          {/* <TextField
+          <TextField
             margin="normal"
-            fullWidth
-            label="Upload Resume"
-            type="file"
+           size='small'
+            label="Vendor Name"
+            type="text"
             name="vacancies"
+            style={{ width: '40%' }}
            
-          /> */}
-        </Grid>
-        <Grid item xs={5.5} direction="column">
+          />
+      
+        {/* <Grid item xs={5.5} direction="column">
         <TextField
             margin="normal"
            multiline
@@ -71,7 +75,7 @@ const Candidatepi: React.FunctionComponent = () => {
           name="vacancies"
         />
         
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

@@ -1,10 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,18 +11,18 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Checkbox, ListItemText } from '@mui/material';
 
-export default function AssignRole() {
+const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
   const [RoleName, setRoleName] = React.useState<string[]>([]);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
   const handleClose = (
     event: React.SyntheticEvent<unknown>,
     reason?: string
-  ) => {
+  ): void => {
     if (reason !== 'backdropClick') {
       setOpen(false);
     }
@@ -69,7 +68,6 @@ export default function AssignRole() {
               Select Roles
             </InputLabel>
             <Select
-              //label="select Roles"
               multiple
               value={RoleName}
               onChange={handleChange}
@@ -97,4 +95,6 @@ export default function AssignRole() {
       </Dialog>
     </div>
   );
-}
+};
+
+export default AssignRole;

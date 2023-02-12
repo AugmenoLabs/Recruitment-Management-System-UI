@@ -1,188 +1,192 @@
-import {
-  Box,
-  Button,
-  Paper,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
+import { Box, Button, MenuItem, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-    width: '16%',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    width: '16%',
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-interface AccountTableDatatype {
-  AccountID: string;
+interface AccountTableData {
+  id: string;
   name: string;
   ProjectID: string;
   ProjectName: string;
   Manager: string;
 }
-const rowdata: AccountTableDatatype[] = [
-  {AccountID: 'HON123',name: 'HoneyWell',ProjectID: 'FDU', ProjectName: 'Forge Data Unity',Manager: 'Sneha',},
-  {AccountID: 'HON123',name: 'HoneyWell',ProjectID: 'X001', ProjectName: 'XDR',Manager: 'Sanjeev',},
-  {AccountID: 'SYM123',name: 'Symphony',ProjectID: 'ABC', ProjectName: 'Bot',Manager: 'Anshu',},
+
+const data: AccountTableData[] = [
+  {
+    id: 'HON123',
+    name: 'HoneyWell',
+    ProjectID: 'FDU',
+    ProjectName: 'Forge Data Unity',
+    Manager: 'Sneha',
+  },
+  {
+    id: 'HON123',
+    name: 'HoneyWell',
+    ProjectID: 'X001',
+    ProjectName: 'XDR',
+    Manager: 'Sanjeev',
+  },
+  {
+    id: 'SYM123',
+    name: 'Symphony',
+    ProjectID: 'ABC',
+    ProjectName: 'Bot',
+    Manager: 'Anshu',
+  },
 ];
 
-
 const AccountTable: React.FunctionComponent = () => {
-    const history = useNavigate();
-    const navigateAddAccount=():void=>{
-history('/AddAccount')
-    }
-    const navigateAddProject=():void=>{
-        history('/AddProject')
-            }
+  const history = useNavigate();
+  const navigateAddAccount = (): void => {
+    history('/AddAccount');
+  };
+  const navigateAddProject = (): void => {
+    history('/AddProject');
+  };
+
+  const columns = useMemo<Array<MRT_ColumnDef<AccountTableData>>>(
+    () => [
+      {
+        accessorKey: 'id',
+        header: 'AccountID',
+        size: 80,
+      },
+      {
+        accessorKey: 'name',
+        header: 'Name',
+        size: 80,
+      },
+      {
+        accessorKey: 'ProjectID',
+        header: 'ProjectID',
+        size: 80,
+      },
+      {
+        accessorKey: 'ProjectName',
+        header: 'ProjectName',
+        size: 80,
+      },
+      {
+        accessorKey: 'Manager',
+        header: 'Manager',
+        size: 100,
+      },
+    ],
+    []
+  );
+
   return (
-    <>
-    <Box sx={{ marginTop: '5rem' }}>
+    <Box>
       <Typography
         gutterBottom
         variant="h5"
         sx={{
           paddingLeft: '2rem',
-          paddingTop: '0.7rem',
+          paddingTop: '1.2rem',
           margin: 0,
           fontWeight: 600,
           fontSize: '30px',
+          marginBottom: '2%',
         }}
         className="tableheader"
       >
         Account
       </Typography>
-      <Paper
-        sx={{
-          width: '100%',
-          overflow: 'hidden',
-          marginLeft: '0rem',
-          marginTop: '1rem',
-        }}
-      >
-        <TableContainer
-          sx={{
-            marginTop: 0,
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        //    enableColumnActions={false}
+        //    enableColumnFilters={false}
 
-            '&::-webkit-scrollbar': {
-              width: '6px',
-              backgroundColor: '#F7F7F7',
+        muiTablePaginationProps={{
+          rowsPerPageOptions: [5, 10, 20, 50],
+        }}
+        initialState={{
+          density: 'compact',
+          pagination: { pageSize: 5, pageIndex: 0 },
+        }}
+        enableDensityToggle={false}
+        muiTableHeadCellProps={{
+          sx: {
+            '& .Mui-TableHeadCell-Content': {
+              justifyContent: 'left',
+              fontWeight: 600,
+              color: 'blue',
             },
-            '&::-webkit-scrollbar-track': {
-              boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
-              backgroundColor: '#F7F7F7',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: '#000000',
-            },
-          }}
-        >
-          <Table
-            stickyHeader
-            sx={{
-              width: '95%',
-              marginLeft: '9rem',
-              marginRight: '0rem',
-              margin: 'auto',
-              tableLayout: 'auto',
-            }}
-            aria-label="customized table"
-          >
-            <TableHead>
-              <TableRow>
-                <StyledTableCell style={{ fontWeight: 600 }}>
-                  Account ID
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                  Account Name
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                  Project ID
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                  Project Name
-                </StyledTableCell>
-                <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                  Project Manager
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableHead></TableHead>
-            <TableBody>
-              {rowdata.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell
-                    className="cell"
-                    component="th"
-                    scope="row"
-                    padding="none"
-                    width="10%"
-                  >
-                    {row.AccountID}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.name}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.ProjectID}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.ProjectName}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.Manager}
-                  </StyledTableCell>
-                  <TableCell sx={{ width: '0.5%' }}>
-                    <EditIcon />
-                  </TableCell>
-                  <TableCell sx={{ width: '0.5%' }}>
-                    <DeleteIcon />
-                  </TableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
-    <div>
-    <Box justifyContent='center' alignItems='center' display='flex'>
-              <Button 
+          },
+        }}
+        muiTableProps={{
+          sx: {
+            tableLayout: 'fixed',
+            align: 'center',
+
+            marginLeft: '2%',
+          },
+        }}
+        defaultColumn={{
+          minSize: 20,
+          maxSize: 300,
+          size: 80,
+        }}
+        enableRowActions
+        //   enableRowSelection
+        renderTopToolbarCustomActions={({ table }) => (
+          <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
+            <Button
+              variant="contained"
+              color="primary"
               onClick={navigateAddAccount}
-        variant="contained"
-       
-        sx={{alignItems:'center',justifyContent:'center', mt: 3, mb: 2 }}>Add Account</Button>
-        <Button 
-               onClick={navigateAddProject}
-        variant="contained"
-       
-        sx={{alignItems:'center',justifyContent:'center', mt: 3, mb: 2, ml:2 }}>Add Project</Button>
-</Box>
-</div>
-</>
+              size="small"
+            >
+              Add Account
+            </Button>
+            <Button
+              color="primary"
+              size="small"
+              onClick={navigateAddProject}
+              variant="contained"
+            >
+              Add Project
+            </Button>
+          </Box>
+        )}
+        enableColumnResizing
+        positionActionsColumn="last"
+        displayColumnDefOptions={{
+          'mrt-row-actions': {
+            size: 40,
+
+            muiTableHeadCellProps: {
+              align: 'center',
+            },
+          },
+        }}
+        enableColumnActions={false}
+        renderRowActionMenuItems={({ closeMenu }) => [
+          <MenuItem
+            key={1}
+            onClick={() => {
+              // Send email logic...
+              closeMenu();
+            }}
+            sx={{ m: 0, display: 'flex' }}
+          >
+            <EditIcon />
+          </MenuItem>,
+          <MenuItem
+            key={2}
+            onClick={() => {
+              // Send email logic...
+              closeMenu();
+            }}
+            sx={{ m: 0 }}
+          >
+            <DeleteIcon />
+          </MenuItem>,
+        ]}
+      />
+    </Box>
   );
 };
 

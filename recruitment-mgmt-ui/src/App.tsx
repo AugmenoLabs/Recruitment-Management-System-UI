@@ -57,9 +57,10 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <HashRouter>
         <NavBar />
+      
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="" element={<Dashboard />} />
             <Route path="/jobdescription" element={<FinalJD />} />
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
       

@@ -1,17 +1,9 @@
-import * as React from 'react';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import DownloadIcon from '@mui/icons-material/Download';
-
-import { Box, Paper, TablePagination, Typography } from '@mui/material';
+import React, { useMemo } from 'react';
+import { Box,Typography } from '@mui/material';
+import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 
 
-interface CandidateTableDataType {
+interface AllCandidateTableData {
   name: string;
   vendor:string,
   mobile: string;
@@ -21,9 +13,10 @@ interface CandidateTableDataType {
   account:string,
   project:string,
   status: string;
+  Hired:string;
 }
 
-const rows: CandidateTableDataType[] = [
+const data: AllCandidateTableData[] = [
   {
     name: 'Sneha Kothari',
     vendor:'linkedin',
@@ -34,6 +27,7 @@ const rows: CandidateTableDataType[] = [
     account:'Honeywell',
     project:'RMS',
     status: 'Scheduled for L2',
+    Hired:'NA',
   },
   {
     name: 'Anshu Wadhwani',
@@ -45,6 +39,7 @@ const rows: CandidateTableDataType[] = [
     account:'LG',
     project:'XDR',
     status: 'Pending',
+    Hired:'NA',
   },
   {
     name: 'Sanjeev',
@@ -56,6 +51,7 @@ const rows: CandidateTableDataType[] = [
     account:'Honeywell',
     project:'RMS',
     status: 'Applied',
+    Hired:'NA',
   },
   {
     name: 'Sneha Kothari',
@@ -67,6 +63,7 @@ const rows: CandidateTableDataType[] = [
     account:'Honeywell',
     project:'RMS',
     status: 'Applied',
+    Hired:'NA',
   },
   {
     name: 'Anshu Wadhwani',
@@ -78,198 +75,135 @@ const rows: CandidateTableDataType[] = [
     account:'Honeywell',
     project:'RMS',
     status: 'Pending',
-  },
-];
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof CandidateTableDataType;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Candidate Name',
-  },
-  {
-    id: 'vendor',
-    numeric: true,
-    disablePadding: false,
-    label: 'Vendor Name',
-  },
-  {
-    id: 'mobile',
-    numeric: true,
-    disablePadding: false,
-    label: 'Contact No.',
-  },
-  {
-    id: 'email',
-    numeric: true,
-    disablePadding: false,
-    label: 'Email',
-  },
-  {
-    id: 'experience',
-    numeric: true,
-    disablePadding: false,
-    label: 'Experience',
-  },
-  
-  {
-    id: 'position',
-    numeric: true,
-    disablePadding: false,
-    label: 'Position ',
-  },
-  {
-    id: 'account',
-    numeric: true,
-    disablePadding: false,
-    label: 'Account',
-  },
-  {
-    id: 'project',
-    numeric: true,
-    disablePadding: false,
-    label: 'Project',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: 'Status',
+    Hired:'NA',
   },
 ];
 
-const CandidateTable: React.FunctionComponent = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  const handleChangePage = (event: unknown, newPage: number): void => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-  return (
-    <>
-      {' '}
-      <Box style={{ marginTop: '5rem', marginLeft: '2rem' }}>
-        {' '}
-        <Typography variant="h6" style={{ fontSize: '24px', fontWeight: 600 }}>
-          Candidate Details
-        </Typography>
-      </Box>
-      <Box
-        style={{
-          marginTop: '1rem',
-          width: '95%',
-      marginLeft:'2.5%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Paper sx={{ alignItems: 'center' ,overflowX:'auto'}}>
-          <TableContainer
-            sx={{
-              '&::-webkit-scrollbar': {
-                width: '6px',
-                backgroundColor: '#F7F7F7',
-              },
-              '&::-webkit-scrollbar-track': {
-                boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
-                backgroundColor: '#F7F7F7',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#000000',
-              },
-            }}
-          >
-            <Table stickyHeader aria-labelledby="tableTitle" size={'medium'}>
-              <TableHead>
-                <TableRow>
-                  {headCells.map((headCell) => (
-                    <TableCell
-                      key={headCell.id}
-                      style={{ fontWeight: 600 }}
-                      align={headCell.numeric ? 'left' : 'center'}
-                      padding={headCell.disablePadding ? 'none' : 'normal'}
-                    >
-                      {headCell.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    return (
-                      <TableRow
-                        hover
-                        key={row.name}
-                        role="checkbox"
-                        tabIndex={-1}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          align="center"
-                          padding="none"
-                        >
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="center">{row.vendor}</TableCell>
-                        <TableCell align="center">{row.mobile}</TableCell>
-                        <TableCell align="center">{row.email}</TableCell>
-                        <TableCell align="center">{row.experience}</TableCell>
-                        <TableCell align="center">{row.position}</TableCell>
-                        <TableCell align="center">{row.account}</TableCell>
-                        <TableCell align="center">{row.project}</TableCell>
-                        <TableCell align="center">{row.status}</TableCell>
-                       
-                        <TableCell>
-                          <DownloadIcon />
-                        
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={5} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
-    </>
+const AppliedCandidateTable: React.FunctionComponent = () => {
+  const columns = useMemo<Array<MRT_ColumnDef<AllCandidateTableData>>>(
+    () => [
+      {
+        accessorKey: 'name',
+        header: 'Candidate Name',
+        // size:70,
+      },
+      {
+        accessorKey: 'mobile',
+        header: 'Contact No.',
+        // size:120,
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+        // size:120,
+      },
+      {
+        accessorKey: 'experience',
+        header: 'Experience',
+        // size:80,
+      },
+      {
+        accessorKey: 'position',
+        header: 'Position',
+        // size:60,
+      },
+      {
+        accessorKey: 'account',
+        header: 'Account',
+        // size:120,
+      },
+      {
+        accessorKey: 'project',
+        header: 'Project',
+        // size:120,
+      },
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        // size:120,
+      },
+      {
+        accessorKey: 'Hired',
+        header: 'Hired',
+        // size:80,
+      },
+     
+    ],
+    []
   );
+
+  return (
+    <Box>
+    <Typography
+      gutterBottom
+      variant="h5"
+      sx={{
+        paddingLeft: '2rem',
+        paddingTop: '1.2rem',
+        margin: 0,
+        fontWeight: 600,
+        fontSize: '30px',
+        marginBottom: '2%',
+      }}
+      className="tableheader"
+    >
+      Candidate Details
+    </Typography>
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      //    enableColumnActions={false}
+      //    enableColumnFilters={false}
+
+      muiTablePaginationProps={{
+        rowsPerPageOptions: [5, 10, 20, 50],
+      }}
+      initialState={{
+        density: 'compact',
+        columnVisibility: { Contact: false, email: false },
+        pagination: { pageSize: 5, pageIndex: 0 },
+      }}
+      enableDensityToggle={false}
+      muiTableHeadCellProps={{
+        sx: {
+          '& .Mui-TableHeadCell-Content': {
+            justifyContent: 'left',
+            fontWeight: 600,
+            color: 'blue',
+          },
+        },
+      }}
+      muiTableProps={{
+        sx: {
+          tableLayout: 'fixed',
+          align: 'center',
+
+          marginLeft: '2%',
+        },
+      }}
+      //   enableColumnFilterModes
+      //   enableColumnOrdering
+      //   enableGrouping
+      //   enablePinning
+      enableRowActions
+      //   enableRowSelection
+      enableColumnResizing
+      positionActionsColumn="last"
+      displayColumnDefOptions={{
+        'mrt-row-actions': {
+          size: 150,
+
+          muiTableHeadCellProps: {
+            align: 'center',
+          },
+        },
+      }}
+      enableColumnActions={false}
+      
+    />
+    </Box>
+  );
+
 };
 
-export default CandidateTable;
+export default AppliedCandidateTable;

@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import "./Requisition.css";
 // import { toast } from "react-toastify";
 import {
-  Container,
+
   Box,
   TextField,
   Typography,
@@ -16,15 +16,24 @@ import {
 
 const skills = ["react", "java", "dotnet"];
 // const NotRequired = [""];
-
+const handleAddSkillTags: any = (value: any) => {
+  const skillValue = value.toString();
+  value.setFieldValue('skills', skillValue);
+};
+const handleRemoveSkills: any = (value: any) => {
+  value.setFieldValue('skills', value);
+};
 const Requisition :React.FunctionComponent= () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
+  
+ 
   return (
-    <Container component="main" style={{marginLeft:'0rem'}}>
+   
       <Box
         sx={{
-          
+          marginLeft:'2%',
+          marginRight:'2%',
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -78,29 +87,40 @@ const Requisition :React.FunctionComponent= () => {
             name="location"
            size="small"
           />
-           <Autocomplete
-            multiple
-            id="Skills"
-            options={skills}
-            value={autoCompleteValue}
-            onChange={(e, newval) => {
-              setAutoCompleteValue(newval);
-           
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="Skills"
-                placeholder="Skills"
-                margin="normal"
-                fullWidth
-                size='small'
-                name="skills"
-              />
-
-            )}
-          />
+<Autocomplete
+          multiple
+          size="small"
+          style={{ width: '40%' }}
+          id="skills"
+          options={skills}
+          value={autoCompleteValue}
+          onChange={(e, newval) => {
+            setAutoCompleteValue(newval);
+            handleRemoveSkills(newval);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Skills"
+              placeholder="Skills"
+              margin="normal"
+              fullWidth
+              name="skills"
+              onKeyDown={(e) => {
+                if (
+                  e.code === 'Enter'
+                  // && (e.target as HTMLInputElement).value
+                ) {
+                  const val = (e.target as HTMLInputElement).value;
+                  setAutoCompleteValue(autoCompleteValue.concat(val));
+                  const tagslist = autoCompleteValue.concat(val);
+                  handleAddSkillTags(tagslist);
+                }
+              }}
+            />
+          )}
+        />
         {/* <TextField
             margin="normal"
             fullWidth
@@ -189,7 +209,7 @@ const Requisition :React.FunctionComponent= () => {
           </Button> */}
         </Card>
       </Box>
-    </Container>
+
   );
 };
 

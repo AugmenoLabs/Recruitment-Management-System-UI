@@ -64,8 +64,8 @@ const Dashboard: React.FunctionComponent = () => {
           </ButtonGroup>
         </Box>
       </Box>
-      {IsListView ? <JobOpeningTable /> : <JobCards />}
-    </>
+      {IsListView ?  <JobCards />:<JobOpeningTable /> }
+:    </>
   );
 };
 

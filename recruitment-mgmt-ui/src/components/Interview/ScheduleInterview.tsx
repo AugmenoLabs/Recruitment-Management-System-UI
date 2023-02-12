@@ -39,9 +39,11 @@ const ScheduleInterview: React.FunctionComponent = () => {
       <Fab
         variant="extended"
         size="small"
+        style={{fontSize:'12px',maxHeight:'25px',justifyContent:'center',alignItems:'center'}}
         color="primary"
         aria-label="add"
         onClick={handleClickOpen}
+
       >
         Schedule
       </Fab>
