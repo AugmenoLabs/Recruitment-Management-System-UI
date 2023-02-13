@@ -31,6 +31,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
 import { NavbarActions } from '../../redux/Navbar/slice';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 
 const drawerWidth = 240;
 
@@ -142,7 +143,9 @@ const NavBar: React.FunctionComponent = () => {
     { title: 'Account', path: '/AccountDetails', icon:<AccountBoxIcon />  },
     { title: 'Candidate', path: '/candidatedetails', icon: <FileCopyIcon /> },
     { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
-    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> }
+    { title: 'InterviewDetails', path: '/interviewdetailview', icon: <CalendarViewMonthIcon/> },
+    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> },
+    
   ];
   const renderMobileMenu = (
     <Menu

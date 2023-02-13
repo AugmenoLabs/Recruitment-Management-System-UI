@@ -49,7 +49,7 @@ const Requisition :React.FunctionComponent= () => {
             margin="normal"
             fullWidth
             size='small'
-            label="Job ID"
+            label="Budget"
             type="text"
             name="jobid"
             
@@ -90,7 +90,7 @@ const Requisition :React.FunctionComponent= () => {
 <Autocomplete
           multiple
           size="small"
-          style={{ width: '40%' }}
+         
           id="skills"
           options={skills}
           value={autoCompleteValue}

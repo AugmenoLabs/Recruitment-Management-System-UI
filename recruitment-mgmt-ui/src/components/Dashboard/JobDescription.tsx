@@ -69,7 +69,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Button>
               </Box>
               {/* <CardContent> */}
-              Honeywell/XDR
+              Honeywell - XDR
               <Box>
                 <IconButton
                   sx={{
