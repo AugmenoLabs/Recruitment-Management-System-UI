@@ -15,6 +15,10 @@ interface JobOpeningData {
   status: string;
   screening: number;
   hired: number;
+  L1:number,
+  L2:number,
+  Managerial:number,
+  HR:number,
 }
 
 const data: JobOpeningData[] = [
@@ -30,6 +34,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
 
   {
@@ -44,6 +52,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2303,
@@ -57,6 +69,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2304,
@@ -70,6 +86,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2305,
@@ -83,6 +103,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2306,
@@ -96,6 +120,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2307,
@@ -109,6 +137,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
   {
     id: 2308,
@@ -122,6 +154,10 @@ const data: JobOpeningData[] = [
     status: 'Hiring',
     screening: 4,
     hired: 0,
+    L1:2,
+    L2:1,
+    Managerial:0,
+    HR:0, 
   },
 ];
 
@@ -298,6 +334,62 @@ const JobOpeningTable: React.FunctionComponent = () => {
           },
         }),
       },
+      {
+        accessorKey: 'L1',
+        header: 'L1',
+        // size:70,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: (event) => {
+            console.info(event);
+            navigatetoapply();
+          },
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
+      {
+        accessorKey: 'L2',
+        header: 'L2',
+        // size:70,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: (event) => {
+            console.info(event);
+            navigatetoapply();
+          },
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
+      {
+        accessorKey: 'Managerial',
+        header: 'Manangerial',
+        // size:70,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: (event) => {
+            console.info(event);
+            navigatetoapply();
+          },
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
+      {
+        accessorKey: 'HR',
+        header: 'HR',
+        // size:70,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: (event) => {
+            console.info(event);
+            navigatetoapply();
+          },
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
     ],
     []
   );
@@ -314,6 +406,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
       }}
       initialState={{
         density: 'compact',
+        columnVisibility: { L1: false, L2: false,Managerial:false,HR:false },
         pagination: { pageSize: 5, pageIndex: 0 },
       }}
       enableDensityToggle={false}

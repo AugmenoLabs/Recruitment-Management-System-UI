@@ -36,7 +36,11 @@ const steps = [
 
 const CandidateApply: React.FunctionComponent = () => {
   const [activeStep, setActiveStep] = useState(0);
-
+const[formData,setFormData]=useState({});
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unused-vars
+const handleChange=(event:any)=>{
+  setFormData({...formData,[event.target.name]:event.target.value})
+}
   // const handleNext = ():any => {
   //   let newSkipped = skipped;
   //   if (isStepSkipped(activeStep))
