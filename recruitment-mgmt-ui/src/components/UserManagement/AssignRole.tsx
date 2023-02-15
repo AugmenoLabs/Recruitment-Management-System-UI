@@ -11,11 +11,36 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Checkbox, ListItemText } from '@mui/material';
+import { RoleInterface} from '../../Interfaces/RoleInterface';
+import { clientId } from '../../API/ClientDetails';
+import { useEffect } from 'react';
+import { getToken } from '../../API/GetToken';
+import axios from 'axios';
 
 export default function AssignRole() {
   const [open, setOpen] = React.useState(false);
   const [RoleName, setRoleName] = React.useState<string[]>([]);
+  const [available,setAvailable]= React.useState<RoleInterface[]>([]);
 
+  useEffect(() => {
+    GetAllRoles();
+  }, []);
+
+
+  const GetAllRoles = async () => {
+    try {
+      const token = await getToken();
+      const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/clients/${clientId}/roles`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setAvailable(response.data);
+      console.log("def",response.data);
+    } catch (error) {
+       console.error(error);
+    }
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -50,8 +75,6 @@ export default function AssignRole() {
     );
   };
 
-  const Roles = ['HR', 'Admin', 'Super Admin', 'Manager'];
-
   return (
     <div>
       <Button
@@ -77,10 +100,10 @@ export default function AssignRole() {
               renderValue={(selected) => selected.join(', ')}
               MenuProps={MenuProps}
             >
-              {Roles.map((Role) => (
-                <MenuItem key={Role} value={Role}>
-                  <Checkbox checked={RoleName.indexOf(Role) > -1} />
-                  <ListItemText primary={Role} />
+              {available.map((Role) => (
+                <MenuItem key={Role.id} value={Role.name}>
+                  <Checkbox checked={RoleName.indexOf(Role.name) > -1} />
+                  <ListItemText primary={Role.name} />
                 </MenuItem>
               ))}
             </Select>

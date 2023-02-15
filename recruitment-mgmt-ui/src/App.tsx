@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
@@ -77,7 +77,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/UserDetails" element={<ManagementPage />} />
             <Route path="/AddUser" element={<AddUser/>} />
             <Route path="/AddRole" element={<AddRole/>} />
-            <Route path="/RoleMapping" element={<RoleMapping/>} />
+            <Route path="/RoleMapping/:id" element={<RoleMapping/>} />
           </Routes>
         </AppBox>
       </BrowserRouter>

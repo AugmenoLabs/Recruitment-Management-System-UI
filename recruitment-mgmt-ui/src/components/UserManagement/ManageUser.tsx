@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  IconButton,
   Paper,
   styled,
   Table,
@@ -10,12 +11,14 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TableContainer from '@mui/material/TableContainer';
-import Link from '@mui/material/Link';
 import EditIcon from '@mui/icons-material/Edit';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getToken } from '../../API/GetToken';
+import { UserInterface } from '../../Interfaces/UserInterface';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,46 +41,72 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
 interface AccountTableDatatype {
-  Username: string;
+  id: string;
+  username: string;
   email: string;
-  Firstname: string;
-  Lastname: string;
+  firstName: string;
+  lastName: string;
 }
-const rowdata: AccountTableDatatype[] = [
-  {
-    Username: "MyUser",
-  email: "User@gmail.com",
-  Firstname: "User",
-  Lastname: "User",
-  },
-  {
-    Username: "MyUser",
-    email: "User@gmail.com",
-    Firstname: "User",
-    Lastname: "User",
-  },
-  {
-    Username: "MyUser",
-    email: "User@gmail.com",
-  Firstname: "User",
-  Lastname: "User",
-  },
-];
 
 const ManageUser: React.FunctionComponent = () => {
   const history = useNavigate();
-  const navigateAddUser=():void=>{
-    history('/AddUser')
+  const navigateAddUser = (): void => {
+    history('/AddUser');
+  };
+
+  const [data, setData] = useState<AccountTableDatatype[]>([]);
+
+  useEffect(() => {
+    GetAllUser();
+  }, []);
+
+  const GetAllUser = async () => {
+    try {
+      const token = await getToken();
+      const response = await axios.get<AccountTableDatatype[]>(
+        '/admin/realms/MyRealm/users',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+      );
+      setData(response.data);
+      console.log('def', response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const DeleteUser = async (User: UserInterface) => {
+    try {
+      const token = await getToken();
+      await axios
+        .delete(`/admin/realms/MyRealm/users/${User.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+        });
+      GetAllUser();
+      // Perform additional logic here, such as updating the UI to reflect the deleted item
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
-    <div>
+      <div>
         <Box
           // justifyContent="center"
           // alignItems="center"
           display="flex"
-          width={'80%'}          
+          width={'80%'}
         >
           <h4>User Info</h4>
           <Button
@@ -86,8 +115,8 @@ const ManageUser: React.FunctionComponent = () => {
               alignItems: 'center',
               justifyContent: 'center',
               mt: 0,
-               mb: 0,
-               marginLeft:76              
+              mb: 0,
+              marginLeft: 76,
             }}
             onClick={navigateAddUser}
           >
@@ -148,8 +177,8 @@ const ManageUser: React.FunctionComponent = () => {
             </TableHead>
             <TableHead></TableHead>
             <TableBody>
-              {rowdata.map((row) => (
-                <StyledTableRow key={row.Username}>
+              {data.map((row) => (
+                <StyledTableRow key={row.id}>
                   <StyledTableCell
                     className="cell"
                     component="th"
@@ -157,30 +186,30 @@ const ManageUser: React.FunctionComponent = () => {
                     padding="none"
                     width="10%"
                   >
-                    {row.Username}
+                    {row.username}
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.email}</StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.Firstname}
+                    {row.firstName}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.Lastname}
+                    {row.lastName}
                   </StyledTableCell>
                   <TableCell sx={{ width: '0.5%' }}>
-                  <Link href="#/RoleMapping">Roles</Link>
-                    </TableCell>
-                  <TableCell sx={{ width: '0.5%' }}>
+                    <Link to={`/RoleMapping/${row.id}`}>Roles</Link>
+                  </TableCell>
+                  <IconButton>
                     <EditIcon />
-                  </TableCell>
-                  <TableCell sx={{ width: '0.5%' }}>
+                  </IconButton>
+                  <IconButton onClick={() => DeleteUser(row)}>
                     <DeleteIcon />
-                  </TableCell>
+                  </IconButton>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>     
+      </Paper>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    IconButton,
     Paper,
     styled,
     Table,
@@ -10,13 +11,17 @@ import {
     TableHead,
     TableRow,
   } from '@mui/material';
-  import React from 'react';
+  import React, { useEffect, useState } from 'react';
   
   import TableContainer from '@mui/material/TableContainer';
   
   import EditIcon from '@mui/icons-material/Edit';
   import DeleteIcon from '@mui/icons-material/Delete';
   import { useNavigate } from 'react-router-dom';
+import { RoleInterface } from '../../Interfaces/RoleInterface';
+import { getToken } from '../../API/GetToken';
+import axios from 'axios';
+import { clientId } from '../../API/ClientDetails';
   
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,31 +44,51 @@ import {
       border: 0,
     },
   }));
-  interface AccountTableDatatype {
-    Rolename: string;
-    Description: string;
-  }
-  const rowdata: AccountTableDatatype[] = [
-    {
-    Rolename: "HR",
-    Description: "role_HR",
-    
-    },
-    {
-        Rolename: "Manager",
-        Description: "role_Manager",
-    },
-    {
-        Rolename: "Super Admin",
-        Description: "role_Admin",
-    },
-  ];
   
   const ManageRoles: React.FunctionComponent = () => {
     const history = useNavigate();
     const navigateAddRole=():void=>{
       history('/AddRole')
+    }
+    
+    const [roles, setRoles] = useState<RoleInterface[]>([]);
+
+    useEffect(() => {
+      GetAllRoles();
+    }, []);
+  
+    const GetAllRoles = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/clients/${clientId}/roles`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
           }
+        });
+        setRoles(response.data);
+        console.log("def",response.data);
+      } catch (error) {
+        
+        console.error(error);
+      }
+    };
+
+    const DeleteRole = async (Roles:RoleInterface) => {
+      try {
+        const token = await getToken();
+        await axios.delete(`/admin/realms/MyRealm/roles-by-id/${Roles.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          console.log(response.data);
+        });
+        GetAllRoles();
+      } catch (error) {
+        console.error(error);
+      } 
+    };
     return (
       <>
       <div>
@@ -139,8 +164,8 @@ import {
               </TableHead>
               <TableHead></TableHead>
               <TableBody>
-                {rowdata.map((row) => (
-                  <StyledTableRow key={row.Rolename}>
+                {roles.map((row) => (
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell
                       className="cell"
                       component="th"
@@ -149,14 +174,16 @@ import {
                       align='center'
                       width="20%"
                     >
-                      {row.Rolename}
+                      {row.name}
                     </StyledTableCell>
-                    <StyledTableCell width ="20%" align="center">{row.Description}</StyledTableCell>
+                    <StyledTableCell width ="20%" align="center">{row.description}</StyledTableCell>
                     <TableCell sx={{ width: '0.5%' }}>
                       <EditIcon />
                     </TableCell>
                     <TableCell sx={{ width: '0.5%' }}>
-                      <DeleteIcon />
+                    <IconButton onClick={() => DeleteRole(row)} >
+                      <DeleteIcon  />
+                      </IconButton>
                     </TableCell>
                   </StyledTableRow>
                 ))}

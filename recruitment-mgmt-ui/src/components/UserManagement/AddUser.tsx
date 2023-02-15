@@ -1,8 +1,39 @@
-import { Box, Button, Container,  TextField, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { getToken } from '../../API/GetToken';
+import { UserInterface } from '../../Interfaces/UserInterface';
+
 
 const AddUser: React.FunctionComponent = () => {
-  return (
+  const [user, setUser] = useState<UserInterface>({
+    id:'',
+    username: '',   
+    email: '',
+    firstName: '',
+    lastName: ''
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit =  async (event:React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    const token = await getToken();
+    await axios.post('/admin/realms/MyRealm/users', user,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+ return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
@@ -22,6 +53,8 @@ const AddUser: React.FunctionComponent = () => {
             label="Username"
             type="text"
             name="username"
+            value={user.username}
+            onChange={handleChange}
           />
 
           <TextField
@@ -30,6 +63,8 @@ const AddUser: React.FunctionComponent = () => {
             label="Email"
             type="text"
             name="email"
+            value={user.email}
+            onChange={handleChange}
           />
 
           <TextField
@@ -37,7 +72,9 @@ const AddUser: React.FunctionComponent = () => {
             fullWidth
             label="First Name"
             type="text"
-            name="firstname"
+            name="firstName"
+             value={user.firstName}
+             onChange={handleChange}
           />
           <TextField
             id="outlined-textarea"
@@ -45,15 +82,17 @@ const AddUser: React.FunctionComponent = () => {
             fullWidth
             label="Last Name"
             type="text"
-            name="lastname"
+            name="lastName"
+            value={user.lastName}
+            onChange={handleChange}
           />
-          
 
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={handleSubmit}
           >
             Add User
           </Button>

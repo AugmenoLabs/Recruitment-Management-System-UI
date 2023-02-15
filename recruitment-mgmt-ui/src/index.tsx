@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 import keycloak from './Auth/keycloak';
-import LoginComp from './components/LoginComp/LoginComp';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
@@ -16,11 +15,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <ReactKeycloakProvider
-      initOptions={{ onLoad: 'login-required' }}
-      authClient={keycloak}
+       initOptions={{ onLoad: 'login-required' }}
+       authClient={keycloak}
     >
       <React.StrictMode>
-        <LoginComp />
         <App />
       </React.StrictMode>
     </ReactKeycloakProvider>
