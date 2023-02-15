@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 //     value: string;
 //   }
 const CandidateCompensation: React.FunctionComponent = () => {
-  const [offer, setoffer] = useState('');
+ 
   // const [fields, setFields] = useState<Field[]>([{ id: 0, value: '' }]);
 
   // const handleAddField:any = () => {
@@ -38,7 +38,7 @@ const CandidateCompensation: React.FunctionComponent = () => {
   //   setFields(updatedFields);
   // };
 
-
+  const [offer, setoffer] = useState('');
   const handleChange: any = (event: SelectChangeEvent) => {
     setoffer(event.target.value);
   };
