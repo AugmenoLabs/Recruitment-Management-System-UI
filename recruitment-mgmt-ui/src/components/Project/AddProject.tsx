@@ -1,59 +1,96 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import {
-  Autocomplete,
+ 
   Box,
   Button,
   Grid,
   Card,
   TextField,
   Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+ 
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
+import axios from 'axios';
+import { AccountInterface } from '../../Interface/AccountInterface';
+// import { useEffect } from 'preact/hooks';
 
-const Accounts = ['Honeywell', 'LG', 'Symphony'];
-const handleAddSkillTags: any = (value: any) => {
-  const skillValue = value.toString();
-  value.setFieldValue('skills', skillValue);
-};
-const handleRemoveSkills: any = (value: any) => {
-  value.setFieldValue('skills', value);
-};
+// const Accounts = ['Honeywell', 'LG', 'Symphony'];
+// const handleAddSkillTags: any = (value: any) => {
+//   const skillValue = value.toString();
+//   value.setFieldValue('skills', skillValue);
+// };
+// const handleRemoveSkills: any = (value: any) => {
+//   value.setFieldValue('skills', value);
+// };
+
+interface AddProjectInterface{
+  // projectId:string;
+  projectName:string;
+  projectDetails:string;
+  projectManager:string;
+}
 const AddProject: React.FunctionComponent = () => {
-  const [accountsValue, setaccountsValue] = useState<any>([]);
+  const API_URL="http://localhost:5141/api/v1/Project";
+  // const [accountsValue, setaccountsValue] = useState<any>([]);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  // const [names, setNames] = useState<string[]>([]);
+  const [selectedName, setSelectedName] = useState<string>('');
+  const initialValues:AddProjectInterface={
+   accountId:'',
+    projectName:'',
+    projectDetails:'',
+    projectManager:'',
+  }
   const formik = useFormik({
-    initialValues: {
-      Accounts: '',
-      project_ID: '',
-      Pname: '',
-      Pmanager: '',
-      PDetails: '',
-    },
-    onSubmit: (values) => {
+    initialValues,
+    onSubmit: (values,{ resetForm }) => {
+      axios.post(API_URL, values)
+      .then((response) => {
+      resetForm();
+      setSuccessMessage('Project added successfully');
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       console.log(values);
     },
     validate: (values) => {
       const errors: any = {};
-      if (values.Accounts.length === 0) {
-        errors.Accounts = 'Please enter account';
-      }
-      if (values.project_ID.length === 0) {
-        errors.project_ID = 'Please enter ID';
-      }
-      if (values.Pname.length === 0) {
+      
+    
+      if (values.projectName.length === 0) {
         errors.Pname = 'Please enter name';
       }
-      if (values.Pmanager.length === 0) {
+      if (values.projectManager.length === 0) {
         errors.Pmanager = 'Please enter manager name';
       }
-      if (values.PDetails.length === 0) {
+      if (values.projectDetails.length === 0) {
         errors.PDetails = 'Please enter details';
       }
 
       return errors;
     },
   });
-
+  const [data, setData] = useState<AccountInterface[]>([]);
+useEffect(()=>{
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const fetchData=async()=>{
+    try {
+      const result = await axios.get<AccountInterface[]>('http://localhost:5141/api/v1/Account');
+      setData(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  fetchData();
+},[])
   return (
     <Box
       sx={{
@@ -70,7 +107,7 @@ const AddProject: React.FunctionComponent = () => {
         variant="h5"
         style={{ fontWeight: 600, marginTop: '2%' }}
       >
-        Add Account
+        Add Project
       </Typography>
       <Grid container justifyContent="center" alignItems="center">
       
@@ -82,6 +119,11 @@ const AddProject: React.FunctionComponent = () => {
               backgroundColor: 'lavender',
             }}
           >
+             {successMessage && (
+      <div style={{ color: 'green', margin: '10px 0' }}>
+        {successMessage}
+      </div>
+    )}
               <form onSubmit={formik.handleSubmit}>
             <Grid
               container
@@ -90,7 +132,7 @@ const AddProject: React.FunctionComponent = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <Autocomplete
+              {/* <Autocomplete
                 multiple
                 size="small"
                 style={{ width: '40%' }}
@@ -123,54 +165,38 @@ const AddProject: React.FunctionComponent = () => {
                     }}
                   />
                 )}
-              />
- {formik.touched.Accounts && formik.errors.Accounts ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '19rem',
-                  }}
-                >
-                  {formik.errors.Accounts}
-                </Typography>
-              ) : null}
-              <TextField
-                margin="normal"
-                style={{ width: '40%' }}
-                size="small"
-                label="Project ID"
-                type="text"
-                name="project_ID"
-                value={formik.values.project_ID}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-              />
-              {formik.touched.project_ID && formik.errors.project_ID ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '22rem',
-                  }}
-                >
-                  {formik.errors.project_ID}
-                </Typography>
-              ) : null}
+              /> */}
+ 
+             <FormControl style={{marginTop:'1rem',width:'40%'}}>
+              <InputLabel id='name-label'>Account</InputLabel>
+              <Select
+             fullWidth
+    labelId="name-label"
+    value={selectedName}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    onChange={(event) => setSelectedName(event.target.value as string)}
+  >
+    {data.map((data) => (
+      <MenuItem key={data.accountId} value={data.accountName}>
+        {data.accountName}
+      </MenuItem>
+    ))}
+  </Select>
+             </FormControl>
+            
+              
               <TextField
                 margin="normal"
                 style={{ width: '40%' }}
                 size="small"
                 label="Project Name"
                 type="text"
-                name="Pname"
-                value={formik.values.Pname}
+                name="projectName"
+                value={formik.values.projectName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.Pname && formik.errors.Pname ? (
+              { formik.errors.projectName ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -179,7 +205,7 @@ const AddProject: React.FunctionComponent = () => {
                     marginRight: '21rem',
                   }}
                 >
-                  {formik.errors.Pname}
+                  {formik.errors.projectName}
                 </Typography>
               ) : null}
               <TextField
@@ -188,12 +214,12 @@ const AddProject: React.FunctionComponent = () => {
                 size="small"
                 label="Project Manager"
                 type="text"
-                name="Pmanager"
-                value={formik.values.Pmanager}
+                name="projectManager"
+                value={formik.values.projectManager}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.Pmanager && formik.errors.Pmanager ? (
+              {formik.errors.projectManager  ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -202,7 +228,7 @@ const AddProject: React.FunctionComponent = () => {
                     marginRight: '17rem',
                   }}
                 >
-                  {formik.errors.Pmanager}
+                  {formik.errors.projectManager}
                 </Typography>
               ) : null}
               <TextField
@@ -214,12 +240,12 @@ const AddProject: React.FunctionComponent = () => {
                 size="small"
                 label="Project Details"
                 type="text"
-                name="PDetails"
-                value={formik.values.PDetails}
+                name="projectDetails"
+                value={formik.values.projectDetails}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.PDetails && formik.errors.PDetails ? (
+              { formik.errors.projectDetails ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -228,7 +254,7 @@ const AddProject: React.FunctionComponent = () => {
                     marginRight: '20rem',
                   }}
                 >
-                  {formik.errors.PDetails}
+                  {formik.errors.projectDetails}
                 </Typography>
               ) : null}
 
