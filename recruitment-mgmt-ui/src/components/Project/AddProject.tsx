@@ -43,7 +43,6 @@ const AddProject: React.FunctionComponent = () => {
   // const [names, setNames] = useState<string[]>([]);
   const [selectedName, setSelectedName] = useState<string>("");
   const initialValues:AddProjectInterface={
-   accountId:'',
     projectName:'',
     projectDetails:'',
     projectManager:'',
