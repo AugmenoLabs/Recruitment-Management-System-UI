@@ -142,7 +142,7 @@ const Requisition: React.FunctionComponent = () => {
                 margin="normal"
                 size="small"
                 fullWidth
-                label="Position"
+                label="Job Title"
                 type="text"
                 name="position"
                 value={formik.values.position}
@@ -344,7 +344,7 @@ const Requisition: React.FunctionComponent = () => {
                   {formik.errors.jd}
                 </Typography>
               ) : null}
-              <TextField
+              {/* <TextField
                 margin="normal"
                 fullWidth
                 multiline
@@ -364,7 +364,7 @@ const Requisition: React.FunctionComponent = () => {
                 >
                   {formik.errors.projectdetails}
                 </Typography>
-              ) : null}
+              ) : null} */}
             </Grid>
           </Grid>
           <Button
