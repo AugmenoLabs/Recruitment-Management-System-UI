@@ -22,10 +22,11 @@ import Candidatejob from './components/CandidateApply/Candidatejob';
 import CandidateCompensation from './components/CandidateApply/CandidateCompensation';
 import Candidateresume from './components/CandidateApply/Candidateresume';
 import ManagementPage from './components/UserManagement/ManagementPage';
-import AddUser from './components/UserManagement/AddUser';
-import AddRole from './components/UserManagement/AddRole';
 import RoleMapping from './components/UserManagement/RoleMapping';
 import FinalJD from './components/Applied Candidates/FinalJD';
+import InterviewDetailTable from './components/InterviewDetailTable/InterviewDetails';
+import AddRole from './components/UserManagement/AddRole';
+import AddUser from './components/UserManagement/AddUser';
 
 interface IProps {
   IsSidebarOpen: boolean;
@@ -57,11 +58,14 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <BrowserRouter>
         <NavBar />
+      
         <AppBox IsSidebarOpen={IsSidebarOpen}>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="" element={<Dashboard />} />
             <Route path="/jobdescription" element={<FinalJD />} />
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />    
+            <Route path="/candidatecompensation" element={<CandidateCompensation />} />
+      
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
@@ -74,6 +78,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/Accountdetails" element={<AccountTable />} />
             <Route path="/scheduleinterview" element={<InterviewForm />} />
             <Route path="/interviewdetails" element={<InterviewFinalTable />} />
+            <Route path="/interviewdetailview" element={<InterviewDetailTable />} />
             <Route path="/UserDetails" element={<ManagementPage />} />
             <Route path="/AddUser" element={<AddUser/>} />
             <Route path="/AddRole" element={<AddRole/>} />

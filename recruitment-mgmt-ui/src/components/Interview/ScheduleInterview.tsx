@@ -6,8 +6,9 @@ import {
   DialogTitle,
   Fab,
   FormControl,
+  FormLabel,Radio,FormControlLabel,
   TextField,
-  InputLabel,Select,MenuItem, SelectChangeEvent
+  InputLabel,Select,MenuItem, SelectChangeEvent, RadioGroup
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -17,7 +18,12 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 
 const ScheduleInterview: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('female');
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
   const handleClickOpen = (): void => {
     setOpen(true);
   };
@@ -39,9 +45,11 @@ const ScheduleInterview: React.FunctionComponent = () => {
       <Fab
         variant="extended"
         size="small"
+        style={{fontSize:'12px',maxHeight:'25px',justifyContent:'center',alignItems:'center'}}
         color="primary"
         aria-label="add"
         onClick={handleClickOpen}
+
       >
         Schedule
       </Fab>
@@ -130,13 +138,37 @@ const ScheduleInterview: React.FunctionComponent = () => {
               }}
             />
           </LocalizationProvider>
+          <FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label">Mode Of Interview</FormLabel>
+      <RadioGroup
+       value={value}
+       onChange={handleChangeRadio}
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="telephonic" control={<Radio />} label="Telephonic" />
+        <FormControlLabel value="ftf" control={<Radio />} label="Face-to-Face" />
+        <FormControlLabel value="vc" control={<Radio />} label="VC" />
+       
+      </RadioGroup>
+    </FormControl>
+    {value ==='vc'?(
           <TextField
             margin="normal"
             id="name"
             label="Meeting Link"
             fullWidth
             variant="standard"
+          />):(value==='telephonic'?(
+            <TextField
+            margin="normal"
+            id="name"
+            label="Contact No."
+            fullWidth
+            variant="standard"
           />
+          ):(''))}
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>

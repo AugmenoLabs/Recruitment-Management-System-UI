@@ -6,7 +6,7 @@ import AppliedCandidateTable from "./AppliedCandidateTable";
 const FinalJD:React.FunctionComponent=()=>{
     return(
         <>
-        <JobDescription />
+        <JobDescription  />
         <AppliedCandidateTable/>
         </>
     )

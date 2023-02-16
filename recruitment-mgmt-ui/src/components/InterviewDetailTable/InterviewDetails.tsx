@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { Box,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-
-import FeedbackDetails from './FeedbackDetails';
+import Feedback from './Feedback';
 
 
 interface AllCandidateTableData {
@@ -14,8 +13,8 @@ interface AllCandidateTableData {
   position: string;
   account:string,
   project:string,
-  status: string;
-  Hired:string;
+  interviewer:string,
+  Schedule:string,
 }
 
 const data: AllCandidateTableData[] = [
@@ -28,8 +27,8 @@ const data: AllCandidateTableData[] = [
     position: 'Frontend',
     account:'Honeywell',
     project:'RMS',
-    status: 'Scheduled for L2',
-    Hired:'NA',
+   interviewer:'Anshu',
+   Schedule:'14/02//23 2:30pm'
   },
   {
     name: 'Anshu Wadhwani',
@@ -40,8 +39,8 @@ const data: AllCandidateTableData[] = [
     position: 'Frontend',
     account:'LG',
     project:'XDR',
-    status: 'Pending',
-    Hired:'NA',
+    interviewer:'Anshu',
+    Schedule:'14/02//23 2:30pm'
   },
   {
     name: 'Sanjeev',
@@ -52,8 +51,8 @@ const data: AllCandidateTableData[] = [
     position: 'Frontend',
     account:'Honeywell',
     project:'RMS',
-    status: 'Applied',
-    Hired:'NA',
+    interviewer:'Anshu',
+    Schedule:'14/02//23 2:30pm'
   },
   {
     name: 'Sneha Kothari',
@@ -64,8 +63,8 @@ const data: AllCandidateTableData[] = [
     position: 'Frontend',
     account:'Honeywell',
     project:'RMS',
-    status: 'Applied',
-    Hired:'NA',
+    interviewer:'Anshu',
+    Schedule:'14/02//23 2:30pm'
   },
   {
     name: 'Anshu Wadhwani',
@@ -76,12 +75,12 @@ const data: AllCandidateTableData[] = [
     position: 'Frontend',
     account:'Honeywell',
     project:'RMS',
-    status: 'Pending',
-    Hired:'NA',
+    interviewer:'Anshu',
+    Schedule:'14/02//23 2:30pm'
   },
 ];
 
-const AppliedCandidateTable: React.FunctionComponent = () => {
+const InterviewDetailTable: React.FunctionComponent = () => {
   const columns = useMemo<Array<MRT_ColumnDef<AllCandidateTableData>>>(
     () => [
       {
@@ -120,15 +119,16 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'interviewer',
+        header: 'Interviewer Name',
         // size:120,
       },
       {
-        accessorKey: 'Hired',
-        header: 'Hired',
+        accessorKey: 'Schedule',
+        header: 'Scheduled Date',
         // size:80,
       },
+
      
     ],
     []
@@ -149,7 +149,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       }}
       className="tableheader"
     >
-      Candidate Details
+      Interview Details
     </Typography>
     <MaterialReactTable
       columns={columns}
@@ -204,7 +204,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       renderRowActions={({ row }) => (
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <FeedbackDetails />
+            <Feedback />
             {/* <EditCandidateStatus /> */}
           </Box>
         </div>
@@ -215,4 +215,4 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
 
 };
 
-export default AppliedCandidateTable;
+export default InterviewDetailTable;

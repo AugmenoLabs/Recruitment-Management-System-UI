@@ -35,6 +35,8 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import keycloak from 'keycloak-js';
 import { useKeycloak } from '@react-keycloak/web';
+import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -147,8 +149,10 @@ const NavBar: React.FunctionComponent = () => {
     { title: 'Dashboard', path: '/', icon: <HomeIcon /> },
     { title: 'Account', path: '/AccountDetails', icon: <AccountBoxIcon /> },
     { title: 'Candidate', path: '/candidatedetails', icon: <FileCopyIcon /> },
-    {title: 'Interview',path: '/interviewdetails',icon: <CalendarMonthIcon />},
-    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon />},
+    { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
+    { title: 'InterviewDetails', path: '/interviewdetailview', icon: <CalendarViewMonthIcon/> },
+    { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> },
+    
   ];
   const renderMobileMenu = (
     <Menu

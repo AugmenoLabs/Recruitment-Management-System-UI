@@ -1,17 +1,26 @@
-import { Autocomplete, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 import React, { useState } from 'react';
 
-const skills = ['react', 'java', 'dotnet'];
+// const skills = ['react', 'java', 'dotnet'];
+//
+//   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
+//   const handleAddSkillTags: any = (value: any) => {
+//     const skillValue = value.toString();
+//     value.setFieldValue('skills', skillValue);
+//   };
+//   const handleRemoveSkills: any = (value: any) => {
+//     value.setFieldValue('skills', value);
+//   };
 const Candidatejob: React.FunctionComponent = () => {
-  const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const handleAddSkillTags: any = (value: any) => {
-    const skillValue = value.toString();
-    value.setFieldValue('skills', skillValue);
-  };
-  const handleRemoveSkills: any = (value: any) => {
-    value.setFieldValue('skills', value);
-  };
-  const [jobType, setjobType] = React.useState('');
+  const [jobType, setjobType] = useState('');
   const handleChange: any = (event: SelectChangeEvent) => {
     setjobType(event.target.value);
   };
@@ -39,7 +48,7 @@ const Candidatejob: React.FunctionComponent = () => {
           size="small"
         />
 
-        <Autocomplete
+        {/* <Autocomplete
           multiple
           size="small"
           style={{ width: '40%' }}
@@ -72,8 +81,8 @@ const Candidatejob: React.FunctionComponent = () => {
               }}
             />
           )}
-        />
-<FormControl style={{ width: '40%' ,marginTop:'0.5rem'}} size="small">
+        /> */}
+        <FormControl style={{ width: '40%', marginTop: '0.5rem' }} size="small">
           <InputLabel id="demo-simple-select-label">Employment Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -86,8 +95,8 @@ const Candidatejob: React.FunctionComponent = () => {
             <MenuItem value="no">Contracter</MenuItem>
           </Select>
         </FormControl>
-       
-        <FormControl style={{ width: '40%' ,marginTop:'1rem'}} size="small">
+
+        <FormControl style={{ width: '40%', marginTop: '1rem' }} size="small">
           <InputLabel id="demo-simple-select-label">Notice Period</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -96,38 +105,25 @@ const Candidatejob: React.FunctionComponent = () => {
             label="Notice Period"
             onChange={handleChangeNotice}
           >
-            <MenuItem value="yes">Yes</MenuItem>
-            <MenuItem value="no">No</MenuItem>
+            <MenuItem value="immediate">Immediate</MenuItem>
+            <MenuItem value="np">Serving NoticePeriod</MenuItem>
+            <MenuItem value="yet">Yet to Ressign</MenuItem>
+            <MenuItem value="">Unemployed</MenuItem>{' '}
           </Select>
         </FormControl>
-        {noticePeriod==='yes'?(
+        {noticePeriod === 'np' ? (
           <>
-          
-           
-          <TextField
-           style={{ width: '40%'}}
-            label='Duration '
-           
-          
-            variant="outlined"
-            size='small'
-            margin="normal"
-          />
-         
-           <TextField
-            style={{ width: '40%' }}
-            label='Availabe to join '
-            
-            size='small'
-         
-            variant="outlined"
-            margin="normal"
-          />
-      </>):(
-        '')}
-    
-    
-
+            <TextField
+              style={{ width: '40%' }}
+              label="Last working days "
+              variant="outlined"
+              size="small"
+              margin="normal"
+            />
+          </>
+        ) : (
+          ''
+        )}
       </Grid>
     </>
   );

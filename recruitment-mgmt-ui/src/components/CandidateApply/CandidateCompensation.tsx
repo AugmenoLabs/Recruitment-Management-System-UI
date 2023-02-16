@@ -1,5 +1,4 @@
 import {
-    Button,
   FormControl,
   Grid,
   InputLabel,
@@ -10,36 +9,36 @@ import {
 } from '@mui/material';
 
 
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+// import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import React, { useState } from 'react';
 
-interface Field {
-    id: number;
-    value: string;
-  }
+// interface Field {
+//     id: number;
+//     value: string;
+//   }
 const CandidateCompensation: React.FunctionComponent = () => {
-  const [offer, setoffer] = React.useState('');
-  const [fields, setFields] = useState<Field[]>([{ id: 0, value: '' }]);
+ 
+  // const [fields, setFields] = useState<Field[]>([{ id: 0, value: '' }]);
 
-  const handleAddField:any = () => {
-    setFields([...fields, { id: fields.length, value: '' }]);
-  };
+  // const handleAddField:any = () => {
+  //   setFields([...fields, { id: fields.length, value: '' }]);
+  // };
 
-  const handleRemoveField :any = (id: number) => {
-    setFields(fields.filter((field) => field.id !== id));
-  };
+  // const handleRemoveField :any = (id: number) => {
+  //   setFields(fields.filter((field) => field.id !== id));
+  // };
 
-  const handleFieldChange :any= (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>, id: number) => {
-    const updatedFields = fields.map((field) => {
-      if (field.id === id) {
-        return { ...field, value: event.target.value };
-      }
-      return field;
-    });
-    setFields(updatedFields);
-  };
+  // const handleFieldChange :any= (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>, id: number) => {
+  //   const updatedFields = fields.map((field) => {
+  //     if (field.id === id) {
+  //       return { ...field, value: event.target.value };
+  //     }
+  //     return field;
+  //   });
+  //   setFields(updatedFields);
+  // };
 
-
+  const [offer, setoffer] = useState('');
   const handleChange: any = (event: SelectChangeEvent) => {
     setoffer(event.target.value);
   };
@@ -70,14 +69,7 @@ const CandidateCompensation: React.FunctionComponent = () => {
           name="vacancies"
           size="small"
         />
- <TextField
-          margin="normal"
-          style={{ width: '40%' }}
-          label="Vendor Name"
-          type="text"
-          name="experience"
-          size="small"
-        />
+ 
         <FormControl style={{ width: '40%' ,marginTop:'0.6rem'}} size="small">
           <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
           <Select
@@ -92,8 +84,8 @@ const CandidateCompensation: React.FunctionComponent = () => {
           </Select>
         </FormControl>
 
-        {offer === 'yes' ? (
-          <>
+        {/* {offer === 'yes' ? (
+          <> */}
 
             {/* <TextField
               margin="normal"
@@ -112,7 +104,7 @@ const CandidateCompensation: React.FunctionComponent = () => {
               size="small"
             /> */}
            
-      {fields.map((field) => (
+      {/* {fields.map((field) => (
         <div key={field.id}>
           
            
@@ -147,7 +139,7 @@ Add Field
           </>
         ) : (
           ''
-        )}
+        )} */}
       </Grid>
     </>
   );

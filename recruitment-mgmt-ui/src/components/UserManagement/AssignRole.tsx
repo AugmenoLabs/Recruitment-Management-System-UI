@@ -1,26 +1,57 @@
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+/* eslint-disable @typescript-eslint/prefer-includes */
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Checkbox, ListItemText } from '@mui/material';
+import { Checkbox, ListItemText, Paper } from '@mui/material';
 import { RoleInterface} from '../../Interfaces/RoleInterface';
 import { clientId } from '../../API/ClientDetails';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getToken } from '../../API/GetToken';
 import axios from 'axios';
+import { useParams } from 'react-router';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
-export default function AssignRole() {
+const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
-  const [RoleName, setRoleName] = React.useState<string[]>([]);
   const [available,setAvailable]= React.useState<RoleInterface[]>([]);
+  
+
+  const columns: GridColDef[] = [
+    { field: 'name', headerName: 'Role name', minWidth: 100 },
+    { field: 'description', headerName: 'Description', minWidth: 100 },
+    {
+      field: 'selected',
+      headerName: 'Selected',
+      width: 20,
+      renderCell: (params) => (
+        <input
+          type="checkbox"
+          checked={selectedRows.includes(params.row)}
+          onChange={(event) => handleRowSelection(event.target.checked, params.row)}
+        />
+      ),
+    },
+  ];
+  const [rowdata, setRowdata] = useState<RoleInterface[]>([]);
+  const { id } = useParams<{ id: string }>();
+  const [selectedRows, setSelectedRows] = useState<RoleInterface[]>([]);
+
+  function handleRowSelection(checked: boolean, id:RoleInterface) {
+    if (checked) {
+      setSelectedRows([...selectedRows,id]);
+    } else {
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
+    }
+  }
+  
 
   useEffect(() => {
     GetAllRoles();
@@ -35,20 +66,21 @@ export default function AssignRole() {
           'Authorization': `Bearer ${token}`
         }
       });
-      setAvailable(response.data);
+      setRowdata(response.data);
       console.log("def",response.data);
     } catch (error) {
        console.error(error);
     }
   };
-  const handleClickOpen = () => {
+  
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
   const handleClose = (
     event: React.SyntheticEvent<unknown>,
     reason?: string
-  ) => {
+  ): void => {
     if (reason !== 'backdropClick') {
       setOpen(false);
     }
@@ -65,15 +97,35 @@ export default function AssignRole() {
     },
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof RoleName>) => {
-    const {
-      target: { value },
-    } = event;
-    setRoleName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
-  };
+  
+  // const handleChange = (event: SelectChangeEvent<typeof RoleName>) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setRoleName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'RoleInterface' ? value.split(',') : value
+  //   );
+  // };
+
+  const handleAssign= async () => {
+    try {
+      const token = await getToken();
+      await axios.post(`/admin/realms/MyRealm/users/${id}/role-mappings/clients/${clientId}`,
+       selectedRows ,
+       {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }).then(response =>{
+        console.log(response.data);
+      });
+      //GetAssignedRoles();
+    }catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div>
@@ -86,38 +138,31 @@ export default function AssignRole() {
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogContent>
-          {/* <Box component="form" sx={{ display: 'flex' }}> */}
-          <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">
-              Select Roles
-            </InputLabel>
-            <Select
-              //label="select Roles"
-              multiple
-              value={RoleName}
-              onChange={handleChange}
-              input={<OutlinedInput label="Select Roles" />}
-              renderValue={(selected) => selected.join(', ')}
-              MenuProps={MenuProps}
-            >
-              {available.map((Role) => (
-                <MenuItem key={Role.id} value={Role.name}>
-                  <Checkbox checked={RoleName.indexOf(Role.name) > -1} />
-                  <ListItemText primary={Role.name} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Paper
+            sx={{
+              width: '80%',
+              overflow: 'hidden',
+              marginLeft: '0rem',
+              marginTop: '1rem',
+            }}
+          >
+            <div style={{ height: 300, width: '100%' }}>
+              <DataGrid rows={rowdata} columns={columns} 
+              />
+            </div>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={handleAssign}>
             Assign
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
+
+export default AssignRole;

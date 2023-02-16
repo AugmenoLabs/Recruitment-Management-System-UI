@@ -1,59 +1,140 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from "material-react-table";
+import { Box, Button, MenuItem, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import keycloak from '../../Auth/keycloak';
+import { AccountInterface } from '../../Interface/AccountInterface';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-    width: '16%',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    width: '16%',
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-interface AccountTableDatatype {
-  accountId: string;
-  accountName: string;
-  accountDetail: string;
-  accountManager: string;
-  createdOn: Date;
-  updatedOn: Date;
-  createdBy: string;
-  updatedB: string;
-  isDeleted: boolean;
-}
+// const data: AccountTableData[] = [
+//   {
+//     id: 'HON123',
+//     name: 'HoneyWell',
+//     ProjectID: 'FDU',
+//     ProjectName: 'Forge Data Unity',
+//     Manager: 'Sneha',
+//   },
+//   {
+//     id: 'HON123',
+//     name: 'HoneyWell',
+//     ProjectID: 'X001',
+//     ProjectName: 'XDR',
+//     Manager: 'Sanjeev',
+//   },
+//   {
+//     id: 'SYM123',
+//     name: 'Symphony',
+//     ProjectID: 'ABC',
+//     ProjectName: 'Bot',
+//     Manager: 'Anshu',
+//   },
+// ];
 
 const AccountTable: React.FunctionComponent = () => {
+  const [data, setData] = useState<AccountInterface[]>([]);
+ 
+  const API_URL = 'http://localhost:5141/api/v1/Account';
+  // const [isDeleting, setIsDeleting] = useState(false);
+ 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData = async () => {
+      try {
+        const result = await axios.get<AccountInterface[]>(API_URL);
+        setData(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log(data);
+  }, []);
+  const [validationErrors, setValidationErrors] = useState<{
+    [cellId: string]: string;
+  }>({});
+  const handleSaveRowEdits: MaterialReactTableProps<AccountInterface>['onEditingRowSave'] =
+    async ({ exitEditingMode, row, values }) => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      if (!Object.keys(validationErrors).length) {
+        data[row.index] = values;
+      
+        setData([...data]);
+        exitEditingMode(); 
+      }
+    };
+
+  const handleCancelRowEdits = () => {
+    setValidationErrors({});
+  };
+  const handleDeleteRow = useCallback(
+    (row: MRT_Row<AccountInterface>) => {
+      if (
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
+      ) {
+        return;
+      }
+      const handleDelete = async (Accounts:AccountInterface) => {
+        try {
+          await axios.delete(`${API_URL}/${Accounts.accountId}`)
+          .then((response) => {
+            console.log(response);
+            const newData=[...data];
+            const index=newData.findIndex((item)=>item.accountId===Accounts.accountId)
+            newData.splice(index,1);
+            setData(newData);
+          });
+  
+
+
+          // Perform additional logic here, such as updating the UI to reflect the deleted item
+        } catch (error) {
+          console.error(error);
+        } 
+      };
+      data.splice(row.index, 1);
+      setData([...data]);
+    },
+    [data],
+  );
+  const getCommonEditTextFieldProps = useCallback(
+    (
+      cell: MRT_Cell<AccountInterface>,
+    ): MRT_ColumnDef<AccountInterface>['muiTableBodyCellEditTextFieldProps'] => {
+      return {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        error: !!validationErrors[cell.id],
+        helperText: validationErrors[cell.id],
+        onBlur: (event) => {
+          const isValid =
+            cell.column.id === 'accountName'
+              ? validateRequired(event.target.value)
+              :  validateRequired(event.target.value);
+          if (!isValid) {
+          
+            setValidationErrors({
+              ...validationErrors,
+              [cell.id]: `${cell.column.columnDef.header} is required`,
+            });
+          } else {
+         
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete validationErrors[cell.id];
+            setValidationErrors({
+              ...validationErrors,
+            });
+          }
+        },
+      };
+    },
+    [validationErrors],
+  );
+
+  
   const history = useNavigate();
   const navigateAddAccount = (): void => {
     history('/AddAccount');
@@ -61,178 +142,180 @@ const AccountTable: React.FunctionComponent = () => {
   const navigateAddProject = (): void => {
     history('/AddProject');
   };
-  const API_URL = 'https://localhost:7267/api/Account';
-  const [data, setData] = useState<AccountTableDatatype[]>([]);
-  // const [isDeleting, setIsDeleting] = useState(false);
-  {console.log("let")}
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<AccountTableDatatype[]>(API_URL);
-        setData(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
 
-  const handleDelete = async (Accounts:AccountTableDatatype) => {
-    try {
-      await axios.delete(`${API_URL}/${Accounts.accountId}`)
-      .then(response => {
-        console.log(response.data);
-      });
-
-      // Perform additional logic here, such as updating the UI to reflect the deleted item
-    } catch (error) {
-      console.error(error);
-    } 
+  const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(
+    () => [
+      {
+        accessorKey: 'accountId',
+        header: 'AccountID',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'accountName',
+        header: 'Name',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'projectID',
+        header: 'ProjectID',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'projectName',
+        header: 'ProjectName',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'accountManager',
+        header: 'Manager',
+        size: 100,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+    ],
+    [getCommonEditTextFieldProps]
+  );
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
-    <>
-      <Box sx={{ marginTop: '5rem' }}>
-        <Typography
-          gutterBottom
-          variant="h5"
-          sx={{
-            paddingLeft: '2rem',
-            paddingTop: '0.7rem',
-            margin: 0,
-            fontWeight: 600,
-            fontSize: '30px',
-          }}
-          className="tableheader"
-        >
-          Account
-        </Typography>
-        <Paper
-          sx={{
-            width: '100%',
-            overflow: 'hidden',
-            marginLeft: '0rem',
-            marginTop: '1rem',
-          }}
-        >
-          <TableContainer
-            sx={{
-              marginTop: 0,
+    <Box>
+      <Typography
+        gutterBottom
+        variant="h5"
+        sx={{
+          paddingLeft: '2rem',
+          paddingTop: '1.2rem',
+          margin: 0,
+          fontWeight: 600,
+          fontSize: '30px',
+          marginBottom: '2%',
+        }}
+        className="tableheader"
+      >
+        Account
+      </Typography>
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        //    enableColumnActions={false}
+        //    enableColumnFilters={false}
 
-              '&::-webkit-scrollbar': {
-                width: '6px',
-                backgroundColor: '#F7F7F7',
-              },
-              '&::-webkit-scrollbar-track': {
-                boxShadow: `inset 0 0 6px rgba(0, 0, 0, 0.3)`,
-                backgroundColor: '#F7F7F7',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#000000',
-              },
-            }}
-          >
-            <Table
-              stickyHeader
-              sx={{
-                width: '95%',
-                marginLeft: '9rem',
-                marginRight: '0rem',
-                margin: 'auto',
-                tableLayout: 'auto',
-              }}
-              aria-label="customized table"
+        muiTablePaginationProps={{
+          rowsPerPageOptions: [5, 10, 20, 50],
+        }}
+        initialState={{
+          density: 'compact',
+          pagination: { pageSize: 5, pageIndex: 0 },
+        }}
+        enableDensityToggle={false}
+        muiTableHeadCellProps={{
+          sx: {
+            '& .Mui-TableHeadCell-Content': {
+              justifyContent: 'left',
+              fontWeight: 600,
+              color: 'blue',
+            },
+          },
+        }}
+        muiTableProps={{
+          sx: {
+            tableLayout: 'fixed',
+            align: 'center',
+
+            marginLeft: '2%',
+          },
+        }}
+        defaultColumn={{
+          minSize: 20,
+          maxSize: 300,
+          size: 80,
+        }}
+        enableRowActions
+        //   enableRowSelection
+        renderTopToolbarCustomActions={({ table }) => (
+          <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={navigateAddAccount}
+              size="small"
             >
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell style={{ fontWeight: 600 }}>
-                    Account ID
-                  </StyledTableCell>
-                  <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                    Account Name
-                  </StyledTableCell>
-                  <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                    Project ID
-                  </StyledTableCell>
-                  <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                    Project Name
-                  </StyledTableCell>
-                  <StyledTableCell align="center" style={{ fontWeight: 600 }}>
-                    Project Manager
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableHead></TableHead>
-              <TableBody>
-                {data.map((row) => (
-                  <StyledTableRow key={row.accountId}>
-                    <StyledTableCell
-                      className="cell"
-                      component="th"
-                      scope="row"
-                      padding="none"
-                      width="10%"
-                    >
-                      {row.accountId}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.accountName}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.accountDetail}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.createdBy}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.accountManager}
-                    </StyledTableCell>
-                    <TableCell sx={{ width: '0.5%' }}>
-                      <EditIcon />
-                    </TableCell>
-                    <TableCell sx={{ width: '0.5%' }}>
-                      <IconButton onClick={() => handleDelete(row)} >
-                      <DeleteIcon  />
-                      </IconButton>
-                    </TableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Box>
-      <div>
-        <Box justifyContent="center" alignItems="center" display="flex">
-          <Button
-            onClick={navigateAddAccount}
-            variant="contained"
-            sx={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              mt: 3,
-              mb: 2,
+              Add Account
+            </Button>
+            <Button
+              color="primary"
+              size="small"
+              onClick={navigateAddProject}
+              variant="contained"
+            >
+              Add Project
+            </Button>
+          </Box>
+        )}
+        editingMode="modal" 
+       
+      
+        onEditingRowSave={handleSaveRowEdits}
+        onEditingRowCancel={handleCancelRowEdits}
+        enableColumnResizing
+        positionActionsColumn="last"
+        displayColumnDefOptions={{
+          'mrt-row-actions': {
+            size: 40,
+
+            muiTableHeadCellProps: {
+              align: 'center',
+            },
+          },
+        }}
+        enableColumnActions={false}
+        renderRowActionMenuItems={({ row,table }) => [
+          <MenuItem
+            key={1}
+            onClick={() => {
+              // Send email logic...
+              table.setEditingRow(row)
             }}
+            sx={{ m: 0, display: 'flex' }}
           >
-            Add Account
-          </Button>
-          <Button
-            onClick={navigateAddProject}
-            variant="contained"
-            sx={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              mt: 3,
-              mb: 2,
-              ml: 2,
+            <EditIcon/>
+          </MenuItem>,
+          <MenuItem
+            key={2}
+            onClick={() => {
+              // Send email logic...
+              handleDeleteRow(row)
             }}
+            sx={{ m: 0 }}
           >
-            Add Project
-          </Button>
-        </Box>
-      </div>
-    </>
+            <DeleteIcon />
+          </MenuItem>,
+        ]}
+      />
+    </Box>
   );
 };
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+const validateRequired = (value: string) => !!value.length;
+
 
 export default AccountTable;

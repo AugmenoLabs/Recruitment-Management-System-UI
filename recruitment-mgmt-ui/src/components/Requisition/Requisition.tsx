@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-// import { useFormik } from 'formik';
-import "./Requisition.css";
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import './Requisition.css';
 // import { toast } from "react-toastify";
 import {
-  Container,
   Box,
   TextField,
   Typography,
@@ -11,97 +11,251 @@ import {
   Autocomplete,
   Card,
   Grid,
-} from "@mui/material";
+} from '@mui/material';
 
-
-const skills = ["react", "java", "dotnet"];
+const skills = ['react', 'java', 'dotnet'];
 // const NotRequired = [""];
-
-const Requisition :React.FunctionComponent= () => {
+const handleAddSkillTags: any = (value: any) => {
+  const skillValue = value.toString();
+  value.setFieldValue('skills', skillValue);
+};
+const handleRemoveSkills: any = (value: any) => {
+  value.setFieldValue('skills', value);
+};
+const Requisition: React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
+  const formik = useFormik({
+    initialValues: {
+      budget: '',
+      position: '',
+      account: '',
+      team: '',
+      location: '',
+      experience: '',
+      qualification: '',
+      vacancies: '',
+      jd: '',
+      projectdetails: '',
+      skills: '',
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+    validate: (values) => {
+      const errors: any = {};
+
+      if (values.budget.length === 0) {
+        errors.budget = 'Please enter budget';
+      }
+      if (values.position.length === 0) {
+        errors.position = 'Please enter position';
+      }
+      if (values.account.length === 0) {
+        errors.account = 'Please enter account name';
+      }
+      if (values.team.length === 0) {
+        errors.team = 'Please enter team name';
+      }
+      if (values.location.length === 0) {
+        errors.location = 'Please enter the location';
+      }
+      if (values.experience.length === 0) {
+        errors.experience = 'Please enter the length';
+      }
+      if (values.qualification.length === 0) {
+        errors.qualification = 'Please enter the qualification';
+      }
+
+      if (values.vacancies.length === 0) {
+        errors.vacancies = 'Please enter the no. of vacancies';
+      }
+
+      if (values.skills.length === 0) {
+        errors.skills = 'Please enter the skills';
+      }
+      if (values.jd.length === 0) {
+        errors.jd = 'Please enter the job description';
+      }
+
+      if (values.projectdetails.length === 0) {
+        errors.projectdetails = 'Please enter the projectdetails';
+      }
+
+      return errors;
+    },
+  });
+
   return (
-    <Container component="main" style={{marginLeft:'0rem'}}>
-      <Box
-        sx={{
-          
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
+    <Box
+      sx={{
+        marginLeft: '2%',
+        marginRight: '2%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+      <Typography
+        component="h1"
+        variant="h5"
+        style={{ marginTop: '2rem', fontWeight: 600, marginLeft: '1rem' }}
+      >
+        Create Job Openings
+      </Typography>
+      <Card
+        style={{
+          width: '97%',
+          marginTop: '1rem',
+          marginLeft: '1rem',
+          backgroundColor: 'lavender',
         }}
       >
-        <Typography component="h1" variant="h5" style={{marginTop:'2rem',fontWeight:600,marginLeft:'1rem'}}>
-         Create Job Openings
-        </Typography>
-        <Card style={{width:'97%',marginTop:'1rem',marginLeft:'1rem',backgroundColor:'lavender'}}>
-        <Grid container spacing={5}>
-          <Grid  item xs={5.5} direction='column' style={{marginLeft:'1rem',marginRight:'2rem'}}>
-        <TextField
-            margin="normal"
-            fullWidth
-            size='small'
-            label="Job ID"
-            type="text"
-            name="jobid"
-            
-          />
-          <TextField
-            margin="normal"
-            size='small'
-            fullWidth
-            label="Position"
-            type="text"
-            name="role"
-            
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Account"
-            type="text"
-            name="account"
-           size="small"
-          />
-                    <TextField
-            margin="normal"
-            fullWidth
-            label="Team Name"
-            type="text"
-            name="team"
-           size="small"
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Location"
-            type="text"
-            name="location"
-           size="small"
-          />
-           <Autocomplete
-            multiple
-            id="Skills"
-            options={skills}
-            value={autoCompleteValue}
-            onChange={(e, newval) => {
-              setAutoCompleteValue(newval);
-           
-            }}
-            renderInput={(params) => (
+        <form onSubmit={formik.handleSubmit}>
+          <Grid container spacing={5}>
+            <Grid
+              item
+              xs={5.5}
+              direction="column"
+              style={{ marginLeft: '1rem', marginRight: '2rem' }}
+            >
               <TextField
-                {...params}
-                variant="outlined"
-                label="Skills"
-                placeholder="Skills"
                 margin="normal"
                 fullWidth
-                size='small'
-                name="skills"
+                size="small"
+                label="Budget"
+                type="text"
+                name="budget"
+                value={formik.values.budget}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
               />
-
-            )}
-          />
-        {/* <TextField
+              {formik.touched.budget && formik.errors.budget ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.budget}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                size="small"
+                fullWidth
+                label="Position"
+                type="text"
+                name="position"
+                value={formik.values.position}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.position && formik.errors.position ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.position}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Account"
+                type="text"
+                name="account"
+                size="small"
+                value={formik.values.account}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.account && formik.errors.account ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.account}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Team Name"
+                type="text"
+                name="team"
+                size="small"
+                value={formik.values.team}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.team && formik.errors.team ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.team}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Location"
+                type="text"
+                name="location"
+                size="small"
+                value={formik.values.location}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.location && formik.errors.location ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.location}
+                </Typography>
+              ) : null}
+              <Autocomplete
+                multiple
+                size="small"
+                id="skills"
+                options={skills}
+                value={autoCompleteValue}
+                onChange={(e, newval) => {
+                  setAutoCompleteValue(newval);
+                  handleRemoveSkills(newval);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Skills"
+                    placeholder="Skills"
+                    margin="normal"
+                    fullWidth
+                    name="skills"
+                    onKeyDown={(e) => {
+                      if (
+                        e.code === 'Enter' &&
+                        (e.target as HTMLInputElement).value
+                      ) {
+                        const val = (e.target as HTMLInputElement).value;
+                        setAutoCompleteValue(autoCompleteValue.concat(val));
+                        const tagslist = autoCompleteValue.concat(val);
+                        handleAddSkillTags(tagslist);
+                      }
+                    }}
+                  />
+                )}
+              />
+              {formik.touched.skills && formik.errors.skills ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.skills}
+                </Typography>
+              ) : null}
+              {/* <TextField
             margin="normal"
             fullWidth
             label="Upload Resume"
@@ -109,71 +263,118 @@ const Requisition :React.FunctionComponent= () => {
             name="vacancies"
            
           /> */}
-         
-       </Grid>
-       <Grid  item xs={5.5} direction='column' >
-          
-         
+            </Grid>
+            <Grid item xs={5.5} direction="column">
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Experience"
+                type="text"
+                name="experience"
+                value={formik.values.experience}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                size="small"
+              />
+              {formik.touched.experience && formik.errors.experience ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.experience}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Qualification"
+                name="qualification"
+                type="text"
+                value={formik.values.qualification}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                size="small"
+              />
+              {formik.touched.qualification && formik.errors.qualification ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.qualification}
+                </Typography>
+              ) : null}
 
-          
-          
-
-        
-
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Experience"
-            type="text"
-            name="experience"
-            size='small'
-          />
-        
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Qualification"
-            type="text"
-            size='small'
-         
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="No. Of Positions"
-            type="text"
-            size='small'
-         
-          />
-         
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Job Decription"
-            multiline
-            rows={3}
-            placeholder="Job Description"
-            type="text"
-             
-          />
-         
-         <TextField
-            margin="normal"
-            fullWidth
-            multiline
-            rows={2}
-            label="Project details"
-            type="text"
-            placeholder='Project Details'
-           
-          />
-          
-</Grid>
-</Grid>         
+              <TextField
+                margin="normal"
+                fullWidth
+                label="No. Of Positions"
+                type="text"
+                size="small"
+                name="vacancies"
+                value={formik.values.vacancies}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.vacancies && formik.errors.vacancies ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.vacancies}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Job Decription"
+                multiline
+                rows={3}
+                placeholder="Job Description"
+                type="text"
+                name="jd"
+                value={formik.values.jd}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.jd && formik.errors.jd ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.jd}
+                </Typography>
+              ) : null}
+              <TextField
+                margin="normal"
+                fullWidth
+                multiline
+                rows={2}
+                label="Project details"
+                type="text"
+                name="proejctdetails"
+                placeholder="Project Details"
+                value={formik.values.position}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.projectdetails && formik.errors.projectdetails ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.projectdetails}
+                </Typography>
+              ) : null}
+            </Grid>
+          </Grid>
           <Button
             type="submit"
-            size='large'
-           style={{alignItems:'center',justifyContent:'center',marginLeft:'32rem'}}
+            size="large"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: '32rem',
+            }}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
@@ -187,9 +388,9 @@ const Requisition :React.FunctionComponent= () => {
           >
             Cancel
           </Button> */}
-        </Card>
-      </Box>
-    </Container>
+        </form>
+      </Card>
+    </Box>
   );
 };
 
