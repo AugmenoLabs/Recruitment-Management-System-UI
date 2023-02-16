@@ -162,14 +162,6 @@ const AccountTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'projectID',
-        header: 'ProjectID',
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
         accessorKey: 'projectName',
         header: 'ProjectName',
         size: 80,
