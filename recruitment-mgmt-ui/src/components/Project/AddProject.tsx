@@ -30,25 +30,29 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 
 interface AddProjectInterface{
   // projectId:string;
+  accountId:string;
   projectName:string;
   projectDetails:string;
   projectManager:string;
+  selectedAccountId: string;
 }
 const AddProject: React.FunctionComponent = () => {
   const API_URL="http://localhost:5141/api/v1/Project";
   // const [accountsValue, setaccountsValue] = useState<any>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   // const [names, setNames] = useState<string[]>([]);
-  const [selectedName, setSelectedName] = useState<string>('');
+  const [selectedName, setSelectedName] = useState<string>("");
   const initialValues:AddProjectInterface={
    accountId:'',
     projectName:'',
     projectDetails:'',
     projectManager:'',
+    selectedAccountId: "",
   }
   const formik = useFormik({
     initialValues,
     onSubmit: (values,{ resetForm }) => {
+      values.accountId = values.selectedAccountId;
       axios.post(API_URL, values)
       .then((response) => {
       resetForm();
@@ -91,6 +95,11 @@ useEffect(()=>{
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   fetchData();
 },[])
+
+useEffect(() => {
+  const selectedAccount = data.find((account) => account.id === formik.values.selectedAccountId);
+  setSelectedName(selectedAccount?.accountName ?? "");
+}, [formik.values.selectedAccountId, data]);
   return (
     <Box
       sx={{
@@ -172,12 +181,14 @@ useEffect(()=>{
               <Select
              fullWidth
     labelId="name-label"
-    value={selectedName}
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    onChange={(event) => setSelectedName(event.target.value as string)}
+    value={formik.values.selectedAccountId}
+      // update the selectedAccountId field in the values object
+      onChange={(event) =>
+        formik.setFieldValue("selectedAccountId", event.target.value)
+      }
   >
     {data.map((data) => (
-      <MenuItem key={data.accountId} value={data.accountName}>
+      <MenuItem key={data.id} value={data.id}>
         {data.accountName}
       </MenuItem>
     ))}

@@ -34,7 +34,7 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 // ];
 
 const AccountTable: React.FunctionComponent = () => {
-  const [data, setData] = useState<AccountInterface[]>([]);
+  const [data, setData] = useState<AccountInterface[]>([]); 
  
   const API_URL = 'http://localhost:5141/api/v1/Account';
   // const [isDeleting, setIsDeleting] = useState(false);
@@ -145,6 +145,7 @@ const AccountTable: React.FunctionComponent = () => {
 
   const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(
     () => [
+      
       {
         accessorKey: 'accountId',
         header: 'AccountID',
@@ -162,7 +163,7 @@ const AccountTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'projectName',
+        accessorKey: 'projects.0.projectName',
         header: 'ProjectName',
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
