@@ -1,33 +1,54 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
+import axios from 'axios';
+
+interface AddAccountInterface{
+  accountId: string;
+    accountName: string;
+    accountDetails: string;
+    accountManager: string;
+}
 const AddAccount: React.FunctionComponent = () => {
+  const API_URL="http://localhost:5141/api/v1/Account";
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const initialValues:AddAccountInterface={
+    accountId: '',
+    accountName: '',
+    accountManager: '',
+    accountDetails: '',
+  }
   const formik = useFormik({
-    initialValues: {
-      ID: '',
-      name: '',
-      manager: '',
-      Details: '',
-    },
-    onSubmit: (values) => {
+    initialValues ,
+    onSubmit: (values,{ resetForm }) => {
+      
+      axios.post(API_URL, values)
+      .then((response) => {
+      resetForm();
+      setSuccessMessage('Account added successfully');
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       console.log(values);
     },
     validate: (values) => {
       const errors: any = {};
 
-      if (values.ID.length === 0) {
-        errors.ID = 'Please enter ID';
+      if (values.accountId.length === 0) {
+        errors.accountId = 'Please enter ID';
       }
-      if (values.name.length === 0) {
-        errors.name = 'Please enter name';
+      if (values.accountName.length === 0) {
+        errors.accountName = 'Please enter name';
       }
-      if (values.manager.length === 0) {
-        errors.manager = 'Please enter manager name';
+      if (values.accountManager.length === 0) {
+        errors.accountManager = 'Please enter manager name';
       }
-      if (values.Details.length === 0) {
-        errors.Details = 'Please enter details';
+      if (values.accountDetails.length === 0) {
+        errors.accountDetails = 'Please enter details';
       }
 
       return errors;
@@ -62,6 +83,11 @@ const AddAccount: React.FunctionComponent = () => {
             backgroundColor: 'lavender',
           }}
         >
+           {successMessage && (
+      <div style={{ color: 'green', margin: '10px 0' }}>
+        {successMessage}
+      </div>
+    )}
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
@@ -75,13 +101,13 @@ const AddAccount: React.FunctionComponent = () => {
                 size="small"
                 label="Account ID"
                 type="text"
-                name="ID"
+                name="accountId"
                 style={{ width: '40%' }}
-                value={formik.values.ID}
+                value={formik.values.accountId}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.ID && formik.errors.ID ? (
+              {formik.touched.accountId && formik.errors.accountId ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -90,7 +116,7 @@ const AddAccount: React.FunctionComponent = () => {
                     marginRight: '22rem',
                   }}
                 >
-                  {formik.errors.ID}
+                  {formik.errors.accountId}
                 </Typography>
               ) : null}
               <TextField
@@ -99,12 +125,12 @@ const AddAccount: React.FunctionComponent = () => {
                 size="small"
                 label="Account Name"
                 type="text"
-                name="name"
-                value={formik.values.name}
+                name="accountName"
+                value={formik.values.accountName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.name && formik.errors.name ? (
+              {formik.touched.accountName && formik.errors.accountName ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -113,7 +139,7 @@ const AddAccount: React.FunctionComponent = () => {
                     marginRight: '20rem',
                   }}
                 >
-                  {formik.errors.name}
+                  {formik.errors.accountName}
                 </Typography>
               ) : null}
               <TextField
@@ -122,12 +148,12 @@ const AddAccount: React.FunctionComponent = () => {
                 label="Account Manager"
                 size="small"
                 type="text"
-                name="manager"
-                value={formik.values.manager}
+                name="accountManager"
+                value={formik.values.accountManager}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.manager && formik.errors.manager ? (
+              {formik.touched.accountManager && formik.errors.accountManager ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -136,7 +162,7 @@ const AddAccount: React.FunctionComponent = () => {
                     marginRight: '17rem',
                   }}
                 >
-                  {formik.errors.manager}
+                  {formik.errors.accountManager}
                 </Typography>
               ) : null}
               <TextField
@@ -148,12 +174,12 @@ const AddAccount: React.FunctionComponent = () => {
                 style={{ width: '40%' }}
                 label="Account Details"
                 type="text"
-                name="Details"
-                value={formik.values.Details}
+                name="accountDetails"
+                value={formik.values.accountDetails}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.Details && formik.errors.Details ? (
+              {formik.touched.accountDetails && formik.errors.accountDetails ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -162,7 +188,7 @@ const AddAccount: React.FunctionComponent = () => {
                     marginRight: '20rem',
                   }}
                 >
-                  {formik.errors.Details}
+                  {formik.errors.accountDetails}
                 </Typography>
               ) : null}
 
