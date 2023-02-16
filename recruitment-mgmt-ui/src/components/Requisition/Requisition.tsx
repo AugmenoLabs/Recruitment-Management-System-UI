@@ -119,25 +119,7 @@ const Requisition: React.FunctionComponent = () => {
               direction="column"
               style={{ marginLeft: '1rem', marginRight: '2rem' }}
             >
-              <TextField
-                margin="normal"
-                fullWidth
-                size="small"
-                label="Budget"
-                type="text"
-                name="budget"
-                value={formik.values.budget}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-              />
-              {formik.touched.budget && formik.errors.budget ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.budget}
-                </Typography>
-              ) : null}
+              
               <TextField
                 margin="normal"
                 size="small"
@@ -179,7 +161,7 @@ const Requisition: React.FunctionComponent = () => {
               <TextField
                 margin="normal"
                 fullWidth
-                label="Team Name"
+                label="Project"
                 type="text"
                 name="team"
                 size="small"
@@ -323,12 +305,33 @@ const Requisition: React.FunctionComponent = () => {
                   {formik.errors.vacancies}
                 </Typography>
               ) : null}
+
+<TextField
+                margin="normal"
+                fullWidth
+                size="small"
+                label="Budget"
+                type="text"
+                name="budget"
+                value={formik.values.budget}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+              />
+              {formik.touched.budget && formik.errors.budget ? (
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'red', textAlign: 'start' }}
+                >
+                  {formik.errors.budget}
+                </Typography>
+              ) : null}
+
               <TextField
                 margin="normal"
                 fullWidth
                 label="Job Decription"
                 multiline
-                rows={3}
+                rows={2}
                 placeholder="Job Description"
                 type="text"
                 name="jd"

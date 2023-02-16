@@ -25,12 +25,12 @@ const AssignRole: React.FunctionComponent = () => {
   
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Role name', minWidth: 100 },
-    { field: 'description', headerName: 'Description', minWidth: 100 },
+    { field: 'name', headerName: 'Role name', minWidth: 150 },
+    { field: 'description', headerName: 'Description', minWidth: 150 },
     {
       field: 'selected',
       headerName: 'Selected',
-      width: 20,
+      width: 150,
       renderCell: (params) => (
         <input
           type="checkbox"
@@ -136,18 +136,20 @@ const AssignRole: React.FunctionComponent = () => {
       >
         Assign
       </Button>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose} style={{width:'70%',justifyContent:'center'}}>
         <DialogContent>
         <Paper
             sx={{
-              width: '80%',
+              width: '100%',
               overflow: 'hidden',
               marginLeft: '0rem',
               marginTop: '1rem',
             }}
           >
-            <div style={{ height: 300, width: '100%' }}>
-              <DataGrid rows={rowdata} columns={columns} 
+            <div style={{ height: 300, width: '100%',marginRight:'2rem' }}>
+              <DataGrid
+               
+               rows={rowdata} columns={columns} 
               />
             </div>
           </Paper>
