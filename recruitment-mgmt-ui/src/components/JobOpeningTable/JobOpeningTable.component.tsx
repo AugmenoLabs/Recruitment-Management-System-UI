@@ -1,180 +1,251 @@
-import React, { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
+import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import { MenuItem } from '@mui/material';
+import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
+import axios from 'axios';
+import { AccountInterface } from '../../Interface/AccountInterface';
 
-interface JobOpeningData {
-  id: number;
-  position: string;
-  account: string;
-  team: string;
-  openposition: number;
-  totalcandidate: number;
-  experience: string;
-  skills: string;
-  status: string;
-  screening: number;
-  hired: number;
-  L1:number,
-  L2:number,
-  Managerial:number,
-  HR:number,
-}
 
-const data: JobOpeningData[] = [
-  {
-    id: 2301,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'XDR',
-    openposition: 2,
-    totalcandidate: 10,
-    experience: '3',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
 
-  {
-    id: 2302,
-    position: 'Backend Developer',
-    account: 'LG',
-    team: 'RMS',
-    openposition: 5,
-    totalcandidate: 0,
-    experience: '1',
-    skills: '.Net/C#',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2303,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'XDR',
-    openposition: 3,
-    totalcandidate: 5,
-    experience: '5',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2304,
-    position: 'Devops',
-    account: 'Flipkart',
-    team: 'TMS',
-    openposition: 2,
-    totalcandidate: 10,
-    experience: '3',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2305,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'Polaris',
-    openposition: 2,
-    totalcandidate: 7,
-    experience: '2',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2306,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'XDR',
-    openposition: 2,
-    totalcandidate: 10,
-    experience: '3',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2307,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'XDR',
-    openposition: 2,
-    totalcandidate: 8,
-    experience: '3',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-  {
-    id: 2308,
-    position: 'Frontend Developer',
-    account: 'Honeywell',
-    team: 'XDR',
-    openposition: 2,
-    totalcandidate: 10,
-    experience: '3',
-    skills: 'React/MUI/JS',
-    status: 'Hiring',
-    screening: 4,
-    hired: 0,
-    L1:2,
-    L2:1,
-    Managerial:0,
-    HR:0, 
-  },
-];
+// const data: JobOpeningData[] = [
+//   {
+//     id: 2301,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'XDR',
+//     openposition: 2,
+//     totalcandidate: 10,
+//     experience: '3',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+
+//   {
+//     id: 2302,
+//     position: 'Backend Developer',
+//     account: 'LG',
+//     team: 'RMS',
+//     openposition: 5,
+//     totalcandidate: 0,
+//     experience: '1',
+//     skills: '.Net/C#',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2303,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'XDR',
+//     openposition: 3,
+//     totalcandidate: 5,
+//     experience: '5',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2304,
+//     position: 'Devops',
+//     account: 'Flipkart',
+//     team: 'TMS',
+//     openposition: 2,
+//     totalcandidate: 10,
+//     experience: '3',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2305,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'Polaris',
+//     openposition: 2,
+//     totalcandidate: 7,
+//     experience: '2',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2306,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'XDR',
+//     openposition: 2,
+//     totalcandidate: 10,
+//     experience: '3',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2307,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'XDR',
+//     openposition: 2,
+//     totalcandidate: 8,
+//     experience: '3',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+//   {
+//     id: 2308,
+//     position: 'Frontend Developer',
+//     account: 'Honeywell',
+//     team: 'XDR',
+//     openposition: 2,
+//     totalcandidate: 10,
+//     experience: '3',
+//     skills: 'React/MUI/JS',
+//     status: 'Hiring',
+//     screening: 4,
+//     hired: 0,
+//     L1:2,
+//     L2:1,
+//     Managerial:0,
+//     HR:0, 
+//   },
+// ];
 
 const JobOpeningTable: React.FunctionComponent = () => {
   const history = useNavigate();
   const navigatetoapply = (): void => {
     history('/jobdescription');
   };
-
+  const [data, setData] = useState<JobOpeningInterface[]>([]);
+ 
+  const API_URL = 'http://localhost:5141/api/v1/OpenPosition';
+  // const [isDeleting, setIsDeleting] = useState(false);
+ 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData = async () => {
+      try {
+        const result = await axios.get<JobOpeningInterface[]>(API_URL);
+        setData(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log(data);
+  }, []);
   const navigatetojd = (): void => {
     history('/applyforjobs');
   };
+  const [validationErrors, setValidationErrors] = useState<{
+    [cellId: string]: string;
+  }>({});
+  const handleSaveRowEdits: MaterialReactTableProps<JobOpeningInterface>['onEditingRowSave'] =
+    async ({ exitEditingMode, row, values }) => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      if (!Object.keys(validationErrors).length) {
+    data[row.index]=values
+      
+        setData([...data]);
+        exitEditingMode(); 
+      }
+    };
 
-  const columns = useMemo<Array<MRT_ColumnDef<JobOpeningData>>>(
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleCancelRowEdits = () => {
+    setValidationErrors({});
+  };
+  const handleDeleteRow = useCallback(
+    (row: MRT_Row<JobOpeningInterface>) => {
+      if (
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
+      ) {
+        return;
+      }
+
+      data.splice(row.index, 1);
+      setData([...data]);
+    },
+    [data],
+  );
+  const getCommonEditTextFieldProps = useCallback(
+    (
+      cell: MRT_Cell<JobOpeningInterface>,
+    ): MRT_ColumnDef<JobOpeningInterface>['muiTableBodyCellEditTextFieldProps'] => {
+      return {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        error: !!validationErrors[cell.id],
+        helperText: validationErrors[cell.id],
+        onBlur: (event) => {
+          const isValid =
+            cell.column.id === 'accountName'
+              ? validateRequired(event.target.value)
+              :  validateRequired(event.target.value);
+          if (!isValid) {
+          
+            setValidationErrors({
+              ...validationErrors,
+              [cell.id]: `${cell.column.columnDef.header} is required`,
+            });
+          } else {
+         
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete validationErrors[cell.id];
+            setValidationErrors({
+              ...validationErrors,
+            });
+          }
+        },
+      };
+    },
+    [validationErrors],
+  );
+
+  
+  const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'jobId',
         header: 'JobID',
         // size:70,
         muiTableBodyCellProps: ({ cell }) => ({
@@ -188,9 +259,12 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'position',
-        header: 'Position',
+        accessorKey: 'jobTitle',
+        header: 'Job Title',
         // size:120,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
             console.info(event);
@@ -204,6 +278,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
       {
         accessorKey: 'account',
         header: 'Account',
+        
         // size:80,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
@@ -216,8 +291,8 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'team',
-        header: 'Team',
+        accessorKey: 'project',
+        header: 'Project',
         // size:60,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
@@ -230,8 +305,11 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'openposition',
+        accessorKey: 'noOfPositions',
         header: 'Open Position',
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
         // size:120,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
@@ -272,8 +350,11 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'experience',
+        accessorKey: 'yearOfExp',
         header: 'Experience',
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
         // size:100,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
@@ -286,8 +367,11 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'skills',
+        accessorKey: 'skillSet',
         header: 'Skills',
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
         // size:120,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: (event) => {
@@ -391,7 +475,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
         }),
       },
     ],
-    []
+    [getCommonEditTextFieldProps]
   );
 
   return (
@@ -435,8 +519,13 @@ const JobOpeningTable: React.FunctionComponent = () => {
 
       enableRowActions
       //   enableRowSelection
+      editingMode="modal" 
+       
+      
+      onEditingRowSave={handleSaveRowEdits}
+      onEditingRowCancel={handleCancelRowEdits}
 
-      renderRowActionMenuItems={({ closeMenu }) => [
+      renderRowActionMenuItems={({row,table ,closeMenu }) => [
         <MenuItem
           key={0}
           onClick={() => {
@@ -452,7 +541,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
           key={1}
           onClick={() => {
             // Send email logic...
-            closeMenu();
+            table.setEditingRow(row)
           }}
           sx={{ m: 0 }}
         >
@@ -462,7 +551,7 @@ const JobOpeningTable: React.FunctionComponent = () => {
           key={2}
           onClick={() => {
             // Send email logic...
-            closeMenu();
+            handleDeleteRow(row)
           }}
           sx={{ m: 0 }}
         >
@@ -492,5 +581,8 @@ const JobOpeningTable: React.FunctionComponent = () => {
     />
   );
 };
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions
+const validateRequired = (value: string) => !!value.length;
+
 
 export default JobOpeningTable;
