@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 
 import FeedbackDetails from './FeedbackDetails';
+import { CandidateInterface } from '../../Interfaces/CandidateInterface';
+import axios from 'axios';
 
 
 interface AllCandidateTableData {
@@ -18,79 +20,97 @@ interface AllCandidateTableData {
   Hired:string;
 }
 
-const data: AllCandidateTableData[] = [
-  {
-    name: 'Sneha Kothari',
-    vendor:'linkedin',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:3,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    status: 'Scheduled for L2',
-    Hired:'NA',
-  },
-  {
-    name: 'Anshu Wadhwani',
-    vendor:'linkedin',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:2,
-    position: 'Frontend',
-    account:'LG',
-    project:'XDR',
-    status: 'Pending',
-    Hired:'NA',
-  },
-  {
-    name: 'Sanjeev',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:3,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    status: 'Applied',
-    Hired:'NA',
-  },
-  {
-    name: 'Sneha Kothari',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:5,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    status: 'Applied',
-    Hired:'NA',
-  },
-  {
-    name: 'Anshu Wadhwani',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:5,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    status: 'Pending',
-    Hired:'NA',
-  },
-];
+// const data: AllCandidateTableData[] = [
+//   {
+//     name: 'Sneha Kothari',
+//     vendor:'linkedin',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:3,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     status: 'Scheduled for L2',
+//     Hired:'NA',
+//   },
+//   {
+//     name: 'Anshu Wadhwani',
+//     vendor:'linkedin',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:2,
+//     position: 'Frontend',
+//     account:'LG',
+//     project:'XDR',
+//     status: 'Pending',
+//     Hired:'NA',
+//   },
+//   {
+//     name: 'Sanjeev',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:3,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     status: 'Applied',
+//     Hired:'NA',
+//   },
+//   {
+//     name: 'Sneha Kothari',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:5,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     status: 'Applied',
+//     Hired:'NA',
+//   },
+//   {
+//     name: 'Anshu Wadhwani',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:5,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     status: 'Pending',
+//     Hired:'NA',
+//   },
+// ];
 
 const AppliedCandidateTable: React.FunctionComponent = () => {
-  const columns = useMemo<Array<MRT_ColumnDef<AllCandidateTableData>>>(
+  const [data, setData] = useState<CandidateInterface[]>([]);
+  const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData = async () => {
+      try {
+        const result = await axios.get<CandidateInterface[]>(API_URL);
+        setData(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }; 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log(data);
+  }, []);
+
+  const columns = useMemo<Array<MRT_ColumnDef<CandidateInterface>>>(
     () => [
       {
-        accessorKey: 'name',
+        accessorKey: 'candidateName',
         header: 'Candidate Name',
         // size:70,
       },
       {
-        accessorKey: 'mobile',
+        accessorKey: 'contactNumber',
         header: 'Contact No.',
         // size:120,
       },
@@ -100,7 +120,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'experience',
+        accessorKey: 'yearOfExperience',
         header: 'Experience',
         // size:80,
       },

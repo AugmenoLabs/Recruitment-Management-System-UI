@@ -1,4 +1,5 @@
 export interface AccountInterface {
+  "selectedAccountId":string;
   "accountId": string;
   "id":string;
   "accountName": string;
