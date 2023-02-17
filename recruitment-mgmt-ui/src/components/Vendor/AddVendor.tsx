@@ -4,23 +4,24 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
 import axios from 'axios';
+import { VendorInterface } from '../../Interface/VendorInterface';
 
-interface AddAccountInterface{
-  id:string;
-  accountId: string;
-    accountName: string;
-    accountDetails: string;
-    accountManager: string;
-}
-const AddAccount: React.FunctionComponent = () => {
-  const API_URL="http://localhost:5141/api/v1/Account";
+// interface AddAccountInterface{
+//   id:string;
+//   accountId: string;
+//     accountName: string;
+//     accountDetails: string;
+//     accountManager: string;
+// }
+const AddVendor: React.FunctionComponent = () => {
+  const API_URL="http://localhost:5141/api/v1/Vendor";
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const initialValues:AddAccountInterface={
-    id:'',
-    accountId: '',
-    accountName: '',
-    accountManager: '',
-    accountDetails: '',
+  const initialValues:VendorInterface={
+    vendorId:'',
+    vendorName: '',
+    spocName: '',
+    spocContactNumber: 0,
+    spocEmail: '',
   }
   const formik = useFormik({
     initialValues ,
@@ -40,18 +41,11 @@ const AddAccount: React.FunctionComponent = () => {
     validate: (values) => {
       const errors: any = {};
 
-      if (values.accountId.length === 0) {
-        errors.accountId = 'Please enter ID';
+     
+      if (values.vendorName.length === 0) {
+        errors.vendorName = 'Please enter vendor name';
       }
-      if (values.accountName.length === 0) {
-        errors.accountName = 'Please enter name';
-      }
-      if (values.accountManager.length === 0) {
-        errors.accountManager = 'Please enter manager name';
-      }
-      if (values.accountDetails.length === 0) {
-        errors.accountDetails = 'Please enter details';
-      }
+     
 
       return errors;
     },
@@ -73,7 +67,7 @@ const AddAccount: React.FunctionComponent = () => {
         variant="h5"
         style={{ fontWeight: 600, marginTop: '2%' }}
       >
-        Add Account
+        Add Vendor
       </Typography>
 
       <Grid container justifyContent="center" alignItems="center">
@@ -101,15 +95,15 @@ const AddAccount: React.FunctionComponent = () => {
               <TextField
                 margin="normal"
                 size="small"
-                label="Account ID"
+                label="Vendor Name"
                 type="text"
-                name="accountId"
+                name="vendorName"
                 style={{ width: '40%' }}
-                value={formik.values.accountId}
+                value={formik.values.vendorName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.accountId && formik.errors.accountId ? (
+              {formik.touched.vendorName && formik.errors.vendorName ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -118,84 +112,49 @@ const AddAccount: React.FunctionComponent = () => {
                     marginRight: '22rem',
                   }}
                 >
-                  {formik.errors.accountId}
+                  {formik.errors.vendorName}
                 </Typography>
               ) : null}
               <TextField
                 margin="normal"
                 style={{ width: '40%' }}
                 size="small"
-                label="Account Name"
+                label="Spoc Name"
                 type="text"
-                name="accountName"
-                value={formik.values.accountName}
+                name="spocName"
+                value={formik.values.spocName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.accountName && formik.errors.accountName ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '20rem',
-                  }}
-                >
-                  {formik.errors.accountName}
-                </Typography>
-              ) : null}
+             
               <TextField
                 margin="normal"
                 style={{ width: '40%' }}
-                label="Account Manager"
+                label="spoc Contact"
                 size="small"
                 type="text"
-                name="accountManager"
-                value={formik.values.accountManager}
+                name="spocContactNumber"
+                value={formik.values.spocContactNumber}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.accountManager && formik.errors.accountManager ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '17rem',
-                  }}
-                >
-                  {formik.errors.accountManager}
-                </Typography>
-              ) : null}
+             
               <TextField
                 id="outlined-textarea"
                 margin="normal"
-                multiline
-                rows={3}
                 size="small"
                 style={{ width: '40%' }}
-                label="Account Details"
-                type="text"
-                name="accountDetails"
-                value={formik.values.accountDetails}
+                label="spoc Email"
+                type="email"
+                name="spocEmail"
+                value={formik.values.spocEmail}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.accountDetails && formik.errors.accountDetails ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '20rem',
-                  }}
-                >
-                  {formik.errors.accountDetails}
-                </Typography>
-              ) : null}
+             
 
               <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Create Account
+                Submit
               </Button>
             </Grid>
           </form>
@@ -205,4 +164,4 @@ const AddAccount: React.FunctionComponent = () => {
   );
 };
 
-export default AddAccount;
+export default AddVendor;

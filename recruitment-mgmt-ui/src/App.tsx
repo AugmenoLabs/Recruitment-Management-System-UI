@@ -27,6 +27,8 @@ import FinalJD from './components/Applied Candidates/FinalJD';
 import InterviewDetailTable from './components/InterviewDetailTable/InterviewDetails';
 import AddRole from './components/UserManagement/AddRole';
 import AddUser from './components/UserManagement/AddUser';
+import AddVendor from './components/Vendor/AddVendor';
+import VendorTable from './components/Vendor/VendorTable';
 
 interface IProps {
   IsSidebarOpen: boolean;
@@ -82,6 +84,8 @@ const App: React.FunctionComponent = () => {
             <Route path="/UserDetails" element={<ManagementPage />} />
             <Route path="/AddUser" element={<AddUser/>} />
             <Route path="/AddRole" element={<AddRole/>} />
+            <Route path="/VendorDetails" element={<VendorTable/>} />
+            <Route path="/AddVendor" element={<AddVendor/>} />
             <Route path="/RoleMapping/:id" element={<RoleMapping/>} />
           </Routes>
         </AppBox>

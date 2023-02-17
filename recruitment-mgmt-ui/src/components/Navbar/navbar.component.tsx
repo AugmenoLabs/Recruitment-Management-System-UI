@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import HailIcon from '@mui/icons-material/Hail';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -152,7 +153,7 @@ const NavBar: React.FunctionComponent = () => {
     { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
     { title: 'InterviewDetails', path: '/interviewdetailview', icon: <CalendarViewMonthIcon/> },
     { title: 'UserManage', path: '/UserDetails', icon: <ManageAccountsIcon/> },
-    
+    { title: 'Vendor', path: '/VendorDetails', icon: <HailIcon/> },
   ];
   const renderMobileMenu = (
     <Menu

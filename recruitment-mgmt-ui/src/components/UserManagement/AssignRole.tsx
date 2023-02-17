@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { getToken } from '../../API/GetToken';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef ,GridPaginationProps} from '@mui/x-data-grid';
 
 const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
@@ -126,7 +126,7 @@ const AssignRole: React.FunctionComponent = () => {
       console.error(error);
     }
   }
-
+  const paginationProps: GridPaginationProps = { pagination: false };
   return (
     <div>
       <Button
@@ -148,7 +148,7 @@ const AssignRole: React.FunctionComponent = () => {
           >
             <div style={{ height: 300, width: '100%',marginRight:'2rem' }}>
               <DataGrid
-               
+               pagination={paginationProps}
                rows={rowdata} columns={columns} 
               />
             </div>

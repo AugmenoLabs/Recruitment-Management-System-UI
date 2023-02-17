@@ -41,12 +41,14 @@ const AddProject: React.FunctionComponent = () => {
   // const [accountsValue, setaccountsValue] = useState<any>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   // const [names, setNames] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedName, setSelectedName] = useState<string>("");
   const initialValues:AddProjectInterface={
-    projectName:'',
-    projectDetails:'',
-    projectManager:'',
+    projectName: '',
+    projectDetails: '',
+    projectManager: '',
     selectedAccountId: "",
+    accountId: ''
   }
   const formik = useFormik({
     initialValues,
@@ -182,8 +184,9 @@ useEffect(() => {
     labelId="name-label"
     value={formik.values.selectedAccountId}
       // update the selectedAccountId field in the values object
-      onChange={(event) =>
-        formik.setFieldValue("selectedAccountId", event.target.value)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onChange={async (event) =>
+        await formik.setFieldValue("selectedAccountId", event.target.value)
       }
   >
     {data.map((data) => (
