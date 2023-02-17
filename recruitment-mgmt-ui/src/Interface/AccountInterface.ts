@@ -1,3 +1,5 @@
+// import { ProjectInterface } from "./ProjectInterface";
+
 export interface AccountInterface {
   "selectedAccountId":string;
   "accountId": string;
