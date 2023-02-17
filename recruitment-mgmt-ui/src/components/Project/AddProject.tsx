@@ -17,6 +17,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
+import { ProjectInterface } from '../../Interface/ProjectInterface';
 // import { useEffect } from 'preact/hooks';
 
 // const Accounts = ['Honeywell', 'LG', 'Symphony'];
@@ -28,14 +29,14 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 //   value.setFieldValue('skills', value);
 // };
 
-interface AddProjectInterface{
-  // projectId:string;
-  accountId:string;
-  projectName:string;
-  projectDetails:string;
-  projectManager:string;
-  selectedAccountId: string;
-}
+// interface AddProjectInterface{
+//   // projectId:string;
+//   accountId:string;
+//   projectName:string;
+//   projectDetails:string;
+//   projectManager:string;
+//   selectedAccountId: string;
+// }
 const AddProject: React.FunctionComponent = () => {
   const API_URL="http://localhost:5141/api/v1/Project";
   // const [accountsValue, setaccountsValue] = useState<any>([]);
@@ -43,10 +44,11 @@ const AddProject: React.FunctionComponent = () => {
   // const [names, setNames] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedName, setSelectedName] = useState<string>("");
-  const initialValues:AddProjectInterface={
+  const initialValues:ProjectInterface={
     projectName: '',
     projectDetails: '',
     projectManager: '',
+    projectId:'',
     selectedAccountId: "",
     accountId: ''
   }

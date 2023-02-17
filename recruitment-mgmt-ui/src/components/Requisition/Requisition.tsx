@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
+// import { useFormik } from 'formik';
 import './Requisition.css';
 // import { toast } from "react-toastify";
 import {
@@ -25,66 +25,66 @@ const handleRemoveSkills: any = (value: any) => {
 const Requisition: React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
-  const formik = useFormik({
-    initialValues: {
-      budget: '',
-      position: '',
-      account: '',
-      team: '',
-      location: '',
-      experience: '',
-      qualification: '',
-      vacancies: '',
-      jd: '',
-      projectdetails: '',
-      skills: '',
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    validate: (values) => {
-      const errors: any = {};
+  // const formik = useFormik({
+  //   initialValues: {
+  //     budget: '',
+  //     position: '',
+  //     account: '',
+  //     team: '',
+  //     location: '',
+  //     experience: '',
+  //     qualification: '',
+  //     vacancies: '',
+  //     jd: '',
+  //     projectdetails: '',
+  //     skills: '',
+  //   },
+  //   onSubmit: (values) => {
+  //     console.log(values);
+  //   },
+  //   validate: (values) => {
+  //     const errors: any = {};
 
-      if (values.budget.length === 0) {
-        errors.budget = 'Please enter budget';
-      }
-      if (values.position.length === 0) {
-        errors.position = 'Please enter position';
-      }
-      if (values.account.length === 0) {
-        errors.account = 'Please enter account name';
-      }
-      if (values.team.length === 0) {
-        errors.team = 'Please enter team name';
-      }
-      if (values.location.length === 0) {
-        errors.location = 'Please enter the location';
-      }
-      if (values.experience.length === 0) {
-        errors.experience = 'Please enter the length';
-      }
-      if (values.qualification.length === 0) {
-        errors.qualification = 'Please enter the qualification';
-      }
+  //     if (values.budget.length === 0) {
+  //       errors.budget = 'Please enter budget';
+  //     }
+  //     if (values.position.length === 0) {
+  //       errors.position = 'Please enter position';
+  //     }
+  //     if (values.account.length === 0) {
+  //       errors.account = 'Please enter account name';
+  //     }
+  //     if (values.team.length === 0) {
+  //       errors.team = 'Please enter team name';
+  //     }
+  //     if (values.location.length === 0) {
+  //       errors.location = 'Please enter the location';
+  //     }
+  //     if (values.experience.length === 0) {
+  //       errors.experience = 'Please enter the length';
+  //     }
+  //     if (values.qualification.length === 0) {
+  //       errors.qualification = 'Please enter the qualification';
+  //     }
 
-      if (values.vacancies.length === 0) {
-        errors.vacancies = 'Please enter the no. of vacancies';
-      }
+  //     if (values.vacancies.length === 0) {
+  //       errors.vacancies = 'Please enter the no. of vacancies';
+  //     }
 
-      if (values.skills.length === 0) {
-        errors.skills = 'Please enter the skills';
-      }
-      if (values.jd.length === 0) {
-        errors.jd = 'Please enter the job description';
-      }
+  //     if (values.skills.length === 0) {
+  //       errors.skills = 'Please enter the skills';
+  //     }
+  //     if (values.jd.length === 0) {
+  //       errors.jd = 'Please enter the job description';
+  //     }
 
-      if (values.projectdetails.length === 0) {
-        errors.projectdetails = 'Please enter the projectdetails';
-      }
+  //     if (values.projectdetails.length === 0) {
+  //       errors.projectdetails = 'Please enter the projectdetails';
+  //     }
 
-      return errors;
-    },
-  });
+  //     return errors;
+  //   },
+  // });
 
   return (
     <Box
@@ -111,7 +111,7 @@ const Requisition: React.FunctionComponent = () => {
           backgroundColor: 'lavender',
         }}
       >
-        <form onSubmit={formik.handleSubmit}>
+        {/* <form onSubmit={formik.handleSubmit}> */}
           <Grid container spacing={5}>
             <Grid
               item
@@ -127,18 +127,9 @@ const Requisition: React.FunctionComponent = () => {
                 label="Job Title"
                 type="text"
                 name="position"
-                value={formik.values.position}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+             
               />
-              {formik.touched.position && formik.errors.position ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.position}
-                </Typography>
-              ) : null}
+             
               <TextField
                 margin="normal"
                 fullWidth
@@ -146,18 +137,18 @@ const Requisition: React.FunctionComponent = () => {
                 type="text"
                 name="account"
                 size="small"
-                value={formik.values.account}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                // value={formik.values.account}
+                // onBlur={formik.handleBlur}
+                // onChange={formik.handleChange}
               />
-              {formik.touched.account && formik.errors.account ? (
+              {/* {formik.touched.account && formik.errors.account ? (
                 <Typography
                   variant="body2"
                   sx={{ color: 'red', textAlign: 'start' }}
                 >
                   {formik.errors.account}
                 </Typography>
-              ) : null}
+              ) : null} */}
               <TextField
                 margin="normal"
                 fullWidth
@@ -165,18 +156,16 @@ const Requisition: React.FunctionComponent = () => {
                 type="text"
                 name="team"
                 size="small"
-                value={formik.values.team}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+              
               />
-              {formik.touched.team && formik.errors.team ? (
+              {/* {formik.touched.team && formik.errors.team ? (
                 <Typography
                   variant="body2"
                   sx={{ color: 'red', textAlign: 'start' }}
                 >
                   {formik.errors.team}
                 </Typography>
-              ) : null}
+              ) : null} */}
               <TextField
                 margin="normal"
                 fullWidth
@@ -184,18 +173,10 @@ const Requisition: React.FunctionComponent = () => {
                 type="text"
                 name="location"
                 size="small"
-                value={formik.values.location}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+              
               />
-              {formik.touched.location && formik.errors.location ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.location}
-                </Typography>
-              ) : null}
+             
+            
               <Autocomplete
                 multiple
                 size="small"
@@ -229,14 +210,7 @@ const Requisition: React.FunctionComponent = () => {
                   />
                 )}
               />
-              {formik.touched.skills && formik.errors.skills ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.skills}
-                </Typography>
-              ) : null}
+              
               {/* <TextField
             margin="normal"
             fullWidth
@@ -253,38 +227,20 @@ const Requisition: React.FunctionComponent = () => {
                 label="Experience"
                 type="text"
                 name="experience"
-                value={formik.values.experience}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+               
                 size="small"
               />
-              {formik.touched.experience && formik.errors.experience ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.experience}
-                </Typography>
-              ) : null}
+              
               <TextField
                 margin="normal"
                 fullWidth
                 label="Qualification"
                 name="qualification"
                 type="text"
-                value={formik.values.qualification}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+               
                 size="small"
               />
-              {formik.touched.qualification && formik.errors.qualification ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.qualification}
-                </Typography>
-              ) : null}
+              
 
               <TextField
                 margin="normal"
@@ -293,18 +249,9 @@ const Requisition: React.FunctionComponent = () => {
                 type="text"
                 size="small"
                 name="vacancies"
-                value={formik.values.vacancies}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+              
               />
-              {formik.touched.vacancies && formik.errors.vacancies ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.vacancies}
-                </Typography>
-              ) : null}
+             
 
 <TextField
                 margin="normal"
@@ -313,18 +260,9 @@ const Requisition: React.FunctionComponent = () => {
                 label="Budget"
                 type="text"
                 name="budget"
-                value={formik.values.budget}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                
               />
-              {formik.touched.budget && formik.errors.budget ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.budget}
-                </Typography>
-              ) : null}
+              
 
               <TextField
                 margin="normal"
@@ -335,18 +273,9 @@ const Requisition: React.FunctionComponent = () => {
                 placeholder="Job Description"
                 type="text"
                 name="jd"
-                value={formik.values.jd}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+               
               />
-              {formik.touched.jd && formik.errors.jd ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.jd}
-                </Typography>
-              ) : null}
+              
               {/* <TextField
                 margin="normal"
                 fullWidth
@@ -391,7 +320,7 @@ const Requisition: React.FunctionComponent = () => {
           >
             Cancel
           </Button> */}
-        </form>
+        {/* </form> */}
       </Card>
     </Box>
   );
