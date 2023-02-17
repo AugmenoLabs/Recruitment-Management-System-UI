@@ -3,22 +3,22 @@ import { Box,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 
 import FeedbackDetails from './FeedbackDetails';
-import { CandidateInterface } from '../../Interfaces/CandidateInterface';
+import {CandidateInterface} from '../../Interface/CandidateInterface'
 import axios from 'axios';
 
 
-interface AllCandidateTableData {
-  name: string;
-  vendor:string,
-  mobile: string;
-  email: string;
-  experience:number;
-  position: string;
-  account:string,
-  project:string,
-  status: string;
-  Hired:string;
-}
+// interface AllCandidateTableData {
+//   name: string;
+//   vendor:string,
+//   mobile: string;
+//   email: string;
+//   experience:number;
+//   position: string;
+//   account:string,
+//   project:string,
+//   status: string;
+//   Hired:string;
+// }
 
 // const data: AllCandidateTableData[] = [
 //   {
