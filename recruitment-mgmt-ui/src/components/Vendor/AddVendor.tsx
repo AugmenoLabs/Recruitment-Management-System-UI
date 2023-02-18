@@ -130,7 +130,7 @@ const AddVendor: React.FunctionComponent = () => {
               <TextField
                 margin="normal"
                 style={{ width: '40%' }}
-                label="spoc Contact"
+                label="SPOC Contact"
                 size="small"
                 type="text"
                 name="spocContactNumber"
@@ -144,7 +144,7 @@ const AddVendor: React.FunctionComponent = () => {
                 margin="normal"
                 size="small"
                 style={{ width: '40%' }}
-                label="spoc Email"
+                label="SPOC Email"
                 type="email"
                 name="spocEmail"
                 value={formik.values.spocEmail}
