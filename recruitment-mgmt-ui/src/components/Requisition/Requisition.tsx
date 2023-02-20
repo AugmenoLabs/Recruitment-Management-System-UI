@@ -54,7 +54,14 @@ const Requisition: React.FunctionComponent = () => {
     console.log(data)
   },[])
   
- 
+  useEffect(() => {
+    // Filter the projects based on the selected account ID and update the state
+    const filteredProjects = data.find(
+      (account) => account.id === selectedAccountId
+    )?.projects;
+    setProjects(filteredProjects ?? []);
+  }, [selectedAccountId, data]);
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchProjects = async () => {

@@ -14,6 +14,10 @@ import {
   Grid,
   FormControl,
   SelectChangeEvent,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from '@mui/material';
 import uploadImg from '../../image/cloud-upload-regular-240 (1).png';
 import { useDropzone } from 'react-dropzone';
@@ -29,14 +33,14 @@ const CandidateApply: React.FunctionComponent = () => {
     setnoticePeriod(event.target.value);
   };
 
-  const [jobType, setjobType] = useState('');
-  const handleChange: any = (event: SelectChangeEvent) => {
-    setjobType(event.target.value);
-  };
-  const [offer, setoffer] = useState('');
-  const handleChangeOffer: any = (event: SelectChangeEvent) => {
-    setoffer(event.target.value);
-  };
+  // const [jobType, setjobType] = useState('');
+  // const handleChange: any = (event: SelectChangeEvent) => {
+  //   setjobType(event.target.value);
+  // };
+  // const [offer, setoffer] = useState('');
+  // const handleChangeOffer: any = (event: SelectChangeEvent) => {
+  //   setoffer(event.target.value);
+  // };
 
   const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
 
@@ -212,7 +216,7 @@ Frontend Developer-#2301
               <TextField
                 margin="normal"
                 fullWidth
-                label="Team Name"
+                label="Project"
                 type="text"
                 name="vendor"
                 size="small"
@@ -291,19 +295,19 @@ Frontend Developer-#2301
           /> */}
             </Grid>
             <Grid item xs={5.5} direction="column">
-            <FormControl style={{ width: '100%', marginTop: '1rem' }} size="small">
-          <InputLabel id="demo-simple-select-label">Employment Type</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={jobType}
-            label="Employment Type"
-            onChange={handleChange}
-          >
-            <MenuItem value="yes">Full Time</MenuItem>
-            <MenuItem value="no">Contracter</MenuItem>
-          </Select>
-        </FormControl>
+            <FormControl style={{marginTop:'1rem'}}>
+      <FormLabel id="demo-row-radio-buttons-group-label">Employment Type</FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="ft" control={<Radio />} label="Full Time" />
+        <FormControlLabel value="contracter" control={<Radio />} label="Contracter" />
+        <FormControlLabel value="other" control={<Radio />} label="Other" />
+        
+      </RadioGroup>
+    </FormControl>
               <TextField
                 margin="normal"
                 fullWidth
@@ -344,17 +348,31 @@ Frontend Developer-#2301
               ) : null}
 
             
-             <FormControl style={{ width: '100%' ,marginTop:'0.6rem'}} size="small">
-          <InputLabel id="demo-simple-select-label">Has Any Offer</InputLabel>
+<FormControl style={{marginTop:'1rem'}}>
+      <FormLabel id="demo-row-radio-buttons-group-label">Has ANy Offer?</FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+        <FormControlLabel value="no" control={<Radio />} label="No" />
+
+      </RadioGroup>
+    </FormControl>
+    <FormControl   style={{ width: '100%', marginTop: '1rem' }} size="small">
+          <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
           <Select
+          
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={offer}
-            label="Has Any Offer"
-            onChange={handleChangeOffer}
+            value={noticePeriod}
+            label="Notice Period"
+            onChange={handleChangeNotice}
           >
-            <MenuItem value="yes">Yes</MenuItem>
-            <MenuItem value="no">No</MenuItem>
+            <MenuItem value="immediate">Linkedin</MenuItem>
+            <MenuItem value="np">Naukari</MenuItem>
+            
           </Select>
         </FormControl>
           
