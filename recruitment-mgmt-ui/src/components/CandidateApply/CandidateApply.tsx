@@ -17,21 +17,25 @@ import {
 } from '@mui/material';
 import uploadImg from '../../image/cloud-upload-regular-240 (1).png';
 import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
+import { CandidateInterface } from '../../Interface/CandidateInterface';
 
 
 
 
 const CandidateApply: React.FunctionComponent = () => {
- 
+  const API_URL="http://localhost:5141/api/v1/CandidateProfile";
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   const [noticePeriod, setnoticePeriod] = React.useState('');
   const handleChangeNotice: any = (event: SelectChangeEvent) => {
     setnoticePeriod(event.target.value);
   };
 
-  const [jobType, setjobType] = useState('');
+  const [jobType, setjobType] = useState<string>("");
   const handleChange: any = (event: SelectChangeEvent) => {
-    setjobType(event.target.value);
+    const selectedJobtype = event.target.value;
+    setjobType(selectedJobtype);
+    formik.setFieldValue('employment',selectedJobtype);
   };
   const [offer, setoffer] = useState('');
   const handleChangeOffer: any = (event: SelectChangeEvent) => {
@@ -39,50 +43,89 @@ const CandidateApply: React.FunctionComponent = () => {
   };
 
   const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
+  
+  function fileToBase64(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const binaryStr = reader.result as string;
+        const base64Str = btoa(binaryStr);
+        resolve(base64Str);
+      };
+      reader.onerror = () => {
+        reject(reader.error);
+      };
+      reader.readAsBinaryString(file);
+    });
+  }
 
   const onDrop = useCallback(
     (acceptedFiles: any) => {
-      setSelectedFiles([...selectedFiles, ...acceptedFiles]);
-    },
-    [setSelectedFiles, selectedFiles]
+      // Get the first accepted file
+      const file = acceptedFiles[0];
+      // Set the fileName and fileExt fields in the formik form
+      formik.setFieldValue("fileName", file.name);
+      formik.setFieldValue("fileExt", file.name.split(".").pop());
+      // Convert the file to a byte array
+      fileToBase64(file)
+        .then((base64Str) => {
+          // Set the resume field in the formik form to the base64-encoded string
+          formik.setFieldValue("resume", base64Str);
+          console.log("arr",base64Str);
+        })
+        .catch((error) => {
+          console.log("err",error);
+        });
+    },[selectedFiles,setSelectedFiles]
   );
-
+  
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      contact: '',
+  const initialValues:CandidateInterface={
+    candidateName: '',
+    contactNumber: 0,
       email: '',
       vendor:'',
-      experience:'',
+      yearOfExperience:'',
       employment:'',
       noticeperiod:'',
-      currentctc:'',
-      expectedctc:'',
+      fileName:'',
+      fileExt:'',
+      resume:'',
+      expectedctc:0,
+      hasoffer:false
 
-    },
+    }
+  const formik = useFormik({
+    initialValues,
     onSubmit: (values) => {
+      axios.post(API_URL, values)
+      .then((response) => {
+      
+      
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       console.log(values);
+      
     },
     validate: (values) => {
       const errors: any = {};
 
-      if (values.name.length === 0) {
+      if (values.candidateName.length === 0) {
         errors.name = 'Please enter name';
       }
-      if (values.contact.length === 0) {
-        errors.contact = 'Please enter contact no.';
-      }
+      
       if (values.email.length === 0 ) {
         errors.email = 'Please enter your email';
       }else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(values.email)) {
         errors.email = "Invalid email";
       }
-      if (values.vendor.length === 0) {
-        errors.vendor = 'Please enter vendor details';
-      }
-      if (values.experience.length === 0) {
+       if (values.vendor.length === 0) {
+         errors.vendor = 'Please enter vendor details';
+       }
+      if (values.yearOfExperience.length === 0) {
         errors.experience = 'Please enter your experience';
       }
       // if (values.employment.length === 0) {
@@ -91,12 +134,12 @@ const CandidateApply: React.FunctionComponent = () => {
       // if (values.noticeperiod.length === 0) {
       //   errors.noticeperiod = 'Please select notice period';
       // }
-      if (values.currentctc.length === 0) {
-        errors.currentctc = 'Please enter your current ctc';
-      }
-      if (values.expectedctc.length === 0) {
-        errors.expectedctc = 'Please enter your expected ctc';
-      }
+      // if (values.currentctc.length === 0) {
+      //   errors.currentctc = 'Please enter your current ctc';
+      // }
+      // if (values.expectedctc.length === 0) {
+      //   errors.expectedctc = 'Please enter your expected ctc';
+      // }
       return errors;
     },
   });
@@ -147,11 +190,11 @@ Frontend Developer-#2301
                 size="small"
                 label="Name"
                 type="text"
-                name="name"
-                value={formik.values.name}
+                name="candidateName"
+                value={formik.values.candidateName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-          /> {formik.touched.name && formik.errors.name ? (
+          /> {formik.touched.candidateName && formik.errors.candidateName ? (
             <Typography
               variant="body2"
               sx={{
@@ -160,7 +203,7 @@ Frontend Developer-#2301
               
               }}
             >
-              {formik.errors.name}
+              {formik.errors.candidateName}
                 </Typography>
               ) : null}
               <TextField
@@ -169,12 +212,12 @@ Frontend Developer-#2301
                 fullWidth
                 label="Contact"
                 type="text"
-                name="contact"
-                value={formik.values.contact}
+                name="contactNumber"
+                value={formik.values.contactNumber}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.contact && formik.errors.contact ? (
+              {formik.touched.contactNumber && formik.errors.contactNumber ? (
                 <Typography
                   variant="body2"
                   sx={{
@@ -183,7 +226,7 @@ Frontend Developer-#2301
                  
                   }}
                 >
-                  {formik.errors.contact}
+                  {formik.errors.contactNumber}
                 </Typography>
               ) : null}
               <TextField
@@ -212,7 +255,7 @@ Frontend Developer-#2301
               <TextField
                 margin="normal"
                 fullWidth
-                label="Team Name"
+                label="Vendor"
                 type="text"
                 name="vendor"
                 size="small"
@@ -221,7 +264,7 @@ Frontend Developer-#2301
             onChange={formik.handleChange}
            
           />
-      {formik.touched.vendor && formik.errors.vendor ? (
+      {formik.touched.project && formik.errors.project ? (
             <Typography
               variant="body2"
               sx={{
@@ -229,7 +272,7 @@ Frontend Developer-#2301
                 textAlign: 'start',
               }}
             >
-              {formik.errors.vendor}
+              {formik.errors.project}
             </Typography>
           ) : null}
               <TextField
@@ -237,18 +280,18 @@ Frontend Developer-#2301
                 fullWidth
                 label="Experience"
                 type="text"
-                name="experience"
+                name="yearOfExperience"
                 size="small"
-                value={formik.values.experience}
+                value={formik.values.yearOfExperience}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.touched.experience && formik.errors.experience ? (
+              {formik.touched.yearOfExperience && formik.errors.yearOfExperience ? (
                 <Typography
                   variant="body2"
                   sx={{ color: 'red', textAlign: 'start' }}
                 >
-                  {formik.errors.experience}
+                  {formik.errors.yearOfExperience}
                 </Typography>
               ) : null}
               <FormControl   style={{ width: '100%', marginTop: '1rem' }} size="small">
@@ -359,7 +402,8 @@ Frontend Developer-#2301
         </FormControl>
           
          <Box {...getRootProps()} >
-          <input {...getInputProps()} />
+          <input {...getInputProps()} 
+          />
           {isDragActive ? (
             <Typography variant="body1" textAlign="left">
               Drop the files here ...
