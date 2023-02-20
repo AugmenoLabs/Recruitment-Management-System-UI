@@ -123,6 +123,15 @@ const JobDescription: React.FunctionComponent = () => {
                   >
                     Hired:1
                   </Typography>
+                  <Typography
+                    style={{
+                      marginLeft: '3rem',
+                      color: 'gray',
+                      fontSize: '13px',
+                    }}
+                  >
+                  Budget:10L-12L 
+                  </Typography>
                 </Box>
               </Box>
               <Box
