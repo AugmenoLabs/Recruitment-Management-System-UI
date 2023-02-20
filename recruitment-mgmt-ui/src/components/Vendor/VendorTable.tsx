@@ -131,7 +131,7 @@ const VendorTable: React.FunctionComponent = () => {
       
       {
         accessorKey: 'vendorName',
-        header: 'vendor Name',
+        header: 'Vendor Name',
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -139,7 +139,7 @@ const VendorTable: React.FunctionComponent = () => {
       },
       {
         accessorKey: 'spocName',
-        header: 'Spoc Name',
+        header: 'SPOC Name',
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -147,7 +147,7 @@ const VendorTable: React.FunctionComponent = () => {
       },
       {
         accessorKey: 'spocContactNumber',
-        header: 'spoc Contact',
+        header: 'Contact',
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -155,7 +155,7 @@ const VendorTable: React.FunctionComponent = () => {
       },
       {
         accessorKey: 'spocEmail',
-        header: 'spoc Email',
+        header: 'Email',
         size: 100,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
