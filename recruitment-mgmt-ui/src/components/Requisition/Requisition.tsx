@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useFormik } from 'formik';
 import './Requisition.css';
 // import { toast } from "react-toastify";
@@ -11,7 +11,14 @@ import {
   Autocomplete,
   Card,
   Grid,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material';
+import axios from 'axios';
+import { AccountInterface } from '../../Interface/AccountInterface';
+import { ProjectInterface } from '../../Interface/ProjectInterface';
 
 const skills = ['react', 'java', 'dotnet'];
 // const NotRequired = [""];
@@ -24,67 +31,47 @@ const handleRemoveSkills: any = (value: any) => {
 };
 const Requisition: React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
-  // const formik = useFormik({
-  //   initialValues: {
-  //     budget: '',
-  //     position: '',
-  //     account: '',
-  //     team: '',
-  //     location: '',
-  //     experience: '',
-  //     qualification: '',
-  //     vacancies: '',
-  //     jd: '',
-  //     projectdetails: '',
-  //     skills: '',
-  //   },
-  //   onSubmit: (values) => {
-  //     console.log(values);
-  //   },
-  //   validate: (values) => {
-  //     const errors: any = {};
 
-  //     if (values.budget.length === 0) {
-  //       errors.budget = 'Please enter budget';
-  //     }
-  //     if (values.position.length === 0) {
-  //       errors.position = 'Please enter position';
-  //     }
-  //     if (values.account.length === 0) {
-  //       errors.account = 'Please enter account name';
-  //     }
-  //     if (values.team.length === 0) {
-  //       errors.team = 'Please enter team name';
-  //     }
-  //     if (values.location.length === 0) {
-  //       errors.location = 'Please enter the location';
-  //     }
-  //     if (values.experience.length === 0) {
-  //       errors.experience = 'Please enter the length';
-  //     }
-  //     if (values.qualification.length === 0) {
-  //       errors.qualification = 'Please enter the qualification';
-  //     }
+  const [data, setData] = useState<AccountInterface[]>([]);
+  const [selectedAccountId, setSelectedAccountId] = useState<string>('');
+  const [projects, setProjects] = useState<ProjectInterface[]>([]);
+  const [selectedProject, setSelectedProject] = useState<string>('');
 
-  //     if (values.vacancies.length === 0) {
-  //       errors.vacancies = 'Please enter the no. of vacancies';
-  //     }
+  useEffect(()=>{
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData=async()=>{
+      try {
+        const result = await axios.get<AccountInterface[]>('http://localhost:5141/api/v1/Account');
+        setData(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log('selectedAccountId:', selectedAccountId);
 
-  //     if (values.skills.length === 0) {
-  //       errors.skills = 'Please enter the skills';
-  //     }
-  //     if (values.jd.length === 0) {
-  //       errors.jd = 'Please enter the job description';
-  //     }
-
-  //     if (values.projectdetails.length === 0) {
-  //       errors.projectdetails = 'Please enter the projectdetails';
-  //     }
-
-  //     return errors;
-  //   },
-  // });
+    console.log(data)
+  },[])
+  
+ 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchProjects = async () => {
+      if (selectedAccountId) {
+        try{
+        const response = await axios.get<ProjectInterface[]>(`http://localhost:5141/api/v1/Account/${selectedAccountId}`);
+        setProjects(response.data);
+      }catch(error){
+        console.error(error);
+      }
+      }
+      
+    };
+// console.log("selectedprojects",projects);
+     // eslint-disable-next-line @typescript-eslint/no-floating-promises
+     fetchProjects();
+  }, [selectedAccountId]);
 
   return (
     <Box
@@ -129,43 +116,51 @@ const Requisition: React.FunctionComponent = () => {
                 name="position"
              
               />
-             
-              <TextField
-                margin="normal"
-                fullWidth
-                label="Account"
-                type="text"
-                name="account"
-                size="small"
-                // value={formik.values.account}
-                // onBlur={formik.handleBlur}
-                // onChange={formik.handleChange}
-              />
-              {/* {formik.touched.account && formik.errors.account ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.account}
-                </Typography>
-              ) : null} */}
-              <TextField
-                margin="normal"
-                fullWidth
-                label="Project"
-                type="text"
-                name="team"
-                size="small"
-              
-              />
-              {/* {formik.touched.team && formik.errors.team ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.team}
-                </Typography>
-              ) : null} */}
+          <FormControl fullWidth>
+  <InputLabel id="my-select-label">Accounts</InputLabel>
+  <Select
+    labelId="my-select-label"
+    fullWidth
+    id="data"
+    value={selectedAccountId}
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    onChange={(event) => {setSelectedAccountId(event.target.value as string);
+      setSelectedProject('');
+    }}
+  >
+    {data.map((data) => (
+      <MenuItem key={data.id} value={data.id}>
+        {data.accountName}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
+
+
+
+        <FormControl fullWidth>
+          <InputLabel id="project-label">Project</InputLabel>
+          {projects.length>0?(
+          <Select labelId="project-label"
+           value={selectedProject}
+         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+         onChange={(event) => setSelectedProject(event.target.value as string)}
+         disabled={!selectedAccountId}>
+            {projects.map((project) => (
+              <MenuItem key={project.id} value={project.id}>
+      {project.projectName}      
+              </MenuItem>
+            ))}
+          </Select>
+          ):(<Select disabled>
+            <MenuItem value="">No projects available</MenuItem>
+          </Select>
+          )}
+        </FormControl>
+    
+
+            
               <TextField
                 margin="normal"
                 fullWidth
@@ -226,8 +221,7 @@ const Requisition: React.FunctionComponent = () => {
                 fullWidth
                 label="Experience"
                 type="text"
-                name="experience"
-               
+                name="experience"               
                 size="small"
               />
               
@@ -237,7 +231,6 @@ const Requisition: React.FunctionComponent = () => {
                 label="Qualification"
                 name="qualification"
                 type="text"
-               
                 size="small"
               />
               
@@ -252,15 +245,13 @@ const Requisition: React.FunctionComponent = () => {
               
               />
              
-
-<TextField
+             <TextField
                 margin="normal"
                 fullWidth
                 size="small"
                 label="Budget"
                 type="text"
-                name="budget"
-                
+                name="budget"   
               />
               
 
@@ -327,3 +318,5 @@ const Requisition: React.FunctionComponent = () => {
 };
 
 export default Requisition;
+
+

@@ -7,7 +7,6 @@ import { Box, Button, MenuItem, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 
 // const data: AccountTableData[] = [
@@ -39,11 +38,11 @@ id:string;
 projectName:string;
 }
 
-const AccountTable: React.FunctionComponent = () => {
-  const [data, setData] = useState<AccountInterface[]>([]); 
+const ProjectTable: React.FunctionComponent = () => {
+  const [data, setData] = useState<ProjectInterface[]>([]); 
   const [contacts, setContacts] = useState<Project[]>([]);
 
-  const API_URL = 'http://localhost:5141/api/v1/Account';
+  const API_URL = 'http://localhost:5141/api/v1/Project';
   // const [isDeleting, setIsDeleting] = useState(false);
  
   useEffect(() => {
@@ -68,7 +67,7 @@ const AccountTable: React.FunctionComponent = () => {
   const getContactsById = (id: string) => {
     return contacts.filter((c) => c.id === id).map((c) => c.projectName).join(", ");
   };
-  const handleSaveRowEdits: MaterialReactTableProps<AccountInterface>['onEditingRowSave'] =
+  const handleSaveRowEdits: MaterialReactTableProps<ProjectInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!Object.keys(validationErrors).length) {
@@ -83,20 +82,20 @@ const AccountTable: React.FunctionComponent = () => {
     setValidationErrors({});
   };
   const handleDeleteRow = useCallback(
-    (row: MRT_Row<AccountInterface>) => {
+    (row: MRT_Row<ProjectInterface>) => {
       if (
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
       ) {
         return;
       }
-      const handleDelete = async (Accounts:AccountInterface) => {
+      const handleDelete = async (Projects:ProjectInterface) => {
         try {
-          await axios.delete(`${API_URL}/${Accounts.accountId}`)
+          await axios.delete(`${API_URL}/${Projects.projectId}`)
           .then((response) => {
             console.log(response);
             const newData=[...data];
-            const index=newData.findIndex((item)=>item.accountId===Accounts.accountId)
+            const index=newData.findIndex((item)=>item.accountId===Projects.projectId)
             newData.splice(index,1);
             setData(newData);
           });
@@ -115,8 +114,8 @@ const AccountTable: React.FunctionComponent = () => {
   );
   const getCommonEditTextFieldProps = useCallback(
     (
-      cell: MRT_Cell<AccountInterface>,
-    ): MRT_ColumnDef<AccountInterface>['muiTableBodyCellEditTextFieldProps'] => {
+      cell: MRT_Cell<ProjectInterface>,
+    ): MRT_ColumnDef<ProjectInterface>['muiTableBodyCellEditTextFieldProps'] => {
       return {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         error: !!validationErrors[cell.id],
@@ -151,48 +150,33 @@ const AccountTable: React.FunctionComponent = () => {
   const navigateAddAccount = (): void => {
     history('/AddAccount');
   };
-  // const navigateAddProject = (): void => {
-  //   history('/AddProject');
-  // };
+  const navigateAddProject = (): void => {
+    history('/AddProject');
+  };
 
-  const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(
+  const columns = useMemo<Array<MRT_ColumnDef<ProjectInterface>>>(
     () => {
       return [
         {
-          accessorKey: 'accountId',
-          header: 'AccountID',
+          accessorKey: 'projectId',
+          header: 'Project ID',
           size: 80,
           muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
             ...getCommonEditTextFieldProps(cell),
           }),
         },
         {
-          accessorKey: 'accountName',
-          header: 'Name',
+          accessorKey: 'projectName',
+          header: 'Project Name',
           size: 80,
           muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
             ...getCommonEditTextFieldProps(cell),
           }),
         },
-        // {
-        //   accessorKey: 'projects.0.projectName',
-        //   header: 'ProjectName',
-        //   size: 80,
-        //   // Cell: ({cell,rowData: AccountInterface}) => {
-        //   //   return project.filter((c) => c.id === rowData.id)
-        //   //     .map((c) => c.projectName)
-        //   //     .join(", "),
-
-        //   //     ;
-
-        //   // },
-        //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        //     ...getCommonEditTextFieldProps(cell),
-        //   }),
-        // },
+       
         {
-          accessorKey: 'accountManager',
-          header: 'Manager',
+          accessorKey: 'projectManager',
+          header: 'Project Manager',
           size: 100,
           muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
             ...getCommonEditTextFieldProps(cell),
@@ -225,7 +209,7 @@ const AccountTable: React.FunctionComponent = () => {
         }}
         className="tableheader"
       >
-        Account
+        Project
       </Typography>
       <MaterialReactTable
         columns={columns}
@@ -267,15 +251,15 @@ const AccountTable: React.FunctionComponent = () => {
         //   enableRowSelection
         renderTopToolbarCustomActions={({ table }) => (
           <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
+           
             <Button
-              variant="contained"
               color="primary"
-              onClick={navigateAddAccount}
               size="small"
+              onClick={navigateAddProject}
+              variant="contained"
             >
-              Add Account
+              Add Project
             </Button>
-            
           </Box>
         )}
         editingMode="modal" 
@@ -325,4 +309,4 @@ const AccountTable: React.FunctionComponent = () => {
 const validateRequired = (value: string) => !!value.length;
 
 
-export default AccountTable;
+export default ProjectTable;

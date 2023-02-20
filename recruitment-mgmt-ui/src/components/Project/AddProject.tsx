@@ -45,6 +45,7 @@ const AddProject: React.FunctionComponent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedName, setSelectedName] = useState<string>("");
   const initialValues:ProjectInterface={
+    id:'',
     projectName: '',
     projectDetails: '',
     projectManager: '',
