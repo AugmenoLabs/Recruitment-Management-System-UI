@@ -20,8 +20,10 @@ export interface CandidateInterface{
   "fileName": string;
   "fileExt": string;
   "resume": string;
-  "vendor":string;
-
+  "vendorId": string;
+  "vendorName": string;
+  "selectedVendorId":string;
+  "id":string;
   
  
   
