@@ -171,7 +171,7 @@ const CandidateApply: React.FunctionComponent = () => {
         variant="h6"
         style={{ marginTop: '2rem', color:'grey',marginLeft: '1rem' }}
       >
-        You are applying for
+        Applying for
       </Typography>
       <Typography
         component="h1"
@@ -400,7 +400,7 @@ Frontend Developer-#2301
 
             
 <FormControl style={{marginTop:'1rem'}}>
-      <FormLabel id="demo-row-radio-buttons-group-label">Has ANy Offer?</FormLabel>
+      <FormLabel id="demo-row-radio-buttons-group-label">Has any offer?</FormLabel>
       <RadioGroup
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
