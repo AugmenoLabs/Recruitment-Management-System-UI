@@ -78,10 +78,6 @@ const AddProject: React.FunctionComponent = () => {
       if (values.projectManager.length === 0) {
         errors.Pmanager = 'Please enter manager name';
       }
-      if (values.projectDetails.length === 0) {
-        errors.PDetails = 'Please enter details';
-      }
-
       return errors;
     },
   });

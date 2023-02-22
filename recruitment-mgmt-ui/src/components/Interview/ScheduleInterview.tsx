@@ -13,13 +13,20 @@ import {
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import axios from 'axios';
+import { InterviewInterface } from '../../Interface/InterviewInterface';
+import { dA } from '@fullcalendar/core/internal-common';
 
 const ScheduleInterview: React.FunctionComponent = () => {
+  const API_URL="http://localhost:5141/api/v1/ScheduleInterview";
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('female');
-
+  const [value, setValue] = React.useState('');
+  const [data, setData] = useState<InterviewInterface>([]);
+  const handleTextChange = (event:any) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
@@ -35,11 +42,27 @@ const ScheduleInterview: React.FunctionComponent = () => {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (event: SelectChangeEvent) => {
-    setRound(event.target.value );
-  };
+     setRound(event.target.value );
+   };
 
-  const [startvalue, setstartValue] = React.useState<Dayjs | null>(dayjs());
-  const [endvalue, setendValue] = React.useState<Dayjs | null>(dayjs());
+  
+  
+    const  handleschedule =  async (event:React.MouseEvent<HTMLElement>) => {
+      data.scheduledTimeFrom = startvalue;
+      data.scheduledTimeTo = endvalue;
+      data.modeOfInterview = value;
+      await axios.post(API_URL,data )
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        }); 
+    };
+  
+
+  const [startvalue, setstartValue] = React.useState<Dayjs>(dayjs());
+  const [endvalue, setendValue] = React.useState<Dayjs>(dayjs());
   return (
     <div>
       <Fab
@@ -63,6 +86,9 @@ const ScheduleInterview: React.FunctionComponent = () => {
             label="Title"
             fullWidth
             variant="standard"
+            name='title'
+            value={data.title}
+            onChange={handleTextChange}
           />
 
           <TextField
@@ -72,47 +98,46 @@ const ScheduleInterview: React.FunctionComponent = () => {
             label="To"
             fullWidth
             variant="standard"
+            name='interviewerEmail'
+            value={data.interviewerEmail}
+            onChange={handleTextChange}
           />
            <TextField
             margin="normal"
             autoFocus
-            
             id="name"
             label="CC"
             fullWidth
             variant="standard"
+            name='cceMail'
+            value={data.cceMail}
+            onChange={handleTextChange}
           />
            <TextField
             margin="normal"
-            autoFocus
-           
+            autoFocus          
             id="name"
             label="BCC"
             fullWidth
             variant="standard"
-          />
-           <TextField
-            margin="normal"
-            autoFocus
-           type='file'
-            id="name"
-            label="Resume"
-            fullWidth
-            variant="standard"
-          />
+            name='bcceMail'
+            value={data.bcceMail}
+            onChange={handleTextChange}
+          />              
            <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Round</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={round}
+          value={data.round}
           label="Round"
-          onChange={handleChange}
+          name='round'
+          onChange={handleTextChange}
         >
-          <MenuItem value={10}>L1</MenuItem>
-          <MenuItem value={20}>L2</MenuItem>
-          <MenuItem value={30}>Managerial</MenuItem>
-          <MenuItem value={30}>HR</MenuItem>
+          <MenuItem value="L1">L1</MenuItem>
+          <MenuItem value="L2">L2</MenuItem>
+          <MenuItem value="Managerial">Managerial</MenuItem>
+          <MenuItem value="HR">HR</MenuItem>
         </Select>
       </FormControl>
 
@@ -160,6 +185,9 @@ const ScheduleInterview: React.FunctionComponent = () => {
             label="Meeting Link"
             fullWidth
             variant="standard"
+            name='meetingLink'
+            value={data.meetingLink}
+            onChange={handleTextChange}
           />):(value==='telephonic'?(
             <TextField
             margin="normal"
@@ -167,14 +195,29 @@ const ScheduleInterview: React.FunctionComponent = () => {
             label="Contact No."
             fullWidth
             variant="standard"
+            name='contactNumber'
+            value={data.contactNumber}
+            onChange={handleTextChange}
           />
           ):(''))}
+
+           <TextField
+            margin="normal"
+            id="standard-basic"
+            label="Details"
+            rows={2}
+            fullWidth
+            variant="standard"
+            name='details'
+            value={data.details}
+            onChange={handleTextChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" onClick={handleschedule}>
             Schedule
           </Button>
         </DialogActions>

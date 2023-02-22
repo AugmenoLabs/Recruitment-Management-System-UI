@@ -40,18 +40,14 @@ const AddAccount: React.FunctionComponent = () => {
     validate: (values) => {
       const errors: any = {};
 
-      if (values.accountId.length === 0) {
-        errors.accountId = 'Please enter ID';
-      }
+      
       if (values.accountName.length === 0) {
         errors.accountName = 'Please enter name';
       }
       if (values.accountManager.length === 0) {
         errors.accountManager = 'Please enter manager name';
       }
-      if (values.accountDetails.length === 0) {
-        errors.accountDetails = 'Please enter details';
-      }
+      
 
       return errors;
     },
@@ -98,7 +94,7 @@ const AddAccount: React.FunctionComponent = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <TextField
+              {/* <TextField
                 margin="normal"
                 size="small"
                 label="Account ID"
@@ -120,7 +116,7 @@ const AddAccount: React.FunctionComponent = () => {
                 >
                   {formik.errors.accountId}
                 </Typography>
-              ) : null}
+              ) : null} */}
               <TextField
                 margin="normal"
                 style={{ width: '40%' }}

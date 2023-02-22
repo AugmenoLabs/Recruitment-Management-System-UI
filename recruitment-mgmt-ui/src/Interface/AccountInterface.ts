@@ -3,6 +3,8 @@
 import { ProjectInterface } from "./ProjectInterface";
 
 export interface AccountInterface {
+  "jobTitle":string;
+  "projectid":string;
   "selectedAccountId":string;
   "accountId": string;
   "id":string;
