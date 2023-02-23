@@ -23,7 +23,7 @@ const ScheduleInterview: React.FunctionComponent = () => {
   const API_URL="http://localhost:5141/api/v1/ScheduleInterview";
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
-  const [data, setData] = useState<InterviewInterface>([]);
+  const [data, setData] = useState<InterviewInterface | Record<string, never>>({});
   const handleTextChange = (event:any) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
@@ -148,7 +148,7 @@ const ScheduleInterview: React.FunctionComponent = () => {
               )}
               label="Start From"
               value={startvalue}
-              onChange={(newValue) => {
+              onChange={(newValue:any) => {
                 setstartValue(newValue);
               }}
             />
@@ -158,7 +158,7 @@ const ScheduleInterview: React.FunctionComponent = () => {
               )}
               label="To"
               value={endvalue}
-              onChange={(newValue) => {
+              onChange={(newValue: any) => {
                 setendValue(newValue);
               }}
             />

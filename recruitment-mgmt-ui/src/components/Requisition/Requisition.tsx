@@ -53,10 +53,10 @@ const Requisition: React.FunctionComponent = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const [selectedProject, setSelectedProject] = useState<string>('');
 
-  const handleChange = (event:any) => {
+  const handleChange = (event:any): void => {
     setPosition({ ...position, [event.target.name]: event.target.value });
   };
-  const  handleCreate =  async (event:React.MouseEvent<HTMLElement>) => {
+  const  handleCreate =  async (event:React.MouseEvent<HTMLElement>): Promise<void> => {
     position.accountId = selectedAccountId;
     position.projectId = selectedProject;
 
@@ -192,7 +192,7 @@ const Requisition: React.FunctionComponent = () => {
                 onChange={(event) =>
                   setSelectedProject(event.target.value )
                 }
-                //disabled={!selectedAccountId}
+                // disabled={!selectedAccountId}
               >
                 {data.map(
                   (account) =>
