@@ -36,7 +36,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const JobDescription: React.FunctionComponent = () => {
   const [expanded, setExpanded] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const [position,setPosition] = useState<RequisitionInterface[]>([]);
+  const [positions,setPositions] = useState<RequisitionInterface[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedAccountId, setSelectedAccountId] = useState<string>('');  const history = useNavigate();
   const navigateform = (): void => {
@@ -54,7 +54,7 @@ const JobDescription: React.FunctionComponent = () => {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `http://localhost:5141/api/v1/OpenPosition/${id}`
           );
-          setPosition(response.data);
+          setPositions(response.data);
           console.log('proj', response.data.length);
         } catch (error) {
           console.error(error);
@@ -68,8 +68,8 @@ const JobDescription: React.FunctionComponent = () => {
   return (
     <div>
       <Box style={{ marginBottom: '1%' }}>
-      {position.map((position)=>(
-        <Card key={position.id} style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
+      {positions.map((position)=>(
+        <Card key={position.jobId} style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
        
           <Card style={{ backgroundColor: 'lavender' }}>
          
