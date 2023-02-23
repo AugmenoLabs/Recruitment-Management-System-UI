@@ -1,5 +1,5 @@
 export const Connection = {
         grant_type: 'client_credentials',
-        client_secret: 'LlIIJGvW9fxpGCvC7lkQEi3Ey1DeA2v4',
+        client_secret: 'jOYhBtEGLSORYLVzsA7IXulen8zCd2SV',
         client_id: 'admin-cli'
     }

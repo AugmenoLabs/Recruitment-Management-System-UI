@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { getToken } from '../../API/GetToken';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { DataGrid, GridColDef ,GridPaginationProps} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridPagination} from '@mui/x-data-grid';
 
 const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
@@ -54,7 +54,7 @@ const AssignRole: React.FunctionComponent = () => {
   
 
   useEffect(() => {
-    GetAllRoles();
+    void GetAllRoles();
   }, []);
 
 
@@ -121,12 +121,13 @@ const AssignRole: React.FunctionComponent = () => {
       }).then(response =>{
         console.log(response.data);
       });
-      //GetAssignedRoles();
-    }catch (error) {
+      // GetAssignedRoles();
+    } catch (error) {
       console.error(error);
     }
   }
-  const paginationProps: GridPaginationProps = { pagination: false };
+
+  const paginationProps: any = { pagination: false };
   return (
     <div>
       <Button

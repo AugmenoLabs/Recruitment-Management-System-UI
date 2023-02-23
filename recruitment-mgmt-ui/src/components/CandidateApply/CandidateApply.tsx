@@ -34,11 +34,11 @@ const CandidateApply: React.FunctionComponent = () => {
   const [selectedName, setSelectedName] = useState<string>('');
   const [data, setData] = useState<CandidateInterface[]>([]);
   const [jobType, setjobType] = useState<string>('');
-  const handleChange: any = (event: SelectChangeEvent) => {
-    const selectedJobtype = event.target.value;
-    setjobType(selectedJobtype);
-    formik.setFieldValue('employment', selectedJobtype);
-  };
+  // const handleChange: any = (event: SelectChangeEvent) => {
+  //   const selectedJobtype = event.target.value;
+  //   setjobType(selectedJobtype);
+  //   formik.setFieldValue('employment', selectedJobtype);
+  // };
   const [offer, setoffer] = useState('');
   const handleChangeOffer: any = (event: SelectChangeEvent) => {
     setoffer(event.target.value);
@@ -46,7 +46,7 @@ const CandidateApply: React.FunctionComponent = () => {
 
   const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
 
-  function fileToBase64(file: File): Promise<string> {
+  async function fileToBase64(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
