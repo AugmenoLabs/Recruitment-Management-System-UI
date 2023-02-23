@@ -160,7 +160,7 @@ const Requisition: React.FunctionComponent = () => {
                 value={selectedAccountId}
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => {
-                  setSelectedAccountId(event.target.value as string);
+                  setSelectedAccountId(event.target.value );
                 }}
               >
                 {data.map((data) => (
@@ -178,7 +178,7 @@ const Requisition: React.FunctionComponent = () => {
                 value={selectedProject}
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) =>
-                  setSelectedProject(event.target.value as string)
+                  setSelectedProject(event.target.value )
                 }
                 //disabled={!selectedAccountId}
               >
@@ -186,7 +186,7 @@ const Requisition: React.FunctionComponent = () => {
                   (account) =>
                     // Check if the account has any projects before mapping over them
                     !!account.projects &&
-                    account.projects.map((project) => (
+                    account.projects.filter(selectedProject=>selectedProject.accountId===selectedAccountId).map((project) => (
                       <MenuItem key={project.id} value={project.id}>
                         {project.projectName}
                       </MenuItem>

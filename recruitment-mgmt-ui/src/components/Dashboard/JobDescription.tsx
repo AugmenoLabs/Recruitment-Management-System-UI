@@ -8,12 +8,14 @@ import {
   Typography,
   Collapse,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WorkIcon from '@mui/icons-material/Work';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RequisitionInterface } from '../../Interface/RequisitionInterface';
+import axios from 'axios';
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -30,28 +32,56 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
+
 const JobDescription: React.FunctionComponent = () => {
-  const [expanded, setExpanded] = React.useState(false);
-  const history = useNavigate();
+  const [expanded, setExpanded] = useState(false);
+  const { id } = useParams<{ id: string }>();
+  const [position,setPosition] = useState<RequisitionInterface[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedAccountId, setSelectedAccountId] = useState<string>('');  const history = useNavigate();
   const navigateform = (): void => {
     history('/applyforjobs');
   };
   const handleExpandClick = (): void => {
     setExpanded(!expanded);
   };
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchProjects = async () => {
+     
+        try {
+          const response = await axios.get<RequisitionInterface[]>(
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            `http://localhost:5141/api/v1/OpenPosition/${id}`
+          );
+          setPosition(response.data);
+          console.log('proj', response.data.length);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    
+    // console.log("selectedprojects",projects);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchProjects();
+  }, [id]);
   return (
     <div>
       <Box style={{ marginBottom: '1%' }}>
-        <Card style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
+      {position.map((position)=>(
+        <Card key={position.id} style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
+       
           <Card style={{ backgroundColor: 'lavender' }}>
+         
             <CardContent>
-              <Box style={{ display: 'flex' }}>
+               <Box style={{ display: 'flex' }}>
+               
                 <Typography
                   gutterBottom
                   variant="h5"
                   style={{ fontWeight: 600 }}
                 >
-                  Frontend Developer-#2301
+                {position.jobTitle}-{position.jobId}
                 </Typography>
               </Box>
               {/* </CardContent> */}
@@ -69,7 +99,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Button>
               </Box>
               {/* <CardContent> */}
-              Honeywell - XDR
+             {position.accountId}/{position.projectId}
               <Box>
                 <IconButton
                   sx={{
@@ -80,7 +110,7 @@ const JobDescription: React.FunctionComponent = () => {
                 >
                   <LocationOnIcon sx={{ fontSize: '20px' }} />
                 </IconButton>
-                Banglore
+                {position.location}
                 <IconButton
                   sx={{
                     marginLeft: '3rem',
@@ -90,7 +120,7 @@ const JobDescription: React.FunctionComponent = () => {
                 >
                   <WorkIcon sx={{ fontSize: '20px' }} />
                 </IconButton>
-                2-5 Years
+              {position.yearOfExp} years
                 <Box display="flex" style={{ marginTop: '0.5rem' }}>
                   {' '}
                   <Typography style={{ color: 'gray', fontSize: '13px' }}>
@@ -103,7 +133,7 @@ const JobDescription: React.FunctionComponent = () => {
                       fontSize: '13px',
                     }}
                   >
-                    Openings:4
+                    Openings:{position.noOfPositions}
                   </Typography>
                   <Typography
                     style={{
@@ -130,7 +160,7 @@ const JobDescription: React.FunctionComponent = () => {
                       fontSize: '13px',
                     }}
                   >
-                  Budget:10L-12L 
+                  Budget:{position.budget}
                   </Typography>
                 </Box>
               </Box>
@@ -148,7 +178,9 @@ const JobDescription: React.FunctionComponent = () => {
                   <ExpandMoreIcon />
                 </ExpandMore>
               </Box>
+          
             </CardContent>
+           
           </Card>
           <Card>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -271,8 +303,11 @@ const JobDescription: React.FunctionComponent = () => {
                 </Typography>
               </CardContent>
             </Collapse>
+        
           </Card>
+       
         </Card>
+      ))}
       </Box>
     </div>
   );

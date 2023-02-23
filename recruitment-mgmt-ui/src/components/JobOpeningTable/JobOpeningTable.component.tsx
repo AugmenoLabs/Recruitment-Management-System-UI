@@ -152,7 +152,7 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 const JobOpeningTable: React.FunctionComponent = () => {
   const history = useNavigate();
   const navigatetoapply = (): void => {
-    history('/jobdescription');
+    history('/jobdescription/:id');
   };
   const [data, setData] = useState<JobOpeningInterface[]>([]);
  
