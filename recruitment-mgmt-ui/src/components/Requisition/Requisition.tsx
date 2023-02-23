@@ -33,7 +33,20 @@ const handleRemoveSkills: any = (value: any) => {
 const Requisition: React.FunctionComponent = () => {
   const API_URL="http://localhost:5141/api/v1/OpenPosition";
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const [position,setPosition] = useState<RequisitionInterface>({});
+  const [position,setPosition] = useState<RequisitionInterface>({
+    id: '',
+    jobId: '',
+    jobTitle: '',
+    accountId: '',
+    projectId: '',
+    skillSet: '',
+    yearOfExp: '',
+    qualification: '',
+    jobDescription: '',
+    noOfPositions: 0,
+    budget: '',
+    location: '',
+  });
   const [data, setData] = useState<AccountInterface[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState<string>('');
   const [projects, setProjects] = useState<ProjectInterface[]>([]);

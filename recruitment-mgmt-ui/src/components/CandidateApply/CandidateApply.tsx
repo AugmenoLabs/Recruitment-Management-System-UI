@@ -96,6 +96,21 @@ const CandidateApply: React.FunctionComponent = () => {
     fileExt: '',
     resume: '',
     hasoffer: false,
+    contactNumber: 0,
+    residentialAddress: '',
+    permanenetAddress: '',
+    position: 'string',
+    account: '',
+    status: '',
+    Hired: '',
+    gender: '',
+    selectedJobtype: '',
+    currentctc: 0,
+    expectedctc: 0,
+    vendorId: '',
+    vendorName: '',
+    selectedVendorId: '',
+    id: ''
   };
   const formik = useFormik({
     initialValues,

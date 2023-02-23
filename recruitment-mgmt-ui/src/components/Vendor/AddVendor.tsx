@@ -22,6 +22,8 @@ const AddVendor: React.FunctionComponent = () => {
     spocName: '',
     spocContactNumber: 0,
     spocEmail: '',
+    id: '',
+    selectedVendorId: ''
   }
   const formik = useFormik({
     initialValues ,
