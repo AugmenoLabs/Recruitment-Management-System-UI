@@ -1,5 +1,4 @@
 export interface RequisitionInterface {
-    id: string;
     jobId: string;
     jobTitle: string;
     accountId: string;

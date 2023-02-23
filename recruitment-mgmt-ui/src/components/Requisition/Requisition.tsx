@@ -24,6 +24,7 @@ import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 const skills = ['react', 'java', 'dotnet'];
 // const NotRequired = [""];
 const handleAddSkillTags: any = (value: any) => {
+  
   const skillValue = value.toString();
   value.setFieldValue('skills', skillValue);
 };
@@ -34,7 +35,7 @@ const Requisition: React.FunctionComponent = () => {
   const API_URL="http://localhost:5141/api/v1/OpenPosition";
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   const [position,setPosition] = useState<RequisitionInterface>({
-    id: '',
+    
     jobId: '',
     jobTitle: '',
     accountId: '',
@@ -58,7 +59,8 @@ const Requisition: React.FunctionComponent = () => {
   const  handleCreate =  async (event:React.MouseEvent<HTMLElement>) => {
     position.accountId = selectedAccountId;
     position.projectId = selectedProject;
-    position.skillSet = autoCompleteValue;
+
+    position.skillSet = autoCompleteValue.join(",");
     await axios.post(API_URL,position )
       .then(response => {
         console.log(response.data);
@@ -145,6 +147,16 @@ const Requisition: React.FunctionComponent = () => {
               margin="normal"
               size="small"
               fullWidth
+              label="Job Id"
+              type="text"
+              name="jobId"
+              value={position.jobId}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              size="small"
+              fullWidth
               label="Job Title"
               type="text"
               name="jobTitle"
@@ -205,6 +217,17 @@ const Requisition: React.FunctionComponent = () => {
               value={position.location}
               onChange={handleChange}
             />
+
+{/* <TextField
+              margin="normal"
+              size="small"
+              fullWidth
+              label="skillSet"
+              type="text"
+              name="skillSet"
+              value={position.skillSet}
+              onChange={handleChange}
+            /> */}
 
             <Autocomplete
               multiple
