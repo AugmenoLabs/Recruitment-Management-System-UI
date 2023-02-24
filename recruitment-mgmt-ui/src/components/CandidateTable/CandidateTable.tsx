@@ -223,7 +223,9 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       enableColumnActions={false}
       renderRowActions={({ row }) => (
         <div>
+      
           <Box display="flex" justifyContent="center" alignItems="center">
+            
             <FeedbackDetails />
             {/* <EditCandidateStatus /> */}
           </Box>

@@ -20,6 +20,8 @@ import JobCards from '../../components/Dashboard/JobCard';
 import JobOpeningTable from '../../components/JobOpeningTable/JobOpeningTable.component';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useNavigate } from 'react-router';
+import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
+
 
 const Dashboard: React.FunctionComponent = () => {
   const IsListView = useSelector((state: RootState) => state.Navbar.IsListView);
@@ -29,6 +31,7 @@ const Dashboard: React.FunctionComponent = () => {
   const navigateform = (): void => {
     history('/requisition');
   };
+const users:JobOpeningInterface[]=[];
   return (
     <>
       <Box className="page-header">
@@ -64,7 +67,7 @@ const Dashboard: React.FunctionComponent = () => {
           </ButtonGroup>
         </Box>
       </Box>
-      {IsListView ?  <JobCards />:<JobOpeningTable /> }
+      {IsListView ?  <JobCards />:<JobOpeningTable users={users} /> }
 :    </>
   );
 };

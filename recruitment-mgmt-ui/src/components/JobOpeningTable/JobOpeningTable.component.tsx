@@ -1,159 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import { MenuItem } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
+import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 
-
-
-// const data: JobOpeningData[] = [
-//   {
-//     id: 2301,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'XDR',
-//     openposition: 2,
-//     totalcandidate: 10,
-//     experience: '3',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-
-//   {
-//     id: 2302,
-//     position: 'Backend Developer',
-//     account: 'LG',
-//     team: 'RMS',
-//     openposition: 5,
-//     totalcandidate: 0,
-//     experience: '1',
-//     skills: '.Net/C#',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2303,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'XDR',
-//     openposition: 3,
-//     totalcandidate: 5,
-//     experience: '5',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2304,
-//     position: 'Devops',
-//     account: 'Flipkart',
-//     team: 'TMS',
-//     openposition: 2,
-//     totalcandidate: 10,
-//     experience: '3',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2305,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'Polaris',
-//     openposition: 2,
-//     totalcandidate: 7,
-//     experience: '2',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2306,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'XDR',
-//     openposition: 2,
-//     totalcandidate: 10,
-//     experience: '3',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2307,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'XDR',
-//     openposition: 2,
-//     totalcandidate: 8,
-//     experience: '3',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-//   {
-//     id: 2308,
-//     position: 'Frontend Developer',
-//     account: 'Honeywell',
-//     team: 'XDR',
-//     openposition: 2,
-//     totalcandidate: 10,
-//     experience: '3',
-//     skills: 'React/MUI/JS',
-//     status: 'Hiring',
-//     screening: 4,
-//     hired: 0,
-//     L1:2,
-//     L2:1,
-//     Managerial:0,
-//     HR:0, 
-//   },
-// ];
-
-const JobOpeningTable: React.FunctionComponent = () => {
+export interface JobOpeningProps{
+  users:JobOpeningInterface[];
+}
+const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
+  // const[users,setUsers]=useState<RequisitionInterface[]>([]);
   const history = useNavigate();
-  const navigatetoapply = (): void => {
-    history('/jobdescription/:id');
-  };
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleRowClick = (row: MRT_Row<JobOpeningInterface>) => {
+   const id=row.getValue('id')
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return(
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    history(`/jobdescription/${id}`)
+  )
+    };
+
+
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  // const navigatetoapply = (rowData:any) => {
+  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unused-expressions, array-callback-return
+  //   history(`/jobdescription/${rowData.id}`);
+  // };
+
+  
   const [data, setData] = useState<JobOpeningInterface[]>([]);
  
   const API_URL = 'http://localhost:5141/api/v1/OpenPosition';
@@ -245,14 +124,16 @@ const JobOpeningTable: React.FunctionComponent = () => {
   const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
     () => [
       {
+        header: 'ID',
+        accessorKey: 'id',
+        show: false,
+      },
+      {
         accessorKey: 'jobId',
         header: 'JobID',
         // size:70,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
+          onClick: () =>  handleRowClick(cell.row), 
           sx: {
             cursor: 'pointer',
           },
@@ -265,44 +146,44 @@ const JobOpeningTable: React.FunctionComponent = () => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply(users);
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'account',
         header: 'Account',
         
         // size:80,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'project',
         header: 'Project',
         // size:60,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'noOfPositions',
@@ -311,43 +192,43 @@ const JobOpeningTable: React.FunctionComponent = () => {
           ...getCommonEditTextFieldProps(cell),
         }),
         // size:120,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'totalcandidate',
         header: 'Total Candidate',
         // size:120,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'hired',
         header: 'Hired',
         // size:70,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'yearOfExp',
@@ -356,15 +237,15 @@ const JobOpeningTable: React.FunctionComponent = () => {
           ...getCommonEditTextFieldProps(cell),
         }),
         // size:100,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'skillSet',
@@ -373,15 +254,15 @@ const JobOpeningTable: React.FunctionComponent = () => {
           ...getCommonEditTextFieldProps(cell),
         }),
         // size:120,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'status',
@@ -394,97 +275,108 @@ const JobOpeningTable: React.FunctionComponent = () => {
         ],
         filterVariant: 'select',
         // size:80,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'screening',
         header: 'Screening',
         // size:100,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'L1',
         header: 'L1',
         // size:70,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'L2',
         header: 'L2',
         // size:70,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
       {
         accessorKey: 'Managerial',
         header: 'Manangerial',
         // size:70,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
+      
       {
         accessorKey: 'HR',
         header: 'HR',
         // size:70,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: (event) => {
-            console.info(event);
-            navigatetoapply();
-          },
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
+        // muiTableBodyCellProps: ({ cell }) => ({
+        //   onClick: (event) => {
+        //     console.info(event);
+        //     navigatetoapply();
+        //   },
+        //   sx: {
+        //     cursor: 'pointer',
+        //   },
+        // }),
       },
     ],
     [getCommonEditTextFieldProps]
   );
+  // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
+  // useEffect(() => {
+  // navigatetojd();
+  //   console.info({ rowSelection });
+  // }, [rowSelection]);
   return (
     <MaterialReactTable
       columns={columns}
       data={data}
       //    enableColumnActions={false}
       //    enableColumnFilters={false}
-
+      // enableRowSelection
+  // getRowId={(originalRow) => originalRow.id}
+ 
+  // onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
+  //     state={{ rowSelection }
+  
       muiTablePaginationProps={{
         rowsPerPageOptions: [5, 10, 20, 50],
       }}
