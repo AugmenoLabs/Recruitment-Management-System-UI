@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import {
   Box,
   Button,
@@ -14,8 +15,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate, useParams } from 'react-router-dom';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { RequisitionInterface } from '../../Interface/RequisitionInterface';
+// import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import axios from 'axios';
+// import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -35,13 +37,38 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 const JobDescription: React.FunctionComponent = () => {
   const [expanded, setExpanded] = useState(false);
-  const { id } = useParams<{ id: string }>();
-  const [positions,setPositions] = useState<RequisitionInterface[]>([]);
+  const { id } = useParams<{ id: "" }>();
+  const [positions,setPositions] = useState(
+    {"jobId": "",
+    id:"",
+    "jobTitle": "",
+    "accountId": "",
+    "projectId": "",
+    "skillSet": "",
+    "yearOfExp": "",
+    "qualification": "",
+    "jobDescription": "",
+    "noOfPositions": 0,
+    "budget": "",
+    "location": "",
+    "account":"",
+    "project":"",
+    "totalcandidate":"",
+  "hired":"",
+  "status":"",
+  "screening":"",
+  "L1":"",
+  "L2":"",
+  "Managerial":"",
+  "HR":"",}
+  );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedAccountId, setSelectedAccountId] = useState<string>('');  const history = useNavigate();
+  const [selectedAccountId, setSelectedAccountId] = useState<"">('');  
+  const history = useNavigate();
   const navigateform = (): void => {
     history('/applyforjobs');
   };
+ 
   const handleExpandClick = (): void => {
     setExpanded(!expanded);
   };
@@ -50,12 +77,15 @@ const JobDescription: React.FunctionComponent = () => {
     const fetchProjects = async () => {
      
         try {
-          const response = await axios.get<RequisitionInterface[]>(
+          const response = await axios.get(
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `http://localhost:5141/api/v1/OpenPosition/${id}`
           );
+          // const dataArray = Array.from(response.data);
           setPositions(response.data);
-          console.log('proj', response.data.length);
+          // setUser(response.data);
+          console.log(response.data);
+          // console.log('proj', dataArray.length);
         } catch (error) {
           console.error(error);
         }
@@ -65,11 +95,13 @@ const JobDescription: React.FunctionComponent = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchProjects();
   }, [id]);
+
   return (
     <div>
       <Box style={{ marginBottom: '1%' }}>
-      {positions.map((position)=>(
-        <Card key={position.jobId} style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
+ 
+     <div>
+     <Card   style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}>
        
           <Card style={{ backgroundColor: 'lavender' }}>
          
@@ -81,7 +113,7 @@ const JobDescription: React.FunctionComponent = () => {
                   variant="h5"
                   style={{ fontWeight: 600 }}
                 >
-                {position.jobTitle}-{position.jobId}
+                {positions.jobId}-{positions.jobTitle}
                 </Typography>
               </Box>
               {/* </CardContent> */}
@@ -99,7 +131,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Button>
               </Box>
               {/* <CardContent> */}
-             {position.accountId}/{position.projectId}
+             {positions.accountId}/{positions.projectId}
               <Box>
                 <IconButton
                   sx={{
@@ -110,7 +142,7 @@ const JobDescription: React.FunctionComponent = () => {
                 >
                   <LocationOnIcon sx={{ fontSize: '20px' }} />
                 </IconButton>
-                {position.location}
+                {positions.location}
                 <IconButton
                   sx={{
                     marginLeft: '3rem',
@@ -120,7 +152,7 @@ const JobDescription: React.FunctionComponent = () => {
                 >
                   <WorkIcon sx={{ fontSize: '20px' }} />
                 </IconButton>
-              {position.yearOfExp} years
+              {positions.yearOfExp} years
                 <Box display="flex" style={{ marginTop: '0.5rem' }}>
                   {' '}
                   <Typography style={{ color: 'gray', fontSize: '13px' }}>
@@ -133,7 +165,7 @@ const JobDescription: React.FunctionComponent = () => {
                       fontSize: '13px',
                     }}
                   >
-                    Openings:{position.noOfPositions}
+                    Openings:{positions.noOfPositions}
                   </Typography>
                   <Typography
                     style={{
@@ -160,7 +192,7 @@ const JobDescription: React.FunctionComponent = () => {
                       fontSize: '13px',
                     }}
                   >
-                  Budget:{position.budget}
+                  Budget:{positions.budget}
                   </Typography>
                 </Box>
               </Box>
@@ -307,7 +339,8 @@ const JobDescription: React.FunctionComponent = () => {
           </Card>
        
         </Card>
-      ))}
+        </div>
+    
       </Box>
     </div>
   );
