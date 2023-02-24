@@ -22,6 +22,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@tanstack/react-table": "^8.7.9",
     "@types/cldr": "^7.1.1",
+    "@types/file-saver": "^2.0.5",
     "@types/globalize": "^1.5.2",
     "@types/mocha": "^10.0.1",
     "@types/react-big-calendar": "^1.6.0",

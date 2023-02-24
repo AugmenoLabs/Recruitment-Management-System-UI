@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box,Typography } from '@mui/material';
+import { Box,Button,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 
 import FeedbackDetails from './FeedbackDetails';
 import {CandidateInterface} from '../../Interface/CandidateInterface'
 import axios from 'axios';
+import DownloadResume from '../Resume/downloadResume';
+
+
 
 
 // interface AllCandidateTableData {
@@ -86,7 +89,7 @@ import axios from 'axios';
 const AppliedCandidateTable: React.FunctionComponent = () => {
   const [data, setData] = useState<CandidateInterface[]>([]);
   const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
-
+  
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
@@ -101,7 +104,9 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
     fetchData();
     console.log(data);
   }, []);
-
+   
+  
+  
   const columns = useMemo<Array<MRT_ColumnDef<CandidateInterface>>>(
     () => [
       {
@@ -149,6 +154,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         header: 'Hired',
         // size:80,
       },
+     
      
     ],
     []
@@ -208,6 +214,9 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       //   enableGrouping
       //   enablePinning
       enableRowActions
+      //getRowId={(row)=>row.id}
+      //onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
+      //state={{ rowSelection }} //pass our managed row selection state to the table to use
       //   enableRowSelection
       enableColumnResizing
       positionActionsColumn="last"
@@ -223,7 +232,10 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       enableColumnActions={false}
       renderRowActions={({ row }) => (
         <div>
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box display="flex" 
+          justifyContent="center" alignItems="center"
+          >
+            <DownloadResume />
             <FeedbackDetails />
             {/* <EditCandidateStatus /> */}
           </Box>
@@ -236,3 +248,4 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
 };
 
 export default AppliedCandidateTable;
+

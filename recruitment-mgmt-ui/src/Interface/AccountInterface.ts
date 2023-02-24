@@ -12,6 +12,9 @@ export interface AccountInterface {
   "accountDetails": string;
   "accountManager":string;
   "projectName":string[];
-  "projects": ProjectInterface[]
+  "projects": ProjectInterface[];
 }
+
+
+
 

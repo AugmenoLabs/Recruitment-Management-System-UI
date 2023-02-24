@@ -1,87 +1,110 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import Feedback from './Feedback';
+import { InterviewInterface } from '../../Interface/InterviewInterface';
+import axios from 'axios';
 
 
-interface AllCandidateTableData {
-  name: string;
-  vendor:string,
-  mobile: string;
-  email: string;
-  experience:number;
-  position: string;
-  account:string,
-  project:string,
-  interviewer:string,
-  Schedule:string,
-}
+// interface AllCandidateTableData {
+//   name: string;
+//   vendor:string,
+//   mobile: string;
+//   email: string;
+//   experience:number;
+//   position: string;
+//   account:string,
+//   project:string,
+//   interviewer:string,
+//   Schedule:string,
+// }
 
-const data: AllCandidateTableData[] = [
-  {
-    name: 'Sneha Kothari',
-    vendor:'linkedin',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:3,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-   interviewer:'Anshu',
-   Schedule:'14/02//23 2:30pm'
-  },
-  {
-    name: 'Anshu Wadhwani',
-    vendor:'linkedin',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:2,
-    position: 'Frontend',
-    account:'LG',
-    project:'XDR',
-    interviewer:'Anshu',
-    Schedule:'14/02//23 2:30pm'
-  },
-  {
-    name: 'Sanjeev',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:3,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    interviewer:'Anshu',
-    Schedule:'14/02//23 2:30pm'
-  },
-  {
-    name: 'Sneha Kothari',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:5,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    interviewer:'Anshu',
-    Schedule:'14/02//23 2:30pm'
-  },
-  {
-    name: 'Anshu Wadhwani',
-    vendor:'Naukari',
-    mobile: '9099876543',
-    email: 'a@gmail.com',
-    experience:5,
-    position: 'Frontend',
-    account:'Honeywell',
-    project:'RMS',
-    interviewer:'Anshu',
-    Schedule:'14/02//23 2:30pm'
-  },
-];
+// const data: AllCandidateTableData[] = [
+//   {
+//     name: 'Sneha Kothari',
+//     vendor:'linkedin',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:3,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//    interviewer:'Anshu',
+//    Schedule:'14/02//23 2:30pm'
+//   },
+//   {
+//     name: 'Anshu Wadhwani',
+//     vendor:'linkedin',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:2,
+//     position: 'Frontend',
+//     account:'LG',
+//     project:'XDR',
+//     interviewer:'Anshu',
+//     Schedule:'14/02//23 2:30pm'
+//   },
+//   {
+//     name: 'Sanjeev',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:3,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     interviewer:'Anshu',
+//     Schedule:'14/02//23 2:30pm'
+//   },
+//   {
+//     name: 'Sneha Kothari',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:5,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     interviewer:'Anshu',
+//     Schedule:'14/02//23 2:30pm'
+//   },
+//   {
+//     name: 'Anshu Wadhwani',
+//     vendor:'Naukari',
+//     mobile: '9099876543',
+//     email: 'a@gmail.com',
+//     experience:5,
+//     position: 'Frontend',
+//     account:'Honeywell',
+//     project:'RMS',
+//     interviewer:'Anshu',
+//     Schedule:'14/02//23 2:30pm'
+//   },
+// ];
+
+
 
 const InterviewDetailTable: React.FunctionComponent = () => {
-  const columns = useMemo<Array<MRT_ColumnDef<AllCandidateTableData>>>(
+  
+    const [data, setData] = useState<InterviewInterface[]>([]);
+    const API_URL = 'http://localhost:5141/api/v1/ScheduleInterview';
+    
+    useEffect(() => {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+      const fetchData = async () => {
+        try {
+          const result = await axios.get<InterviewInterface[]>(API_URL);
+          setData(result.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }; 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      fetchData();
+      console.log(data);
+    }, []);
+     
+  const columns = useMemo<Array<MRT_ColumnDef<InterviewInterface>>>(
     () => [
       {
         accessorKey: 'name',
@@ -89,12 +112,12 @@ const InterviewDetailTable: React.FunctionComponent = () => {
         // size:70,
       },
       {
-        accessorKey: 'mobile',
+        accessorKey: 'contactNumber',
         header: 'Contact No.',
         // size:120,
       },
       {
-        accessorKey: 'email',
+        accessorKey: 'cceMail',
         header: 'Email',
         // size:120,
       },
@@ -119,12 +142,12 @@ const InterviewDetailTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'interviewer',
+        accessorKey: 'interviewerName',
         header: 'Interviewer Name',
         // size:120,
       },
       {
-        accessorKey: 'Schedule',
+        accessorKey: 'scheduledTimeFrom',
         header: 'Scheduled Date',
         // size:80,
       },
