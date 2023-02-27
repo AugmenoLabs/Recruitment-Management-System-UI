@@ -6,6 +6,7 @@ import FeedbackDetails from './FeedbackDetails';
 import {CandidateInterface} from '../../Interface/CandidateInterface'
 import axios from 'axios';
 import DownloadResume from '../Resume/downloadResume';
+import { getRowIdFromRowModel } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 
 
 
@@ -159,7 +160,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
     ],
     []
   );
-
+  const id: string = '';
   return (
     <Box>
     <Typography
@@ -182,7 +183,8 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       data={data}
       //    enableColumnActions={false}
       //    enableColumnFilters={false}
-
+      getRowId={(row)=>row.id}
+      
       muiTablePaginationProps={{
         rowsPerPageOptions: [5, 10, 20, 50],
       }}
@@ -235,7 +237,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
           <Box display="flex" 
           justifyContent="center" alignItems="center"
           >
-            <DownloadResume />
+            <DownloadResume id = {row.id}/>
             <FeedbackDetails />
             {/* <EditCandidateStatus /> */}
           </Box>

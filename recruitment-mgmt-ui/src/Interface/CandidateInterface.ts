@@ -5,7 +5,7 @@ export interface CandidateInterface{
   "yearOfExperience":string;
   "residentialAddress": string;
   "permanenetAddress": string;
-  "position":'string';
+  "position":string;
   "account":string;
   "project":string;
   "status":string;
