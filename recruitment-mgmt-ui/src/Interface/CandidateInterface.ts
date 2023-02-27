@@ -24,7 +24,10 @@ export interface CandidateInterface{
   "vendorName": string;
   "selectedVendorId":string;
   "id":string;
-  
- 
+  "maritalStatus": string,  
+  "primarySkills": string,
+  "secondarySkills": string,
+  "qualification": string,
+  "openPositionId": string|undefined,
   
 }

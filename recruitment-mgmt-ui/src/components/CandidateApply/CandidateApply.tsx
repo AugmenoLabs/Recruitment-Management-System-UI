@@ -27,11 +27,11 @@ import uploadImg from '../../image/cloud-upload-regular-240 (1).png';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const CandidateApply: React.FunctionComponent = () => {
   const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
-  
+
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   const [noticePeriod, setnoticePeriod] = React.useState('');
   const handleChangeNotice: any = (event: SelectChangeEvent) => {
@@ -50,49 +50,48 @@ const CandidateApply: React.FunctionComponent = () => {
     setoffer(event.target.value);
   };
   const { id } = useParams<{ id: "" }>();
-  const [positions,setPositions] = useState(
-    {"jobId": "",
-    id:"",
-    "jobTitle": "",
-    "accountId": "",
-    "projectId": "",
-    "skillSet": "",
-    "yearOfExp": "",
-    "qualification": "",
-    "jobDescription": "",
-    "noOfPositions": 0,
-    "budget": "",
-    "location": "",
-    "account":"",
-    "project":"",
-    "totalcandidate":"",
-  "hired":"",
-  "status":"",
-  "screening":"",
-  "L1":"",
-  "L2":"",
-  "Managerial":"",
-  "HR":"",}
-  );
+  const [positions, setPositions] = useState({
+    jobId: '',
+    id: '',
+    jobTitle: '',
+    accountId: '',
+    projectId: '',
+    skillSet: '',
+    yearOfExp: '',
+    qualification: '',
+    jobDescription: '',
+    noOfPositions: 0,
+    budget: '',
+    location: '',
+    account: '',
+    project: '',
+    totalcandidate: '',
+    hired: '',
+    status: '',
+    screening: '',
+    L1: '',
+    L2: '',
+    Managerial: '',
+    HR: '',
+  });
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchProjects = async () => {
-     
-        try {
-          const response = await axios.get(
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            `http://localhost:5141/api/v1/OpenPosition/${id}`
-          );
-          // const dataArray = Array.from(response.data);
-          setPositions(response.data);
-          // setUser(response.data);
-          console.log(response.data);
-          // console.log('proj', dataArray.length);
-        } catch (error) {
-          console.error(error);
-        }
+      try {
+        const response = await axios.get(
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `http://localhost:5141/api/v1/OpenPosition/${id}`
+        );
+        // const dataArray = Array.from(response.data);
+        setPositions(response.data);
+        // setUser(response.data);
+        console.log(response.data);
+        // console.log('proj', dataArray.length);
+      } catch (error) {
+        console.error(error);
       }
-    
+    };
+
     // console.log("selectedprojects",projects);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchProjects();
@@ -163,7 +162,13 @@ const CandidateApply: React.FunctionComponent = () => {
     vendorId: '',
     vendorName: '',
     selectedVendorId: '',
-    id: ''
+    id: '',
+    maritalStatus: '',
+    primarySkills: '',
+    secondarySkills: '',
+    qualification: '',
+    openPositionId:id,
+   
   };
   const formik = useFormik({
     initialValues,
@@ -191,24 +196,11 @@ const CandidateApply: React.FunctionComponent = () => {
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(values.email)) {
         errors.email = 'Invalid email';
       }
-      // if (values.vendor.length === 0) {
-      //   errors.vendor = 'Please enter vendor details';
-      // }
+
       if (values.yearOfExperience.length === 0) {
         errors.experience = 'Please enter your experience';
       }
-      // if (values.employment.length === 0) {
-      //   errors.employment = 'Please slect employment type';
-      // }
-      // if (values.noticeperiod.length === 0) {
-      //   errors.noticeperiod = 'Please select notice period';
-      // }
-      // if (values.currentctc.length === 0) {
-      //   errors.currentctc = 'Please enter your current ctc';
-      // }
-      // if (values.expectedctc.length === 0) {
-      //   errors.expectedctc = 'Please enter your expected ctc';
-      // }
+
       return errors;
     },
   });
@@ -595,4 +587,3 @@ const CandidateApply: React.FunctionComponent = () => {
 };
 
 export default CandidateApply;
-
