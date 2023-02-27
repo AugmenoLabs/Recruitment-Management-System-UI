@@ -4,6 +4,8 @@ export interface JobOpeningInterface{
   id:string,
   "jobTitle": string,
   "accountId": string,
+  "accountName":string,
+  "projectName":string,
   "projectId": string,
   "skillSet": string,
   "yearOfExp": string,

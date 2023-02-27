@@ -166,7 +166,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         }),
       },
       {
-        accessorKey: 'account',
+        accessorKey: 'accountName',
         header: 'Account',
         
         muiTableBodyCellProps: ({ cell }) => ({
@@ -177,7 +177,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         }),
       },
       {
-        accessorKey: 'project',
+        accessorKey: 'projectName',
         header: 'Project',
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 

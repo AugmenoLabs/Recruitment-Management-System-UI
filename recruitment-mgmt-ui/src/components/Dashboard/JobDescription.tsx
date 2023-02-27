@@ -50,6 +50,8 @@ const JobDescription: React.FunctionComponent = () => {
     "jobDescription": "",
     "noOfPositions": 0,
     "budget": "",
+    "accountName":"",
+    "projectName":"",
     "location": "",
     "account":"",
     "project":"",
@@ -133,7 +135,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Button>
               </Box>
               {/* <CardContent> */}
-             {positions.accountId}/{positions.projectId}
+             {positions.accountName}/{positions.projectName}
               <Box>
                 <IconButton
                   sx={{
