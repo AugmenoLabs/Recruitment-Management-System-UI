@@ -73,7 +73,7 @@ const App: React.FunctionComponent = () => {
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
             <Route path="/candidatejob" element={<Candidatejob />} />
-            <Route path="/applyforjobs" element={<CandidateApply />} />
+            <Route path="/applyforjobs/:id" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
             <Route path="/candidatedetails" element={<CandidateTable />} />
             <Route path="/AddAccount" element={<AddAccount />} />

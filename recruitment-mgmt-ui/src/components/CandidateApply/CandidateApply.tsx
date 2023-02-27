@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/return-await */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
@@ -23,9 +27,11 @@ import uploadImg from '../../image/cloud-upload-regular-240 (1).png';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
+import {useParams} from 'react-router-dom';
 
 const CandidateApply: React.FunctionComponent = () => {
   const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
+  
   // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   const [noticePeriod, setnoticePeriod] = React.useState('');
   const handleChangeNotice: any = (event: SelectChangeEvent) => {
@@ -43,7 +49,54 @@ const CandidateApply: React.FunctionComponent = () => {
   const handleChangeOffer: any = (event: SelectChangeEvent) => {
     setoffer(event.target.value);
   };
-
+  const { id } = useParams<{ id: "" }>();
+  const [positions,setPositions] = useState(
+    {"jobId": "",
+    id:"",
+    "jobTitle": "",
+    "accountId": "",
+    "projectId": "",
+    "skillSet": "",
+    "yearOfExp": "",
+    "qualification": "",
+    "jobDescription": "",
+    "noOfPositions": 0,
+    "budget": "",
+    "location": "",
+    "account":"",
+    "project":"",
+    "totalcandidate":"",
+  "hired":"",
+  "status":"",
+  "screening":"",
+  "L1":"",
+  "L2":"",
+  "Managerial":"",
+  "HR":"",}
+  );
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchProjects = async () => {
+     
+        try {
+          const response = await axios.get(
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            `http://localhost:5141/api/v1/OpenPosition/${id}`
+          );
+          // const dataArray = Array.from(response.data);
+          setPositions(response.data);
+          // setUser(response.data);
+          console.log(response.data);
+          // console.log('proj', dataArray.length);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    
+    // console.log("selectedprojects",projects);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchProjects();
+  }, [id]);
   const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
 
   async function fileToBase64(file: File): Promise<string> {
@@ -203,7 +256,7 @@ const CandidateApply: React.FunctionComponent = () => {
         variant="h5"
         style={{ fontWeight: 600, marginLeft: '1rem' }}
       >
-        Frontend Developer-#2301
+        {positions.jobTitle}-{positions.jobId}
       </Typography>
       <Card
         style={{
@@ -542,3 +595,4 @@ const CandidateApply: React.FunctionComponent = () => {
 };
 
 export default CandidateApply;
+
