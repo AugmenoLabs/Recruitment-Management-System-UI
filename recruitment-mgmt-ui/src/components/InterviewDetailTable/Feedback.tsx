@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Button,
   Dialog,
@@ -5,38 +6,56 @@ import {
   DialogContent,
   DialogTitle,
   Fab,
-  FormControl,
+  FormControlLabel,
   TextField,
   InputLabel,
   Select,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControl,
   MenuItem,
-  SelectChangeEvent,
 } from '@mui/material';
-
-import React from 'react';
+import axios from 'axios';
+import React,{useState} from 'react';
+import { FeedbackInterface } from '../../Interface/FeedbackInterface';
 
 const Feedback: React.FunctionComponent = () => {
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+const API_URL="http://localhost:5141/api/v1/CandidateInterview";
   const handleClickOpen = (): void => {
     setOpen(true);
   };
-
+  const [value, setValue] = useState('');
+  const [data, setData] = useState<FeedbackInterface | Record<string, never>>({});
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleTextChange = (event:any) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
   const handleClose = (): void => {
     setOpen(false);
   };
-  const [round, setRound] = React.useState('');
-
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleChange = (event: SelectChangeEvent) => {
-    setRound(event.target.value);
+  const  handleFeedback =  async (event:React.MouseEvent<HTMLElement>) => {
+    data.isSelected = value;
+    await axios.post(API_URL,data )
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      }); 
   };
-  const [status, setStatus] = React.useState('');
+  // const [status, setStatus] = React.useState('');
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleChangeStatus = (event: SelectChangeEvent) => {
-    setStatus(event.target.value);
-  };
+  // // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  // const handleChangeStatus = (event: SelectChangeEvent) => {
+  //   setStatus(event.target.value);
+  // };
 
   return (
     <div>
@@ -64,14 +83,14 @@ const Feedback: React.FunctionComponent = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={round}
+              value={data.level}
               label="Round"
-              onChange={handleChange}
+              onChange={handleTextChange}
             >
-              <MenuItem value={10}>L1</MenuItem>
-              <MenuItem value={20}>L2</MenuItem>
-              <MenuItem value={30}>Managerial</MenuItem>
-              <MenuItem value={30}>HR</MenuItem>
+              <MenuItem value="L1">L1</MenuItem>
+              <MenuItem value="L2">L2</MenuItem>
+              <MenuItem value="Managerial">Managerial</MenuItem>
+              <MenuItem value="HR">HR</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -80,29 +99,32 @@ const Feedback: React.FunctionComponent = () => {
             id="standard-basic"
             label="Feedback Description"
             multiline
+            value={data.feedback}
+            onChange={handleTextChange}
             rows={3}
           />
 
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={status}
-              label="Status"
-              onChange={handleChangeStatus}
-            >
-              <MenuItem value={10}>Select</MenuItem>
-              <MenuItem value={20}>Reject</MenuItem>
-            </Select>
-          </FormControl>
+<FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label">Status</FormLabel>
+      <RadioGroup
+        row
+        value={value}
+        onChange={handleChangeRadio}
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="select" control={<Radio />} label="Select" />
+        <FormControlLabel value="reject" control={<Radio />} label="Reject" />
+  
+      </RadioGroup>
+    </FormControl>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Schedule
+          <Button variant="contained" onClick={handleFeedback}>
+            Feedback
           </Button>
         </DialogActions>
       </Dialog>
@@ -111,3 +133,6 @@ const Feedback: React.FunctionComponent = () => {
 };
 
 export default Feedback;
+
+
+

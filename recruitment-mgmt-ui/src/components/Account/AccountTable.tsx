@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from "material-react-table";
+import MaterialReactTable, {
+  MaterialReactTableProps,
+  MRT_Cell,
+  MRT_ColumnDef,
+  MRT_Row,
+} from 'material-react-table';
 import { Box, Button, MenuItem, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,112 +17,67 @@ import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 
-// const data: AccountTableData[] = [
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'FDU',
-//     ProjectName: 'Forge Data Unity',
-//     Manager: 'Sneha',
-//   },
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'X001',
-//     ProjectName: 'XDR',
-//     Manager: 'Sanjeev',
-//   },
-//   {
-//     id: 'SYM123',
-//     name: 'Symphony',
-//     ProjectID: 'ABC',
-//     ProjectName: 'Bot',
-//     Manager: 'Anshu',
-//   },
-// ];
-
-interface Project{
-id:string;
-projectName:string;
-}
-
 const AccountTable: React.FunctionComponent = () => {
-  const [data, setData] = useState<AccountInterface[]>([]); 
-  const [contacts, setContacts] = useState<Project[]>([]);
+  const [data, setData] = useState<AccountInterface[]>([]);
 
   const API_URL = 'http://localhost:5141/api/v1/Account';
   // const [isDeleting, setIsDeleting] = useState(false);
- 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const fetchData = async () => {
-      
-    const fetchData=await axios.get(API_URL);
-     const fetchProject=await axios.get('http://localhost:5141/api/v1/Project')
-    
 
-      setData(fetchData.data);
-      setContacts(fetchProject.data);
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-    console.log(data);
-  }, []);
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
 
-  const getContactsById = (id: string) => {
-    return contacts.filter((c) => c.id === id).map((c) => c.projectName).join(", ");
-  };
   const handleSaveRowEdits: MaterialReactTableProps<AccountInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!Object.keys(validationErrors).length) {
         data[row.index] = values;
-      
+
         setData([...data]);
-        exitEditingMode(); 
+        exitEditingMode();
       }
     };
 
   const handleCancelRowEdits = () => {
     setValidationErrors({});
   };
-  const handleDeleteRow = useCallback(
-    (row: MRT_Row<AccountInterface>) => {
-      if (
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
-      ) {
-        return;
-      }
-      const handleDelete = async (Accounts:AccountInterface) => {
-        try {
-          await axios.delete(`${API_URL}/${Accounts.accountId}`)
-          .then((response) => {
-            console.log(response);
-            const newData=[...data];
-            const index=newData.findIndex((item)=>item.accountId===Accounts.accountId)
-            newData.splice(index,1);
-            setData(newData);
-          });
-  
+  const handleDeleteRow = async (row: MRT_Row<AccountInterface>) => {
+    if (
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
+    ) {
+      return;
+    }
+    try {
+      await axios.delete(`${API_URL}/${row.original.id}`);
 
+      // data.splice(row.index,1);
+      // setData([...data])
+      setData((prevState) =>
+        prevState.filter((item) => item.id !== row.original.id)
+      );
+      console.log('Row deleted successfully!');
 
-          // Perform additional logic here, such as updating the UI to reflect the deleted item
-        } catch (error) {
-          console.error(error);
-        } 
-      };
-      data.splice(row.index, 1);
-      setData([...data]);
-    },
-    [data],
-  );
+      // Perform additional logic here, such as updating the UI to reflect the deleted item
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData = async () => {
+      const fetchData = await axios.get(API_URL);
+      setData(fetchData.data);
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log(data);
+  }, []);
+
   const getCommonEditTextFieldProps = useCallback(
     (
-      cell: MRT_Cell<AccountInterface>,
+      cell: MRT_Cell<AccountInterface>
     ): MRT_ColumnDef<AccountInterface>['muiTableBodyCellEditTextFieldProps'] => {
       return {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -125,15 +87,13 @@ const AccountTable: React.FunctionComponent = () => {
           const isValid =
             cell.column.id === 'accountName'
               ? validateRequired(event.target.value)
-              :  validateRequired(event.target.value);
+              : validateRequired(event.target.value);
           if (!isValid) {
-          
             setValidationErrors({
               ...validationErrors,
               [cell.id]: `${cell.column.columnDef.header} is required`,
             });
           } else {
-         
             // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete validationErrors[cell.id];
             setValidationErrors({
@@ -143,65 +103,43 @@ const AccountTable: React.FunctionComponent = () => {
         },
       };
     },
-    [validationErrors],
+    [validationErrors]
   );
 
-  
   const history = useNavigate();
   const navigateAddAccount = (): void => {
     history('/AddAccount');
   };
-  // const navigateAddProject = (): void => {
-  //   history('/AddProject');
-  // };
 
-  const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(
-    () => {
-      return [
-        {
-          accessorKey: 'accountId',
-          header: 'AccountID',
-          size: 80,
-          muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-            ...getCommonEditTextFieldProps(cell),
-          }),
-        },
-        {
-          accessorKey: 'accountName',
-          header: 'Name',
-          size: 80,
-          muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-            ...getCommonEditTextFieldProps(cell),
-          }),
-        },
-        // {
-        //   accessorKey: 'projects.0.projectName',
-        //   header: 'ProjectName',
-        //   size: 80,
-        //   // Cell: ({cell,rowData: AccountInterface}) => {
-        //   //   return project.filter((c) => c.id === rowData.id)
-        //   //     .map((c) => c.projectName)
-        //   //     .join(", "),
+  const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(() => {
+    return [
+      {
+        accessorKey: 'accountId',
+        header: 'AccountID',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'accountName',
+        header: 'Name',
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
 
-        //   //     ;
-
-        //   // },
-        //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        //     ...getCommonEditTextFieldProps(cell),
-        //   }),
-        // },
-        {
-          accessorKey: 'accountManager',
-          header: 'Manager',
-          size: 100,
-          muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-            ...getCommonEditTextFieldProps(cell),
-          }),
-        },
-      ];
-    },
-    [getCommonEditTextFieldProps]
-  );
+      {
+        accessorKey: 'accountManager',
+        header: 'Manager',
+        size: 100,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+    ];
+  }, []);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -275,12 +213,9 @@ const AccountTable: React.FunctionComponent = () => {
             >
               Add Account
             </Button>
-            
           </Box>
         )}
-        editingMode="modal" 
-       
-      
+        editingMode="modal"
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         enableColumnResizing
@@ -300,17 +235,17 @@ const AccountTable: React.FunctionComponent = () => {
             key={1}
             onClick={() => {
               // Send email logic...
-              table.setEditingRow(row)
+              // table.setEditingRow(row);
             }}
             sx={{ m: 0, display: 'flex' }}
           >
-            <EditIcon/>
+            <EditIcon />
           </MenuItem>,
           <MenuItem
             key={2}
             onClick={() => {
-              // Send email logic...
-              handleDeleteRow(row)
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              handleDeleteRow(row);
             }}
             sx={{ m: 0 }}
           >
@@ -323,6 +258,5 @@ const AccountTable: React.FunctionComponent = () => {
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 const validateRequired = (value: string) => !!value.length;
-
 
 export default AccountTable;

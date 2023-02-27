@@ -24,6 +24,18 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
   )
     };
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const handleapplyjobs = (row: MRT_Row<JobOpeningInterface>) => {
+      const id=row.getValue('id')
+       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+     return(
+       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+       history(`/applyforjobs/${id}`)
+     )
+       };
+    const navigatetojd = (): void => {
+      history('/applyforjobs');
+    };
 
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -52,9 +64,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     fetchData();
     console.log(data);
   }, []);
-  const navigatetojd = (): void => {
-    history('/applyforjobs');
-  };
+ 
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
@@ -123,10 +133,12 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
   
   const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
     () => [
+     
       {
-        header: 'ID',
         accessorKey: 'id',
-        show: false,
+        header: 'ID',
+        // size:70,
+      
       },
       {
         accessorKey: 'jobId',
@@ -146,44 +158,33 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply(users);
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'account',
         header: 'Account',
         
-        // size:80,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'project',
         header: 'Project',
-        // size:60,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'noOfPositions',
@@ -191,44 +192,32 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        // size:120,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'totalcandidate',
         header: 'Total Candidate',
-        // size:120,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'hired',
         header: 'Hired',
-        // size:70,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'yearOfExp',
@@ -236,16 +225,12 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        // size:100,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'skillSet',
@@ -253,16 +238,12 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        // size:120,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'status',
@@ -274,30 +255,22 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         
         ],
         filterVariant: 'select',
-        // size:80,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'screening',
         header: 'Screening',
-        // size:100,
-        // muiTableBodyCellProps: ({ cell }) => ({
-        //   onClick: (event) => {
-        //     console.info(event);
-        //     navigatetoapply();
-        //   },
-        //   sx: {
-        //     cursor: 'pointer',
-        //   },
-        // }),
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
       },
       {
         accessorKey: 'L1',
@@ -382,7 +355,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       }}
       initialState={{
         density: 'compact',
-        columnVisibility: { L1: false, L2: false,Managerial:false,HR:false },
+        columnVisibility: { L1: false,id:false, L2: false,Managerial:false,HR:false },
         pagination: { pageSize: 5, pageIndex: 0 },
       }}
       enableDensityToggle={false}
@@ -420,10 +393,13 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       renderRowActionMenuItems={({row,table ,closeMenu }) => [
         <MenuItem
           key={0}
-          onClick={() => {
-            // View profile logic...
-            navigatetojd();
-            closeMenu();
+          // onClick={() => {
+          //   // View profile logic...
+          //   // navigatetojd();
+          //   closeMenu();
+          // }}
+          onClick={()=>{
+handleapplyjobs(row);
           }}
           sx={{ m: 0 }}
         >

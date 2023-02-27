@@ -65,8 +65,10 @@ const JobDescription: React.FunctionComponent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedAccountId, setSelectedAccountId] = useState<"">('');  
   const history = useNavigate();
-  const navigateform = (): void => {
-    history('/applyforjobs');
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const navigateform = ()=> {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    history(`/applyforjobs/${id}`);
   };
  
   const handleExpandClick = (): void => {
