@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 /* eslint-disable @typescript-eslint/prefer-includes */
 import * as React from 'react';
@@ -5,23 +6,18 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Checkbox, ListItemText, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { RoleInterface} from '../../Interfaces/RoleInterface';
 import { clientId } from '../../API/ClientDetails';
 import { useEffect, useState } from 'react';
 import { getToken } from '../../API/GetToken';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { DataGrid, GridColDef, GridPagination} from '@mui/x-data-grid';
+import { DataGrid, GridColDef} from '@mui/x-data-grid';
 
 const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
-  const [available,setAvailable]= React.useState<RoleInterface[]>([]);
+  // const [available,setAvailable]= React.useState<RoleInterface[]>([]);
   
 
   const columns: GridColDef[] = [
@@ -44,6 +40,7 @@ const AssignRole: React.FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedRows, setSelectedRows] = useState<RoleInterface[]>([]);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   function handleRowSelection(checked: boolean, id:RoleInterface) {
     if (checked) {
       setSelectedRows([...selectedRows,id]);
@@ -58,11 +55,13 @@ const AssignRole: React.FunctionComponent = () => {
   }, []);
 
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const GetAllRoles = async () => {
     try {
       const token = await getToken();
       const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/clients/${clientId}/roles`, {
         headers: {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           'Authorization': `Bearer ${token}`
         }
       });
@@ -88,6 +87,7 @@ const AssignRole: React.FunctionComponent = () => {
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const MenuProps = {
     PaperProps: {
       style: {
@@ -108,13 +108,16 @@ const AssignRole: React.FunctionComponent = () => {
   //   );
   // };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleAssign= async () => {
     try {
       const token = await getToken();
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       await axios.post(`/admin/realms/MyRealm/users/${id}/role-mappings/clients/${clientId}`,
        selectedRows ,
        {
         headers: {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }

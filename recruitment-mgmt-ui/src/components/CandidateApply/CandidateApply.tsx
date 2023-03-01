@@ -163,9 +163,6 @@ const CandidateApply: React.FunctionComponent = () => {
     vendorName: '',
     selectedVendorId: '',
     id: '',
-    maritalStatus: '',
-    primarySkills: '',
-    secondarySkills: '',
     qualification: '',
     openPositionId:id,
    

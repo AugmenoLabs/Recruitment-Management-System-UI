@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Box, Button, Container, Card, Grid,  TextField, Typography } from '@mui/material';
+import { Box, Button,  Card, Grid,  TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { clientId } from '../../API/ClientDetails';
 import { getToken } from '../../API/GetToken';
 import { RoleInterface } from '../../Interfaces/RoleInterface';
-import { useFormik } from 'formik';
+// import { useFormik } from 'formik';
 
 
 const AddRole: React.FunctionComponent = () => {
@@ -16,15 +17,18 @@ const AddRole: React.FunctionComponent = () => {
     description: ''
   });
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole({ ...role, [event.target.name]: event.target.value });
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const AddRole =  async (event:React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const token = await getToken();
     await axios.post(`/admin/realms/MyRealm/clients/${clientId}/roles`, role,{
       headers: {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         Authorization: `Bearer ${token}`,
       },
     })

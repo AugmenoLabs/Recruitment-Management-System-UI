@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
-import { Button, IconButton } from '@mui/material';
-import { saveAs } from 'file-saver';
-import { useParams } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+// import { saveAs } from 'file-saver';
+// import { useParams } from 'react-router-dom';
 
 interface props {
   id: string;
@@ -37,6 +37,9 @@ const DownloadResume: React.FunctionComponent<props> = ({ id }) => {
     vendorName: '',
     selectedVendorId: '',
     id: '',
+    "qualification": "",
+    "openPositionId": "",
+    
   });
 
   useEffect(() => {
@@ -47,15 +50,19 @@ const DownloadResume: React.FunctionComponent<props> = ({ id }) => {
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
-    //downloadFile(data.resume);
+
+    // downloadFile(data.resume);
     // console.log('abc', data);
     // console.log("file", )
   }, [id]);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const APIcall = () => {
     const base64String = data.resume;
     const byteCharacters = atob(base64String);
-    //console.log(base64String);
+    
+    // console.log(base64String);
+
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);

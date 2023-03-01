@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useEffect, useState } from 'react';
 // import { useFormik } from 'formik';
@@ -50,6 +51,7 @@ const Requisition: React.FunctionComponent = () => {
   });
   const [data, setData] = useState<AccountInterface[]>([]);
   const [selectedAccountId, setSelectedAccountId] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const [selectedProject, setSelectedProject] = useState<string>('');
 

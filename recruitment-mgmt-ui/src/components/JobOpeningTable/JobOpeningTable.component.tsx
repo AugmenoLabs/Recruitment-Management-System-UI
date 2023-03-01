@@ -56,6 +56,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       try {
         const result = await axios.get<JobOpeningInterface[]>(API_URL);
         setData(result.data);
+
       } catch (error) {
         console.error(error);
       }
@@ -137,24 +138,26 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'id',
         header: 'ID',
-        // size:70,
+        size:70,
       
       },
       {
         accessorKey: 'jobId',
         header: 'JobID',
-        // size:70,
+        size:80,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
             cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
           },
         }),
       },
       {
         accessorKey: 'jobTitle',
         header: 'Job Title',
-        // size:120,
+        size:120,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
@@ -162,23 +165,30 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
             cursor: 'pointer',
+           
+              whiteSpace: 'pre-line',
+              wordWrap: 'break-word',
+            
           },
         }),
       },
       {
         accessorKey: 'accountName',
         header: 'Account',
-        
+        size:100,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
             cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
           },
         }),
       },
       {
         accessorKey: 'projectName',
         header: 'Project',
+        size:100,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
@@ -188,10 +198,17 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       },
       {
         accessorKey: 'noOfPositions',
-        header: 'Open Position',
+        header: 'Total Position',
+        size:130,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        // muiTableHeadCellProps:()=>({
+        //   sx:{
+        //     whiteSpace: 'pre-line',
+        //     wordWrap: 'break-word',
+        //   }
+        // }),
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
@@ -201,7 +218,8 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       },
       {
         accessorKey: 'totalApplied',
-        header: 'Total Candidate',
+        header: 'Total Profile Recieved',
+        size:110,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
@@ -212,6 +230,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'onboarded',
         header: 'Hired',
+        size:80,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
@@ -219,52 +238,53 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           },
         }),
       },
-      {
-        accessorKey: 'yearOfExp',
-        header: 'Experience',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
-      },
-      {
-        accessorKey: 'skillSet',
-        header: 'Skills',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-        filterFn: 'equals',
-        filterSelectOptions: [
-          { text: 'Hiring', value: 'Hiring' },
-          { text: 'Closed', value: 'Closed' },
+      // {
+      //   accessorKey: 'yearOfExp',
+      //   header: 'Experience',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   muiTableBodyCellProps: ({ cell }) => ({
+      //     onClick: () =>  handleRowClick(cell.row), 
+      //     sx: {
+      //       cursor: 'pointer',
+      //     },
+      //   }),
+      // },
+      // {
+      //   accessorKey: 'skillSet',
+      //   header: 'Skills',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   muiTableBodyCellProps: ({ cell }) => ({
+      //     onClick: () =>  handleRowClick(cell.row), 
+      //     sx: {
+      //       cursor: 'pointer',
+      //     },
+      //   }),
+      // },
+      // {
+      //   accessorKey: 'status',
+      //   header: 'Status',
+      //   filterFn: 'equals',
+      //   filterSelectOptions: [
+      //     { text: 'Hiring', value: 'Hiring' },
+      //     { text: 'Closed', value: 'Closed' },
         
-        ],
-        filterVariant: 'select',
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
-      },
+      //   ],
+      //   filterVariant: 'select',
+      //   muiTableBodyCellProps: ({ cell }) => ({
+      //     onClick: () =>  handleRowClick(cell.row), 
+      //     sx: {
+      //       cursor: 'pointer',
+      //     },
+      //   }),
+      // },
       {
         accessorKey: 'screenings',
         header: 'Screening',
+        size:100,
         muiTableBodyCellProps: ({ cell }) => ({
           onClick: () =>  handleRowClick(cell.row), 
           sx: {
@@ -275,23 +295,23 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'l1s',
         header: 'L1',
-        
+        size:70,
       },
       {
         accessorKey: 'l2s',
         header: 'L2',
-        
+        size:70,
       },
       {
         accessorKey: 'managerials',
         header: 'Manangerial',
-        
+        size:120,
       },
       
       {
         accessorKey: 'hr',
         header: 'HR',
-        // size:70,
+        size:70,
         // muiTableBodyCellProps: ({ cell }) => ({
         //   onClick: (event) => {
         //     console.info(event);
@@ -344,10 +364,10 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       }}
       muiTableProps={{
         sx: {
-          tableLayout: 'fixed',
+          tableLayout: 'auto',
           align: 'center',
 
-          marginLeft: '2%',
+          marginLeft: '1%',
         },
       }}
       //   defaultColumn={{
@@ -404,7 +424,7 @@ handleapplyjobs(row);
       positionActionsColumn="last"
       displayColumnDefOptions={{
         'mrt-row-actions': {
-          size: 70,
+          size: 50,
 
           muiTableHeadCellProps: {
             align: 'center',

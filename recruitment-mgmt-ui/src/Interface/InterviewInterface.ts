@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 
 export interface InterviewInterface {
     title: string;
+    name:string;
     interviewerName: string;
     interviewerEmail: string;
      cceMail: string;
@@ -13,5 +14,9 @@ export interface InterviewInterface {
      contactNumber: number;
      meetingLink: string;
      details: string;
+     experience:string;
+     position:string;
+     account:string;
+     project:string;
     // candidateId: string;
   }

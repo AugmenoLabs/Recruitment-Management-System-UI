@@ -17,7 +17,7 @@ export interface JobOpeningInterface{
   "account":string,
   "project":string, 
 "hired":string,
-"status":string,
+"status":"Hiring",
 "totalApplied":string,
 "screenings":string,
 "l1s":string,
