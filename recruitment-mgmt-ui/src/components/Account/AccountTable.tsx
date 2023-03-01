@@ -21,26 +21,45 @@ const AccountTable: React.FunctionComponent = () => {
   const [data, setData] = useState<AccountInterface[]>([]);
 
   const API_URL = 'http://localhost:5141/api/v1/Account';
-  // const [isDeleting, setIsDeleting] = useState(false);
 
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
-
+  
   const handleSaveRowEdits: MaterialReactTableProps<AccountInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!Object.keys(validationErrors).length) {
-        data[row.index] = values;
-
-        setData([...data]);
-        exitEditingMode();
+       
+        try {
+          const response = await axios.put(`${API_URL}/Update?id=${row.original.id}`, values);
+          
+          const updatedRow = response.data;
+          data[row.index] = values;
+         
+          setData([...data]);
+  
+          // Update the state with the updated row
+          setData(prevState => {
+            const newData = [...prevState];
+            newData[row.index] = updatedRow;
+            return newData;
+          });
+  
+          exitEditingMode();
+        } catch (error) {
+          console.error(error);
+        }
+       
       }
     };
-
-  const handleCancelRowEdits = () => {
+   
+   
+    const handleCancelRowEdits = () => {
     setValidationErrors({});
+   
   };
+  
   const handleDeleteRow = async (row: MRT_Row<AccountInterface>) => {
     if (
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -67,13 +86,20 @@ const AccountTable: React.FunctionComponent = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
-      const fetchData = await axios.get(API_URL);
+      const fetchData = await axios.get<AccountInterface[]>(API_URL);
       setData(fetchData.data);
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
     console.log(data);
   }, []);
+  const handleUpdateRow = (updatedRow: AccountInterface, index: number) => {
+    setData((prevState) => {
+      const newData = [...prevState];
+      newData[index] = updatedRow;
+      return newData;
+    });
+  };
 
   const getCommonEditTextFieldProps = useCallback(
     (
@@ -114,12 +140,19 @@ const AccountTable: React.FunctionComponent = () => {
   const columns = useMemo<Array<MRT_ColumnDef<AccountInterface>>>(() => {
     return [
       {
+        accessorKey: 'id',
+        header: 'ID',
+        enableColumnOrdering: false,
+        enableEditing: false, 
+        
+        enableSorting: false,
+       
+      },
+      {
         accessorKey: 'accountId',
         header: 'AccountID',
         size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
+      
       },
       {
         accessorKey: 'accountName',
@@ -139,7 +172,7 @@ const AccountTable: React.FunctionComponent = () => {
         }),
       },
     ];
-  }, []);
+  }, [getCommonEditTextFieldProps]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -176,6 +209,7 @@ const AccountTable: React.FunctionComponent = () => {
         }}
         initialState={{
           density: 'compact',
+          columnVisibility: { id:false,},
           pagination: { pageSize: 5, pageIndex: 0 },
         }}
         enableDensityToggle={false}
@@ -233,9 +267,10 @@ const AccountTable: React.FunctionComponent = () => {
         renderRowActionMenuItems={({ row,table }) => [
           <MenuItem
             key={1}
-            onClick={() => {
+            onClick={(event) => {
               // Send email logic...
-              // table.setEditingRow(row);
+              console.info(event)
+              table.setEditingRow(row);
             }}
             sx={{ m: 0, display: 'flex' }}
           >

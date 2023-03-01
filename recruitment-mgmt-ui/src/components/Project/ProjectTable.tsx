@@ -9,30 +9,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 
-// const data: AccountTableData[] = [
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'FDU',
-//     ProjectName: 'Forge Data Unity',
-//     Manager: 'Sneha',
-//   },
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'X001',
-//     ProjectName: 'XDR',
-//     Manager: 'Sanjeev',
-//   },
-//   {
-//     id: 'SYM123',
-//     name: 'Symphony',
-//     ProjectID: 'ABC',
-//     ProjectName: 'Bot',
-//     Manager: 'Anshu',
-//   },
-// ];
-
 interface Project{
 id:string;
 projectName:string;
