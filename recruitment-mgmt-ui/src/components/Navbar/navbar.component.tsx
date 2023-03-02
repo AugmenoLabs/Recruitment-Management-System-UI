@@ -41,6 +41,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import GroupIcon from '@mui/icons-material/Group';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import './navbar.scss';
 
 const drawerWidth = 240;
 
@@ -276,8 +277,8 @@ const NavBar: React.FunctionComponent = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Augmento labs Recruitment
+          <Typography   className='logo'>
+            Augmento JobPortal
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

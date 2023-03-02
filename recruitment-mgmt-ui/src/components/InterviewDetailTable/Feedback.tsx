@@ -45,7 +45,7 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
   };
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const  handleFeedback =  async (event:React.MouseEvent<HTMLElement>) => {
-    
+    data.isSelected=value;
     data.candidateId=candidateId;
     await axios.post(API_URL,data )
       .then(response => {
@@ -121,8 +121,8 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
       >
-        <FormControlLabel value="select" control={<Radio />} label="Select" />
-        <FormControlLabel value="reject" control={<Radio />} label="Reject" />
+        <FormControlLabel value={true as any} control={<Radio />} label="Select" />
+        <FormControlLabel value={false as any} control={<Radio />} label="Reject" />
   
       </RadioGroup>
     </FormControl>
