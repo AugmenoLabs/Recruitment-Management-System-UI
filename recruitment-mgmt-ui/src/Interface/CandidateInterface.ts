@@ -5,6 +5,8 @@ export interface CandidateInterface{
   "yearOfExperience":string;
   "residentialAddress": string;
   "permanenetAddress": string;
+  primarySkills:string;
+  secondarySkills:string;
   "position":string;
   "account":string;
   "project":string;

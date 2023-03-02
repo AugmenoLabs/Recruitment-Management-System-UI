@@ -61,6 +61,7 @@ const CandidateApply: React.FunctionComponent = () => {
     qualification: '',
     jobDescription: '',
     noOfPositions: 0,
+   
     budget: '',
     location: '',
     account: '',
@@ -152,6 +153,8 @@ const CandidateApply: React.FunctionComponent = () => {
     residentialAddress: '',
     permanenetAddress: '',
     position: 'string',
+    primarySkills:'',
+    secondarySkills:'',
     account: '',
     status: '',
     Hired: '',

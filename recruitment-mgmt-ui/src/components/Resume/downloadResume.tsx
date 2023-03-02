@@ -39,6 +39,8 @@ const DownloadResume: React.FunctionComponent<props> = ({ id }) => {
     id: '',
     "qualification": "",
     "openPositionId": "",
+    primarySkills:'',
+    secondarySkills:'',
     
   });
 
