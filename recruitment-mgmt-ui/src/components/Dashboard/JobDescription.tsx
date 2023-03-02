@@ -221,7 +221,7 @@ const JobDescription: React.FunctionComponent = () => {
           <Card>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography variant="h6">Job Description</Typography>
+                <Typography style={{fontSize:'16px',fontWeight:600}}>Job Description</Typography>
 
                 <Divider />
 
@@ -248,7 +248,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Typography>
 
                 <Typography>
-                  <Typography variant="h6" style={{ marginTop: '1rem' }}>
+                  <Typography  style={{fontSize:'16px',fontWeight:600, marginTop: '1rem' }}>
                     Qualifications
                   </Typography>
                   <Divider />
@@ -257,7 +257,7 @@ const JobDescription: React.FunctionComponent = () => {
                   </Typography>{' '}
                 </Typography>
                 <Typography>
-                  <Typography variant="h6" style={{ marginTop: '1rem' }}>
+                  <Typography variant="h6" style={{fontSize:'16px',fontWeight:600, marginTop: '1rem' }}>
                     Key Skills
                   </Typography>
                   <Divider />
@@ -308,18 +308,7 @@ const JobDescription: React.FunctionComponent = () => {
                     </Typography> */}
                   {/* </Box> */}
                 </Box>
-                <Typography>
-                  <Typography variant="h6" style={{ marginTop: '1rem' }}>
-                    Project Details
-                  </Typography>
-                  <Divider />
-                </Typography>
-                <Typography
-                  style={{ fontSize: '14px', alignItems: 'justified' }}
-                >
-                  {positions.projectName}
-                
-                </Typography>
+               
               </CardContent>
             </Collapse>
         

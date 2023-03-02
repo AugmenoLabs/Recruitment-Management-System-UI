@@ -18,5 +18,7 @@ export interface InterviewInterface {
      position:string;
      account:string;
      project:string;
+     candidateId:string;
+     id:string;
     // candidateId: string;
   }

@@ -20,13 +20,17 @@ import axios from 'axios';
 import React,{useState} from 'react';
 import { FeedbackInterface } from '../../Interface/FeedbackInterface';
 
-const Feedback: React.FunctionComponent = () => {
+interface props {
+  candidateId: string;
+  
+}
+const Feedback: React.FunctionComponent<props> = ({candidateId}) => {
   const [open, setOpen] = useState(false);
 const API_URL="http://localhost:5141/api/v1/CandidateInterview";
   const handleClickOpen = (): void => {
     setOpen(true);
   };
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<boolean>(false);
   const [data, setData] = useState<FeedbackInterface | Record<string, never>>({});
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleTextChange = (event:any) => {
@@ -34,14 +38,15 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
   };
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    setValue((event.target as HTMLInputElement).value==='true');
   };
   const handleClose = (): void => {
     setOpen(false);
   };
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const  handleFeedback =  async (event:React.MouseEvent<HTMLElement>) => {
-    data.isSelected = value;
+    
+    data.candidateId=candidateId;
     await axios.post(API_URL,data )
       .then(response => {
         console.log(response.data);
@@ -84,6 +89,7 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={data.level}
+              name="level"
               label="Round"
               onChange={handleTextChange}
             >
@@ -98,6 +104,7 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
             margin="normal"
             id="standard-basic"
             label="Feedback Description"
+            name="feedback"
             multiline
             value={data.feedback}
             onChange={handleTextChange}
@@ -110,6 +117,7 @@ const API_URL="http://localhost:5141/api/v1/CandidateInterview";
         row
         value={value}
         onChange={handleChangeRadio}
+      
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
       >

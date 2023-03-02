@@ -235,13 +235,6 @@ const CandidateApply: React.FunctionComponent = () => {
     >
       <Typography
         component="h1"
-        variant="h6"
-        style={{ marginTop: '2rem', color: 'grey', marginLeft: '1rem' }}
-      >
-        Applying for
-      </Typography>
-      <Typography
-        component="h1"
         variant="h5"
         style={{ fontWeight: 600, marginLeft: '1rem' }}
       >

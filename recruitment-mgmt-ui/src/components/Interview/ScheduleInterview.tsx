@@ -19,8 +19,10 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { InterviewInterface } from '../../Interface/InterviewInterface';
 // import { dA } from '@fullcalendar/core/internal-common';
-
-const ScheduleInterview: React.FunctionComponent = () => {
+interface props {
+  candidateId: string;
+}
+const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
   const API_URL="http://localhost:5141/api/v1/ScheduleInterview";
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
@@ -55,6 +57,8 @@ const ScheduleInterview: React.FunctionComponent = () => {
       data.scheduledTimeFrom = startvalue;
       data.scheduledTimeTo = endvalue;
       data.modeOfInterview = value;
+      data.candidateId=candidateId;
+      // data.id=id;
       await axios.post(API_URL,data )
         .then(response => {
           console.log(response.data);
@@ -87,7 +91,8 @@ const ScheduleInterview: React.FunctionComponent = () => {
           <TextField
             margin="normal"
             id="standard-basic"
-            label="Title"
+            label="Title"  
+            size='small'
             fullWidth
             variant="standard"
             name='title'
@@ -100,6 +105,7 @@ const ScheduleInterview: React.FunctionComponent = () => {
             autoFocus
             id="name"
             label="To"
+            
             fullWidth
             variant="standard"
             name='interviewerEmail'
@@ -119,7 +125,8 @@ const ScheduleInterview: React.FunctionComponent = () => {
           />
            <TextField
             margin="normal"
-            autoFocus          
+            autoFocus  
+            size='small'        
             id="name"
             label="BCC"
             fullWidth

@@ -40,6 +40,7 @@ import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import GroupIcon from '@mui/icons-material/Group';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 const drawerWidth = 240;
 
@@ -154,14 +155,19 @@ const NavBar: React.FunctionComponent = () => {
   const usermanage=()=>{
     navigate('/UserDetails')}
   const hrlinks = [
-    { title: 'Account', path: '/AccountDetails', icon: <AccountBoxIcon /> },
-    { title: 'Project', path: '/ProjectDetails', icon: <ImportContactsIcon /> },
+  
     { title: 'Candidate', path: '/candidatedetails', icon: <GroupIcon /> },
     { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
     { title: 'InterviewDetails', path: '/interviewdetailview', icon: <CalendarViewMonthIcon/> },
 
-    { title: 'Vendor', path: '/VendorDetails', icon: <HailIcon/> },
+    
   ];
+
+  const masterlinks=[
+    { title: 'Account', path: '/AccountDetails', icon: <AccountBoxIcon /> },
+    { title: 'Project', path: '/ProjectDetails', icon: <ImportContactsIcon /> },
+    { title: 'Vendor', path: '/VendorDetails', icon: <HailIcon/> },
+  ]
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openemnu = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -169,6 +175,15 @@ const NavBar: React.FunctionComponent = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [anchorElmaster, setAnchorElmaster] = React.useState<null | HTMLElement>(null);
+  const openmaster= Boolean(anchorElmaster);
+  const handleClickmaster = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElmaster(event.currentTarget);
+  };
+  const handleClosemaster = () => {
+    setAnchorElmaster(null);
   };
 
   const renderMobileMenu = (
@@ -398,6 +413,75 @@ const NavBar: React.FunctionComponent = () => {
              
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
+                  onClick={handleClickmaster}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                  }}
+                >
+                    <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      color: 'white',
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                  <PersonAddAltIcon/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="User Management"         
+            sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              
+                <Menu   anchorEl={anchorElmaster}
+        id="account-menu"
+        open={openmaster}
+        onClose={handleClosemaster}
+        onClick={handleClosemaster}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+            {masterlinks.map(({ title, path, icon }) => {
+            return (
+          <MenuItem   onClick={() => {
+                    navigate(path);
+                  }}>{icon} {title}</MenuItem>
+       
+            )})}
+             </Menu>
+                </ListItem>
+        
+                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItemButton
                   onClick={handleClick}
                   sx={{
                     minHeight: 48,
@@ -464,7 +548,6 @@ const NavBar: React.FunctionComponent = () => {
             )})}
              </Menu>
                 </ListItem>
-        
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
                   onClick={() => {

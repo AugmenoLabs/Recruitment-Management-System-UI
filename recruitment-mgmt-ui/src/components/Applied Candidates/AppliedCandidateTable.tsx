@@ -1,18 +1,16 @@
-import React, { useMemo } from 'react';
-
+import React, { useMemo,useState,useEffect } from 'react';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-
 import ScheduleInterview from '../Interview/ScheduleInterview';
 import EditCandidateStatus from './EditCandidateStatus';
 import { Box } from '@mui/material';
-
+import axios from 'axios';
 interface CandidateData {
+  id:string;
   vendor: string;
-  candidatename: string;
-  Contact: number;
+  candidateName: string;
+  contactNumber: number;
   email: string;
   status: string;
-
   screening: string;
   L1: string;
   L2: string;
@@ -22,115 +20,29 @@ interface CandidateData {
   Hired: string;
 }
 
-const data: CandidateData[] = [
-  {
-    vendor: 'Linkedin',
-    candidatename: 'Sneha',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'Pending',
-    Hired: 'Pending',
-  },
-
-  {
-    vendor: 'Indeed',
-    candidatename: 'Anshu',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'NA',
-    Hired: 'NA',
-  },
-  {
-    vendor: 'Linkedin',
-    candidatename: 'Sneha',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'Pending',
-    Hired: 'Pending',
-  },
-
-  {
-    vendor: 'Indeed',
-    candidatename: 'Anshu',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'NA',
-    Hired: 'NA',
-  },
-  {
-    vendor: 'Linkedin',
-    candidatename: 'Sneha',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'Pending',
-    Hired: 'Pending',
-  },
-
-  {
-    vendor: 'Indeed',
-    candidatename: 'Anshu',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'NA',
-    Hired: 'NA',
-  },
-  {
-    vendor: 'Linkedin',
-    candidatename: 'Sneha',
-    Contact: 9876543201,
-    email: 'abc@gmail.com',
-    status: 'Scheduled for L1',
-    screening: 'Accepted',
-    L1: 'Schedule',
-    L2: 'Pending',
-    Managerial: 'Pending',
-    HR: 'Pending',
-    Offer: 'Pending',
-    Hired: 'Pending',
-  },
-];
 
 const AppliedCandidateTable: React.FunctionComponent = () => {
+  const [data, setData] = useState<CandidateData[]>([]);
+  const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchData = async () => {
+      try {
+        const result = await axios.get<CandidateData[]>(API_URL);
+        setData(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }; 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+    console.log(data);
+  }, []);
+   
   const columns = useMemo<Array<MRT_ColumnDef<CandidateData>>>(
     () => [
       {
-        accessorKey: 'candidatename',
+        accessorKey: 'candidateName',
         header: 'Candidate Name',
         // size:70,
       },
@@ -140,7 +52,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'Contact',
+        accessorKey: 'contactNumber',
         header: 'Contact',
         // size:70,
       },
@@ -248,11 +160,12 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
           },
         },
       }}
+      getRowId={(row)=>row.id}
       enableColumnActions={false}
       renderRowActions={({ row }) => (
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <ScheduleInterview />
+            <ScheduleInterview candidateId={row.id}/>
             <EditCandidateStatus />
           </Box>
         </div>
