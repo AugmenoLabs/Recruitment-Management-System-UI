@@ -1,11 +1,14 @@
 import axios from 'axios' ;
+import { API_BASE_PATH } from '../Config/config';
+import { AccountInterface } from '../Interface/AccountInterface';
 
-export const GetAccount = async (productname) => {
-    const userDetails = localStorage.getItem("userDetail");
-    const temp = JSON.parse(userDetails);
+export const API_URL='/Account';
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const GetAccount = async () => {
     const Response = await axios
-      .get(
-        `${API_BASE_PATH}${API_BASE_RELATIVE_PATH}?action=addproduct&companyid=${temp.companyid}&productname=${productname}`
+      .get<AccountInterface[]>(
+        `${API_BASE_PATH}${API_URL}`
       )
       .then((response) => {
         return response;
@@ -15,3 +18,7 @@ export const GetAccount = async (productname) => {
       });
     return Response;
   };
+
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  

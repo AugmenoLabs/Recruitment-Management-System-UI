@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
 import axios from 'axios';
+import { API_BASE_PATH } from '../../Config/config';
+import { API_URL } from '../../services/AccountApi';
 
 interface AddAccountInterface{
   id:string;
@@ -13,7 +15,7 @@ interface AddAccountInterface{
     accountManager: string;
 }
 const AddAccount: React.FunctionComponent = () => {
-  const API_URL="http://localhost:5141/api/v1/Account";
+
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const initialValues:AddAccountInterface={
     id:'',
@@ -26,7 +28,7 @@ const AddAccount: React.FunctionComponent = () => {
     initialValues ,
     onSubmit: (values,{ resetForm }) => {
       
-      axios.post(API_URL, values)
+      axios.post(`${API_BASE_PATH}${API_URL}`, values)
       .then((response) => {
       resetForm();
       setSuccessMessage('Account added successfully');

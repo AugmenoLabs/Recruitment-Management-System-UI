@@ -16,12 +16,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
+import { API_URL, GetAccount } from '../../services/AccountApi';
+import { API_BASE_PATH } from '../../Config/config';
 
 const AccountTable: React.FunctionComponent = () => {
   const [data, setData] = useState<AccountInterface[]>([]);
-
-  const API_URL = 'http://localhost:5141/api/v1/Account';
-
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
@@ -32,7 +31,7 @@ const AccountTable: React.FunctionComponent = () => {
       if (!Object.keys(validationErrors).length) {
        
         try {
-          const response = await axios.put(`${API_URL}/Update?id=${row.original.id}`, values);
+          const response = await axios.put(`${API_BASE_PATH}${API_URL}/Update?id=${row.original.id}`, values);
           
           const updatedRow = response.data;
           data[row.index] = values;
@@ -68,7 +67,7 @@ const AccountTable: React.FunctionComponent = () => {
       return;
     }
     try {
-      await axios.delete(`${API_URL}/${row.original.id}`);
+      await axios.delete(`${API_BASE_PATH}${API_URL}/${row.original.id}`);
 
       // data.splice(row.index,1);
       // setData([...data])
@@ -84,15 +83,12 @@ const AccountTable: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const fetchData = async () => {
-      const fetchData = await axios.get<AccountInterface[]>(API_URL);
-      setData(fetchData.data);
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-    console.log(data);
+  GetAccount().then((response: any) => { 
+      setData(response.data);
+  })
+  .catch((error: any) => console.log("error", error))
   }, []);
+
   const handleUpdateRow = (updatedRow: AccountInterface, index: number) => {
     setData((prevState) => {
       const newData = [...prevState];
