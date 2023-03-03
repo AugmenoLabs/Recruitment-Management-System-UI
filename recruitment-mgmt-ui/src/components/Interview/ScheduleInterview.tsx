@@ -91,6 +91,17 @@ const ScheduleInterview: React.FunctionComponent = () => {
             onChange={handleTextChange}
           />
 
+<TextField
+            margin="normal"
+            id="standard-basic"
+            label="interviewer Name"
+            fullWidth
+            variant="standard"
+            name='interviewerName'
+            value={data.interviewerName}
+            onChange={handleTextChange}
+          />
+
           <TextField
             margin="normal"
             autoFocus
