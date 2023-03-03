@@ -17,8 +17,8 @@ import TableContainer from '@mui/material/TableContainer';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { getToken } from '../../API/GetToken';
-import { UserInterface } from '../../Interfaces/UserInterface';
+import { getToken } from '../../keycloak/GetToken';
+import { UserInterface } from '../../Interface/UserInterface';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

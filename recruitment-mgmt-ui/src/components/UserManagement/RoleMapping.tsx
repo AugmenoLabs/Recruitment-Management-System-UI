@@ -2,10 +2,10 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import AssignRole from './AssignRole';
-import { RoleInterface } from '../../Interfaces/RoleInterface';
-import { getToken } from '../../API/GetToken';
+import { RoleInterface } from '../../Interface/RoleInterface';
+import { getToken } from '../../keycloak/GetToken';
 import axios from 'axios';
-import { clientId } from '../../API/ClientDetails';
+import { clientId } from '../../keycloak/ClientDetails';
 // import { UserInterface } from '../../Interfaces/UserInterface';
 import { useParams } from 'react-router-dom';
 

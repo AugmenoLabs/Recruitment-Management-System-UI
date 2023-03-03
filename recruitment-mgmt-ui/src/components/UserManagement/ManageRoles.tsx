@@ -19,10 +19,10 @@ import {
   import EditIcon from '@mui/icons-material/Edit';
   import DeleteIcon from '@mui/icons-material/Delete';
   import { useNavigate } from 'react-router-dom';
-import { RoleInterface } from '../../Interfaces/RoleInterface';
-import { getToken } from '../../API/GetToken';
+import { RoleInterface } from '../../Interface/RoleInterface';
+import { getToken } from '../../keycloak/GetToken';
 import axios from 'axios';
-import { clientId } from '../../API/ClientDetails';
+import { clientId } from '../../keycloak/ClientDetails';
   
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

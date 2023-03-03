@@ -3,9 +3,9 @@
 import { Box, Button,  Card, Grid,  TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { clientId } from '../../API/ClientDetails';
-import { getToken } from '../../API/GetToken';
-import { RoleInterface } from '../../Interfaces/RoleInterface';
+import { clientId } from '../../keycloak/ClientDetails';
+import { getToken } from '../../keycloak/GetToken';
+import { RoleInterface } from '../../Interface/RoleInterface';
 // import { useFormik } from 'formik';
 
 

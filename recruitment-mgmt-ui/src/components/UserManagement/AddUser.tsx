@@ -3,8 +3,8 @@ import React,{useState} from 'react';
 // import { useFormik } from 'formik';
 import { Box, Button,Card, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import { getToken } from '../../API/GetToken';
-import { UserInterface } from '../../Interfaces/UserInterface';
+import { getToken } from '../../keycloak/GetToken';
+import { UserInterface } from '../../Interface/UserInterface';
 
 
 const AddUser: React.FunctionComponent = () => {

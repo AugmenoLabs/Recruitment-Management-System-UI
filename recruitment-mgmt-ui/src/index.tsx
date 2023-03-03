@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
-import keycloak from './Auth/keycloak';
+import keycloak from './keycloak/keycloak';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 

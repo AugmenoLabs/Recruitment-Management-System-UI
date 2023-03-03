@@ -23,7 +23,7 @@ import {
   FormControlLabel,
   Radio,
 } from '@mui/material';
-import uploadImg from '../../image/cloud-upload-regular-240 (1).png';
+import uploadImg from '../../assets/cloud-upload-regular-240 (1).png';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
