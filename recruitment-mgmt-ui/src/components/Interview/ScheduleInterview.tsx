@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Button,
   Dialog,
@@ -17,13 +18,16 @@ import React, { useState } from 'react';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { InterviewInterface } from '../../Interface/InterviewInterface';
-import { dA } from '@fullcalendar/core/internal-common';
-
-const ScheduleInterview: React.FunctionComponent = () => {
+// import { dA } from '@fullcalendar/core/internal-common';
+interface props {
+  candidateId: string;
+}
+const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
   const API_URL="http://localhost:5141/api/v1/ScheduleInterview";
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [data, setData] = useState<InterviewInterface | Record<string, never>>({});
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleTextChange = (event:any) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
@@ -38,19 +42,23 @@ const ScheduleInterview: React.FunctionComponent = () => {
   const handleClose = (): void => {
     setOpen(false);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [round, setRound] = React.useState('');
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unused-vars
   const handleChange = (event: SelectChangeEvent) => {
      setRound(event.target.value );
    };
 
   
   
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const  handleschedule =  async (event:React.MouseEvent<HTMLElement>) => {
       data.scheduledTimeFrom = startvalue;
       data.scheduledTimeTo = endvalue;
       data.modeOfInterview = value;
+      data.candidateId=candidateId;
+      // data.id=id;
       await axios.post(API_URL,data )
         .then(response => {
           console.log(response.data);
@@ -83,7 +91,8 @@ const ScheduleInterview: React.FunctionComponent = () => {
           <TextField
             margin="normal"
             id="standard-basic"
-            label="Title"
+            label="Title"  
+            size='small'
             fullWidth
             variant="standard"
             name='title'
@@ -107,6 +116,7 @@ const ScheduleInterview: React.FunctionComponent = () => {
             autoFocus
             id="name"
             label="To"
+            
             fullWidth
             variant="standard"
             name='interviewerEmail'
@@ -126,7 +136,8 @@ const ScheduleInterview: React.FunctionComponent = () => {
           />
            <TextField
             margin="normal"
-            autoFocus          
+            autoFocus  
+            size='small'        
             id="name"
             label="BCC"
             fullWidth

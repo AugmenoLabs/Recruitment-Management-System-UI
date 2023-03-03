@@ -61,6 +61,7 @@ const CandidateApply: React.FunctionComponent = () => {
     qualification: '',
     jobDescription: '',
     noOfPositions: 0,
+   
     budget: '',
     location: '',
     account: '',
@@ -152,6 +153,8 @@ const CandidateApply: React.FunctionComponent = () => {
     residentialAddress: '',
     permanenetAddress: '',
     position: 'string',
+    primarySkills:'',
+    secondarySkills:'',
     account: '',
     status: '',
     Hired: '',
@@ -163,9 +166,6 @@ const CandidateApply: React.FunctionComponent = () => {
     vendorName: '',
     selectedVendorId: '',
     id: '',
-    maritalStatus: '',
-    primarySkills: '',
-    secondarySkills: '',
     qualification: '',
     openPositionId:id,
    
@@ -236,13 +236,6 @@ const CandidateApply: React.FunctionComponent = () => {
         alignItems: 'flex-start',
       }}
     >
-      <Typography
-        component="h1"
-        variant="h6"
-        style={{ marginTop: '2rem', color: 'grey', marginLeft: '1rem' }}
-      >
-        Applying for
-      </Typography>
       <Typography
         component="h1"
         variant="h5"

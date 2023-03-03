@@ -6,7 +6,7 @@ import { RoleInterface } from '../../Interfaces/RoleInterface';
 import { getToken } from '../../API/GetToken';
 import axios from 'axios';
 import { clientId } from '../../API/ClientDetails';
-import { UserInterface } from '../../Interfaces/UserInterface';
+// import { UserInterface } from '../../Interfaces/UserInterface';
 import { useParams } from 'react-router-dom';
 
 const RoleMapping: React.FunctionComponent = () => {
@@ -30,6 +30,7 @@ const RoleMapping: React.FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedRows, setSelectedRows] = useState<RoleInterface[]>([]);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   function handleRowSelection(checked: boolean, id:RoleInterface) {
     if (checked) {
       setSelectedRows([...selectedRows,id]);
@@ -39,14 +40,17 @@ const RoleMapping: React.FunctionComponent = () => {
   }
 
 useEffect(() => {
-  GetAssignedRoles();
+  void GetAssignedRoles();
 }, []);
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const GetAssignedRoles = async () => {
   try {
     const token = await getToken();
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/users/${id}/role-mappings/clients/${clientId}`, {
       headers: {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         'Authorization': `Bearer ${token}`
       }
     });
@@ -59,20 +63,23 @@ const GetAssignedRoles = async () => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const handleDelete= async () => {
   try {
     const token = await getToken();
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     await axios.delete(`/admin/realms/MyRealm/users/${id}/role-mappings/clients/${clientId}`,{
     data: selectedRows ,
      
       headers: {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     }).then(response =>{
       console.log(response.data);
     });
-    GetAssignedRoles();
+    void GetAssignedRoles();
   }catch (error) {
     console.error(error);
   }
@@ -107,6 +114,7 @@ const handleDelete= async () => {
               <Box m={1} display="flex">
                 <AssignRole />
                 <Button
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
                   onClick={handleDelete}
                   variant="contained"
                   sx={{

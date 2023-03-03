@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Box,
   Button,
@@ -59,9 +60,10 @@ const ManageUser: React.FunctionComponent = () => {
   const [data, setData] = useState<AccountTableDatatype[]>([]);
 
   useEffect(() => {
-    GetAllUser();
+    void GetAllUser();
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const GetAllUser = async () => {
     try {
       const token = await getToken();
@@ -69,6 +71,7 @@ const ManageUser: React.FunctionComponent = () => {
         '/admin/realms/MyRealm/users',
         {
           headers: {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             Authorization: `Bearer ${token}`,
           },
         }
@@ -80,19 +83,21 @@ const ManageUser: React.FunctionComponent = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const DeleteUser = async (User: UserInterface) => {
     try {
       const token = await getToken();
       await axios
         .delete(`/admin/realms/MyRealm/users/${User.id}`, {
           headers: {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           console.log(response.data);
         });
-      GetAllUser();
+      void GetAllUser();
       // Perform additional logic here, such as updating the UI to reflect the deleted item
     } catch (error) {
       console.error(error);
@@ -201,7 +206,7 @@ const ManageUser: React.FunctionComponent = () => {
                   <IconButton>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => DeleteUser(row)}>
+                  <IconButton onClick={async () => await DeleteUser(row)}>
                     <DeleteIcon />
                   </IconButton>
                 </StyledTableRow>

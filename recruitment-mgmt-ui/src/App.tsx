@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -17,10 +17,8 @@ import AddProject from './components/Project/AddProject';
 import AccountTable from './components/Account/AccountTable';
 import InterviewForm from './components/Interview/InterviewForm';
 import InterviewFinalTable from './components/Interview/InterviewFinalTable';
-import Candidatepi from './components/CandidateApply/Candidatepi';
-import Candidatejob from './components/CandidateApply/Candidatejob';
-import CandidateCompensation from './components/CandidateApply/CandidateCompensation';
-import Candidateresume from './components/CandidateApply/Candidateresume';
+
+// import Candidateresume from './components/CandidateApply/Candidateresume';
 import ManagementPage from './components/UserManagement/ManagementPage';
 import RoleMapping from './components/UserManagement/RoleMapping';
 import FinalJD from './components/Applied Candidates/FinalJD';
@@ -66,13 +64,13 @@ const App: React.FunctionComponent = () => {
           <Routes>
             <Route path="" element={<Dashboard />} />
             <Route path="/jobdescription/:id" element={<FinalJD />} />
-            <Route path="/candidatecompensation" element={<CandidateCompensation />} />    
+            {/* <Route path="/candidatecompensation" element={<CandidateCompensation />} />    
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
       
             <Route path="/candidatecompensation" element={<CandidateCompensation />} />
             <Route path="/uploadresume" element={<Candidateresume />} />
             <Route path="/candidatepi" element={<Candidatepi />} />
-            <Route path="/candidatejob" element={<Candidatejob />} />
+            <Route path="/candidatejob" element={<Candidatejob />} /> */}
             <Route path="/applyforjobs/:id" element={<CandidateApply />} />
             <Route path="/requisition" element={<Requisition />} />
             <Route path="/candidatedetails" element={<CandidateTable />} />

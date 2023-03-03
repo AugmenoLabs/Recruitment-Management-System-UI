@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
     Box,
     Button,
@@ -54,14 +55,16 @@ import { clientId } from '../../API/ClientDetails';
     const [roles, setRoles] = useState<RoleInterface[]>([]);
 
     useEffect(() => {
-      GetAllRoles();
+      void GetAllRoles();
     }, []);
   
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const GetAllRoles = async () => {
       try {
         const token = await getToken();
         const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/clients/${clientId}/roles`, {
           headers: {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             'Authorization': `Bearer ${token}`
           }
         });
@@ -73,18 +76,20 @@ import { clientId } from '../../API/ClientDetails';
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const DeleteRole = async (Roles:RoleInterface) => {
       try {
         const token = await getToken();
         await axios.delete(`/admin/realms/MyRealm/roles-by-id/${Roles.id}`, {
           headers: {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             'Authorization': `Bearer ${token}`
           }
         })
         .then(response => {
           console.log(response.data);
         });
-        GetAllRoles();
+        void GetAllRoles();
       } catch (error) {
         console.error(error);
       } 
@@ -181,7 +186,7 @@ import { clientId } from '../../API/ClientDetails';
                       <EditIcon />
                     </TableCell>
                     <TableCell sx={{ width: '0.5%' }}>
-                    <IconButton onClick={() => DeleteRole(row)} >
+                    <IconButton onClick={async () => await DeleteRole(row)} >
                       <DeleteIcon  />
                       </IconButton>
                     </TableCell>

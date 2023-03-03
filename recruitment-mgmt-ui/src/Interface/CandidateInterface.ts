@@ -5,6 +5,8 @@ export interface CandidateInterface{
   "yearOfExperience":string;
   "residentialAddress": string;
   "permanenetAddress": string;
+  primarySkills:string;
+  secondarySkills:string;
   "position":string;
   "account":string;
   "project":string;
@@ -24,9 +26,6 @@ export interface CandidateInterface{
   "vendorName": string;
   "selectedVendorId":string;
   "id":string;
-  "maritalStatus": string,  
-  "primarySkills": string,
-  "secondarySkills": string,
   "qualification": string,
   "openPositionId": string|undefined,
   

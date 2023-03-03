@@ -211,6 +211,7 @@ const InterviewDetailTable: React.FunctionComponent = () => {
       //   enableGrouping
       //   enablePinning
       enableRowActions
+      getRowId={(row)=>row.candidateId}
       //   enableRowSelection
       enableColumnResizing
       positionActionsColumn="last"
@@ -227,7 +228,7 @@ const InterviewDetailTable: React.FunctionComponent = () => {
       renderRowActions={({ row }) => (
         <div>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Feedback />
+            <Feedback  candidateId={row.id}/>
             {/* <EditCandidateStatus /> */}
           </Box>
         </div>

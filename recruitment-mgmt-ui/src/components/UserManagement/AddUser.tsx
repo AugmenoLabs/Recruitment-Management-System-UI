@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React from 'react';
-import { useFormik } from 'formik';
-import { Box, Button, Container,Card, Grid, TextField, Typography } from '@mui/material';
+import React,{useState} from 'react';
+// import { useFormik } from 'formik';
+import { Box, Button,Card, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import  { useState } from 'react';
 import { getToken } from '../../API/GetToken';
 import { UserInterface } from '../../Interfaces/UserInterface';
 
@@ -17,15 +16,18 @@ const AddUser: React.FunctionComponent = () => {
     lastName: ''
   });
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleSubmit =  async (event:React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const token = await getToken();
     await axios.post('/admin/realms/MyRealm/users', user,{
       headers: {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         Authorization: `Bearer ${token}`,
       },
     })
@@ -179,6 +181,7 @@ const AddUser: React.FunctionComponent = () => {
            
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={handleSubmit}
           >
             Add User

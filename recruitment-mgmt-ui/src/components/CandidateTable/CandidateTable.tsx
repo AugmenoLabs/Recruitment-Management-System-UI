@@ -1,91 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box,Button,Typography } from '@mui/material';
+import { Box,Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-
 import FeedbackDetails from './FeedbackDetails';
 import {CandidateInterface} from '../../Interface/CandidateInterface'
 import axios from 'axios';
 import DownloadResume from '../Resume/downloadResume';
-import { getRowIdFromRowModel } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
-
-
-
-
-// interface AllCandidateTableData {
-//   name: string;
-//   vendor:string,
-//   mobile: string;
-//   email: string;
-//   experience:number;
-//   position: string;
-//   account:string,
-//   project:string,
-//   status: string;
-//   Hired:string;
-// }
-
-// const data: AllCandidateTableData[] = [
-//   {
-//     name: 'Sneha Kothari',
-//     vendor:'linkedin',
-//     mobile: '9099876543',
-//     email: 'a@gmail.com',
-//     experience:3,
-//     position: 'Frontend',
-//     account:'Honeywell',
-//     project:'RMS',
-//     status: 'Scheduled for L2',
-//     Hired:'NA',
-//   },
-//   {
-//     name: 'Anshu Wadhwani',
-//     vendor:'linkedin',
-//     mobile: '9099876543',
-//     email: 'a@gmail.com',
-//     experience:2,
-//     position: 'Frontend',
-//     account:'LG',
-//     project:'XDR',
-//     status: 'Pending',
-//     Hired:'NA',
-//   },
-//   {
-//     name: 'Sanjeev',
-//     vendor:'Naukari',
-//     mobile: '9099876543',
-//     email: 'a@gmail.com',
-//     experience:3,
-//     position: 'Frontend',
-//     account:'Honeywell',
-//     project:'RMS',
-//     status: 'Applied',
-//     Hired:'NA',
-//   },
-//   {
-//     name: 'Sneha Kothari',
-//     vendor:'Naukari',
-//     mobile: '9099876543',
-//     email: 'a@gmail.com',
-//     experience:5,
-//     position: 'Frontend',
-//     account:'Honeywell',
-//     project:'RMS',
-//     status: 'Applied',
-//     Hired:'NA',
-//   },
-//   {
-//     name: 'Anshu Wadhwani',
-//     vendor:'Naukari',
-//     mobile: '9099876543',
-//     email: 'a@gmail.com',
-//     experience:5,
-//     position: 'Frontend',
-//     account:'Honeywell',
-//     project:'RMS',
-//     status: 'Pending',
-//     Hired:'NA',
-//   },
-// ];
+// import { getRowIdFromRowModel } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 
 const AppliedCandidateTable: React.FunctionComponent = () => {
   const [data, setData] = useState<CandidateInterface[]>([]);
@@ -160,7 +80,6 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
     ],
     []
   );
-  const id: string = '';
   return (
     <Box>
     <Typography
@@ -216,9 +135,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       //   enableGrouping
       //   enablePinning
       enableRowActions
-      //getRowId={(row)=>row.id}
-      //onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
-      //state={{ rowSelection }} //pass our managed row selection state to the table to use
+      
       //   enableRowSelection
       enableColumnResizing
       positionActionsColumn="last"
