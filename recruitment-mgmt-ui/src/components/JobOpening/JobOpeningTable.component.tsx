@@ -7,7 +7,7 @@ import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
-
+import './JobOpening.style.scss';
 export interface JobOpeningProps{
   users:JobOpeningInterface[];
 }
@@ -332,9 +332,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
   //   console.info({ rowSelection });
   // }, [rowSelection]);
   return (
+    // <div className="table">
     <MaterialReactTable
       columns={columns}
       data={data}
+      // style={{ overflowY: "scroll" }}
       //    enableColumnActions={false}
       //    enableColumnFilters={false}
       // enableRowSelection
@@ -366,8 +368,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         sx: {
           tableLayout: 'auto',
           align: 'center',
-
-          marginLeft: '1%',
+          height:'80%',
+'&::-webkit-scrollbar':{
+  overflow:'hidden',
+}
+        
         },
       }}
       //   defaultColumn={{
@@ -380,7 +385,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       //   enableRowSelection
       editingMode="modal" 
        
-      
+     
       onEditingRowSave={handleSaveRowEdits}
       onEditingRowCancel={handleCancelRowEdits}
 
@@ -441,6 +446,7 @@ handleapplyjobs(row);
       //     </div>
       //   )}
     />
+    // </div>
   );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions

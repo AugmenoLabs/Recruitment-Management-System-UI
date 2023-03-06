@@ -172,7 +172,17 @@ const ProjectTable: React.FunctionComponent = () => {
         data={data}
         //    enableColumnActions={false}
         //    enableColumnFilters={false}
-
+        muiTableProps={{
+          sx: {
+            tableLayout: 'auto',
+            align: 'center',
+            height:'80%',
+  '&::-webkit-scrollbar':{
+    overflow:'hidden',
+  }
+          
+          },
+        }}
         muiTablePaginationProps={{
           rowsPerPageOptions: [5, 10, 20, 50],
         }}
@@ -188,14 +198,6 @@ const ProjectTable: React.FunctionComponent = () => {
               fontWeight: 600,
               color: 'blue',
             },
-          },
-        }}
-        muiTableProps={{
-          sx: {
-            tableLayout: 'fixed',
-            align: 'center',
-
-            marginLeft: '2%',
           },
         }}
         defaultColumn={{

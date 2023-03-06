@@ -15,11 +15,11 @@ import {
   Select,
 } from '@mui/material';
 import axios from 'axios';
-import { AccountInterface } from '../../../Interface/AccountInterface';
-import { ProjectInterface } from '../../../Interface/ProjectInterface';
-import { RequisitionInterface } from '../../../Interface/RequisitionInterface';
-import { GetAccount } from '../../../services/AccountApi';
-import { addJobOpening } from '../../../services/OpenPositionApi';
+import { AccountInterface } from '../../Interface/AccountInterface';
+import { ProjectInterface } from '../../Interface/ProjectInterface';
+import { RequisitionInterface } from '../../Interface/RequisitionInterface';
+import { GetAccount } from '../../services/AccountApi';
+import { addJobOpening } from '../../services/OpenPositionApi';
 
 const skills = ['react', 'java', 'dotnet'];
 // const NotRequired = [""];

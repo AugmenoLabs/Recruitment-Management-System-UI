@@ -111,10 +111,13 @@ const CandidateTable: React.FunctionComponent = () => {
         }}
         muiTableProps={{
           sx: {
-            tableLayout: 'fixed',
+            tableLayout: 'auto',
             align: 'center',
-
-            marginLeft: '2%',
+            height:'80%',
+  '&::-webkit-scrollbar':{
+    overflow:'hidden',
+  }
+          
           },
         }}
         //   enableColumnFilterModes

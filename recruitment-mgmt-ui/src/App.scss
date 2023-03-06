@@ -6,3 +6,14 @@
 //         overflow-x: hidden;
 //       }
 //     }
+.custom-mrt-paper {
+    /* hide scrollbar on MaterialReactTable */
+    .MuiTable-root::-webkit-scrollbar {
+      display: none;
+    }
+  
+    /* hide horizontal scrollbar on MaterialReactTable */
+    .MuiTable-root {
+      overflow-x: hidden;
+    }
+  }

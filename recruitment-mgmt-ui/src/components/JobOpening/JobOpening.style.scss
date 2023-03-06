@@ -1,0 +1,38 @@
+.css-1vlry5a-MuiTableContainer-root {
+    overflow: auto;
+}
+
+.css-1vlry5a-MuiTableContainer-root::-webkit-scrollbar {
+    background-color: transparent;
+    max-width       : 2px !important;
+    max-height      : 10px !important;
+    -webkit-width   : 2px !important;
+}
+
+.css-1vlry5a-MuiTableContainer-root::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* Hide scrollbar thumb */
+.css-1vlry5a-MuiTableContainer-root::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius   : 5px;
+}
+
+.css-1vlry5a-MuiTableContainer-root::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius   : 3px;
+    -webkit-width   : 2px !important;
+    max-height      : 3px !important;
+}
+
+.css-1vlry5a-MuiTableContainer-root::-webkit-scrollbar-thumb:hover {
+    background-color: black;
+    max-width       : 2px !important;
+    max-height      : 3px !important;
+}
+
+.css-80pr5n-MuiPaper-root {
+    margin-left : 2%;
+    margin-right: 2%;
+}
