@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import {
- 
   Box,
   Button,
   Grid,
@@ -10,14 +9,15 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select
+  Select,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
-// import { useEffect } from 'preact/hooks';
+import { GetAccount } from '../../services/AccountApi';
+import { addProject } from '../../services/ProjectApi';
+import '../Account/Account.style.scss';
 
 // const Accounts = ['Honeywell', 'LG', 'Symphony'];
 // const handleAddSkillTags: any = (value: any) => {
@@ -28,49 +28,37 @@ import { ProjectInterface } from '../../Interface/ProjectInterface';
 //   value.setFieldValue('skills', value);
 // };
 
-// interface AddProjectInterface{
-//   // projectId:string;
-//   accountId:string;
-//   projectName:string;
-//   projectDetails:string;
-//   projectManager:string;
-//   selectedAccountId: string;
-// }
 const AddProject: React.FunctionComponent = () => {
-  const API_URL="http://localhost:5141/api/v1/Project";
   // const [accountsValue, setaccountsValue] = useState<any>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   // const [names, setNames] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedName, setSelectedName] = useState<string>("");
-  const initialValues:ProjectInterface={
-    id:'',
+  const [selectedName, setSelectedName] = useState<string>('');
+  const initialValues: ProjectInterface = {
+    id: '',
     projectName: '',
     projectDetails: '',
     projectManager: '',
-    projectId:'',
-    selectedAccountId: "",
-    accountId: ''
-  }
+    projectId: '',
+    selectedAccountId: '',
+    accountId: '',
+  };
   const formik = useFormik({
     initialValues,
-    onSubmit: (values,{ resetForm }) => {
+    onSubmit:async (values, { resetForm }) => {
       values.accountId = values.selectedAccountId;
-      axios.post(API_URL, values)
-      .then((response) => {
-      resetForm();
-      setSuccessMessage('Project added successfully');
-        console.log(response);
-      })
-      .catch((error) => {
+      try {
+        await addProject(values);
+        resetForm();
+        setSuccessMessage('Project added successfully');
+        // console.log(response);
+      } catch (error) {
         console.log(error);
-      });
-      console.log(values);
+      }
     },
     validate: (values) => {
       const errors: any = {};
-      
-    
+
       if (values.projectName.length === 0) {
         errors.Pname = 'Please enter name';
       }
@@ -81,62 +69,45 @@ const AddProject: React.FunctionComponent = () => {
     },
   });
   const [data, setData] = useState<AccountInterface[]>([]);
-useEffect(()=>{
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const fetchData=async()=>{
-    try {
-      const result = await axios.get<AccountInterface[]>('http://localhost:5141/api/v1/Account');
-      setData(result.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  fetchData();
-},[])
+  useEffect(() => {
+    GetAccount()
+      .then((response: any) => {
+        setData(response.data);
+      })
+      .catch((error: any) => console.log('error', error));
+  }, []);
 
-useEffect(() => {
-  const selectedAccount = data.find((account) => account.id === formik.values.selectedAccountId);
-  setSelectedName(selectedAccount?.accountName ?? "");
-}, [formik.values.selectedAccountId, data]);
+  useEffect(() => {
+    const selectedAccount = data.find(
+      (account) => account.id === formik.values.selectedAccountId
+    );
+    setSelectedName(selectedAccount?.accountName ?? '');
+  }, [formik.values.selectedAccountId, data]);
   return (
     <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginLeft: '2%',
-        marginRight: '2%',
-        marginTop: '2%',
-      }}
+    className="add"
     >
       <Typography
         component="h1"
         variant="h5"
-        style={{ fontWeight: 600, marginTop: '2%' }}
+        className="addheader"
       >
         Add Project
       </Typography>
       <Grid container justifyContent="center" alignItems="center">
-      
-          <Card
-            style={{
-              marginBottom: '1%',
-              width: '100%',
-              marginTop: '1rem',
-              backgroundColor: 'lavender',
-            }}
-          >
-             {successMessage && (
-      <div style={{ color: 'green', margin: '10px 0' }}>
-        {successMessage}
-      </div>
-    )}
-              <form onSubmit={formik.handleSubmit}>
+        <Card
+          className='cardstyle'
+        >
+          {successMessage && (
+            <div style={{ color: 'green', margin: '10px 0' }}>
+              {successMessage}
+            </div>
+          )}
+          <form onSubmit={formik.handleSubmit}>
             <Grid
               container
               direction="column"
-              style={{ marginLeft: '2rem', marginRight: '2rem' }}
+              className="girdstyle"
               justifyContent="center"
               alignItems="center"
             >
@@ -174,31 +145,33 @@ useEffect(() => {
                   />
                 )}
               /> */}
- 
-             <FormControl style={{marginTop:'1rem',width:'40%'}}>
-              <InputLabel id='name-label'>Account</InputLabel>
-              <Select
-             fullWidth
-    labelId="name-label"
-    value={formik.values.selectedAccountId}
-      // update the selectedAccountId field in the values object
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onChange={async (event) =>
-        await formik.setFieldValue("selectedAccountId", event.target.value)
-      }
-  >
-    {data.map((data) => (
-      <MenuItem key={data.id} value={data.id}>
-        {data.accountName}
-      </MenuItem>
-    ))}
-  </Select>
-             </FormControl>
-            
-              
+
+              <FormControl style={{ marginTop: '1rem', width: '40%' }}>
+                <InputLabel id="name-label">Account</InputLabel>
+                <Select
+                  fullWidth
+                  labelId="name-label"
+                  value={formik.values.selectedAccountId}
+                  // update the selectedAccountId field in the values object
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                  onChange={async (event) =>
+                    await formik.setFieldValue(
+                      'selectedAccountId',
+                      event.target.value
+                    )
+                  }
+                >
+                  {data.map((data) => (
+                    <MenuItem key={data.id} value={data.id}>
+                      {data.accountName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <TextField
                 margin="normal"
-                style={{ width: '40%' }}
+                className='textfield'
                 size="small"
                 label="Project Name"
                 type="text"
@@ -207,21 +180,17 @@ useEffect(() => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              { formik.errors.projectName ? (
+              {formik.errors.projectName ? (
                 <Typography
                   variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '21rem',
-                  }}
+                  className="error"
                 >
                   {formik.errors.projectName}
                 </Typography>
               ) : null}
               <TextField
                 margin="normal"
-                style={{ width: '40%' }}
+                className='textfield'
                 size="small"
                 label="Project Manager"
                 type="text"
@@ -230,14 +199,10 @@ useEffect(() => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              {formik.errors.projectManager  ? (
+              {formik.errors.projectManager ? (
                 <Typography
                   variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '17rem',
-                  }}
+                  className="error"
                 >
                   {formik.errors.projectManager}
                 </Typography>
@@ -247,7 +212,7 @@ useEffect(() => {
                 margin="normal"
                 multiline
                 rows={2}
-                style={{ width: '40%' }}
+                className='textfield'
                 size="small"
                 label="Project Details"
                 type="text"
@@ -256,14 +221,10 @@ useEffect(() => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-              { formik.errors.projectDetails ? (
+              {formik.errors.projectDetails ? (
                 <Typography
                   variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                    marginRight: '20rem',
-                  }}
+                  className="error"
                 >
                   {formik.errors.projectDetails}
                 </Typography>
@@ -271,7 +232,7 @@ useEffect(() => {
 
               <Button
                 type="submit"
-                style={{ width: '40%' }}
+                className='textfield'
                 size="small"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -279,9 +240,8 @@ useEffect(() => {
                 Create Project
               </Button>
             </Grid>
-            </form>
-          </Card>
-       
+          </form>
+        </Card>
       </Grid>
     </Box>
   );

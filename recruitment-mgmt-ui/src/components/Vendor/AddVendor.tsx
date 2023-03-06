@@ -2,9 +2,8 @@
 import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-
-import axios from 'axios';
 import { VendorInterface } from '../../Interface/VendorInterface';
+import { addVendor } from '../../services/VendorApi';
 
 // interface AddAccountInterface{
 //   id:string;
@@ -14,7 +13,7 @@ import { VendorInterface } from '../../Interface/VendorInterface';
 //     accountManager: string;
 // }
 const AddVendor: React.FunctionComponent = () => {
-  const API_URL="http://localhost:5141/api/v1/Vendor";
+  
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const initialValues:VendorInterface={
     vendorId:'',
@@ -27,18 +26,15 @@ const AddVendor: React.FunctionComponent = () => {
   }
   const formik = useFormik({
     initialValues ,
-    onSubmit: (values,{ resetForm }) => {
-      
-      axios.post(API_URL, values)
-      .then((response) => {
-      resetForm();
-      setSuccessMessage('Account added successfully');
-        console.log(response);
-      })
-      .catch((error) => {
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await addVendor(values);
+        resetForm();
+        setSuccessMessage('Vendor added successfully');
+        // console.log(response);
+      } catch (error) {
         console.log(error);
-      });
-      console.log(values);
+      }
     },
     validate: (values) => {
       const errors: any = {};

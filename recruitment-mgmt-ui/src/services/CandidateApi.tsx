@@ -1,13 +1,12 @@
 import axios from 'axios' ;
 import { API_BASE_PATH } from '../Config/config';
-import { ProjectInterface } from '../Interface/ProjectInterface';
-export const API_URL='/Project';
+import { CandidateInterface } from '../Interface/CandidateInterface';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const GetProject = async () => {
+export const GetCandidate = async () => {
     const Response = await axios
-      .get<ProjectInterface[]>(
-        `${API_BASE_PATH}${API_URL}`
+      .get<CandidateInterface[]>(
+        `${API_BASE_PATH}/CandidateProfile`
       )
       .then((response) => {
         return response;
@@ -17,11 +16,11 @@ export const GetProject = async () => {
       });
     return Response;
   };
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  export const addProject = async (project: ProjectInterface) => {
+  
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const addCandidate = async (candidate: CandidateInterface) => {
     try {
-      const response = await axios.post(`${API_BASE_PATH}${API_URL}`, project);
+      const response = await axios.post(`${API_BASE_PATH}/CandidateProfile`, candidate);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -30,4 +29,7 @@ export const GetProject = async () => {
   };
 
 
- 
+
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  

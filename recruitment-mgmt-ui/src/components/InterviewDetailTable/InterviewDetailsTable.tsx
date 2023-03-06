@@ -1,27 +1,25 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-import FeedbackDetails from './FeedbackDetails';
-import { CandidateInterface } from '../../Interface/CandidateInterface';
-import DownloadResume from '../Resume/downloadResume';
-import { GetCandidate } from '../../services/CandidateApi';
-// import { getRowIdFromRowModel } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
+import Feedback from './Feedback';
+import { InterviewInterface } from '../../Interface/InterviewInterface';
+import { GetScheduleInterview } from '../../services/ScheduleInterviewApi';
 
-const CandidateTable: React.FunctionComponent = () => {
-  const [data, setData] = useState<CandidateInterface[]>([]);
+const InterviewDetailTable: React.FunctionComponent = () => {
+  const [data, setData] = useState<InterviewInterface[]>([]);
 
   useEffect(() => {
-    GetCandidate()
+    GetScheduleInterview()
       .then((response: any) => {
         setData(response.data);
       })
       .catch((error: any) => console.log('error', error));
   }, []);
 
-  const columns = useMemo<Array<MRT_ColumnDef<CandidateInterface>>>(
+  const columns = useMemo<Array<MRT_ColumnDef<InterviewInterface>>>(
     () => [
       {
-        accessorKey: 'candidateName',
+        accessorKey: 'name',
         header: 'Candidate Name',
         // size:70,
       },
@@ -31,12 +29,12 @@ const CandidateTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'email',
+        accessorKey: 'cceMail',
         header: 'Email',
         // size:120,
       },
       {
-        accessorKey: 'yearOfExperience',
+        accessorKey: 'experience',
         header: 'Experience',
         // size:80,
       },
@@ -56,18 +54,19 @@ const CandidateTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'interviewerName',
+        header: 'Interviewer Name',
         // size:120,
       },
       {
-        accessorKey: 'Hired',
-        header: 'Hired',
+        accessorKey: 'scheduledTimeFrom',
+        header: 'Scheduled Date',
         // size:80,
       },
     ],
     []
   );
+
   return (
     <Box>
       <Typography
@@ -83,14 +82,13 @@ const CandidateTable: React.FunctionComponent = () => {
         }}
         className="tableheader"
       >
-        Candidate Details
+        Interview Details
       </Typography>
       <MaterialReactTable
         columns={columns}
         data={data}
         //    enableColumnActions={false}
         //    enableColumnFilters={false}
-        getRowId={(row) => row.id}
         muiTablePaginationProps={{
           rowsPerPageOptions: [5, 10, 20, 50],
         }}
@@ -122,6 +120,7 @@ const CandidateTable: React.FunctionComponent = () => {
         //   enableGrouping
         //   enablePinning
         enableRowActions
+        getRowId={(row) => row.candidateId}
         //   enableRowSelection
         enableColumnResizing
         positionActionsColumn="last"
@@ -138,8 +137,7 @@ const CandidateTable: React.FunctionComponent = () => {
         renderRowActions={({ row }) => (
           <div>
             <Box display="flex" justifyContent="center" alignItems="center">
-              <DownloadResume id={row.id} />
-              <FeedbackDetails />
+              <Feedback candidateId={row.id} />
               {/* <EditCandidateStatus /> */}
             </Box>
           </div>
@@ -149,4 +147,4 @@ const CandidateTable: React.FunctionComponent = () => {
   );
 };
 
-export default CandidateTable;
+export default InterviewDetailTable;

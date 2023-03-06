@@ -1,9 +1,9 @@
 import React, { useMemo,useState,useEffect } from 'react';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-import ScheduleInterview from '../Interview/ScheduleInterview';
+import ScheduleInterview from '../../ScheduleInterview/ScheduleInterview';
 import EditCandidateStatus from './EditCandidateStatus';
 import { Box } from '@mui/material';
-import axios from 'axios';
+import { GetCandidate } from '../../../services/CandidateApi';
 interface CandidateData {
   id:string;
   vendor: string;
@@ -20,23 +20,15 @@ interface CandidateData {
   Hired: string;
 }
 
-
 const AppliedCandidateTable: React.FunctionComponent = () => {
   const [data, setData] = useState<CandidateData[]>([]);
-  const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
+
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<CandidateData[]>(API_URL);
-        setData(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }; 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-    console.log(data);
+    GetCandidate()
+      .then((response: any) => {
+        setData(response.data);
+      })
+      .catch((error: any) => console.log('error', error));
   }, []);
    
   const columns = useMemo<Array<MRT_ColumnDef<CandidateData>>>(

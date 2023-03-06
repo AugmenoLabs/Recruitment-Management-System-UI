@@ -13,48 +13,32 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
-
-interface Project {
-  id: string;
-  projectName: string;
-}
+import { API_URL, GetProject } from '../../services/ProjectApi';
+import { API_BASE_PATH } from '../../Config/config';
+import '../Account/Account.style.scss';
 
 const ProjectTable: React.FunctionComponent = () => {
   const [data, setData] = useState<ProjectInterface[]>([]);
-  const [contacts, setContacts] = useState<Project[]>([]);
-
-  const API_URL = 'http://localhost:5141/api/v1/Project';
-  // const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const fetchData = async () => {
-    const fetchData = await axios.get(API_URL);
-    const fetchProject = await axios.get('http://localhost:5141/api/v1/Project');
-    setData(fetchData.data);
-    setContacts(fetchProject.data);
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-    console.log(data);
+    GetProject()
+      .then((response: any) => {
+        setData(response.data);
+      })
+      .catch((error: any) => console.log('error', error));
   }, []);
+
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
 
-  const getContactsById = (id: string) => {
-    return contacts
-      .filter((c) => c.id === id)
-      .map((c) => c.projectName)
-      .join(', ');
-  };
   const handleSaveRowEdits: MaterialReactTableProps<ProjectInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!Object.keys(validationErrors).length) {
         try {
           const response = await axios.put(
-            `${API_URL}/Update?id=${row.original.id}`,
+            `${API_BASE_PATH}${API_URL}/Update?id=${row.original.id}`,
             values
           );
 
@@ -89,7 +73,7 @@ const ProjectTable: React.FunctionComponent = () => {
     }
 
     try {
-      await axios.delete(`${API_URL}/${row.original.id}`);
+      await axios.delete(`${API_BASE_PATH}${API_URL}/${row.original.id}`);
       setData((prevState) =>
         prevState.filter((item) => item.id !== row.original.id)
       );
@@ -179,14 +163,6 @@ const ProjectTable: React.FunctionComponent = () => {
       <Typography
         gutterBottom
         variant="h5"
-        sx={{
-          paddingLeft: '2rem',
-          paddingTop: '1.2rem',
-          margin: 0,
-          fontWeight: 600,
-          fontSize: '30px',
-          marginBottom: '2%',
-        }}
         className="tableheader"
       >
         Project

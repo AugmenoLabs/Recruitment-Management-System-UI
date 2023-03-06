@@ -8,51 +8,19 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { VendorInterface } from '../../Interface/VendorInterface';
-
-// const data: AccountTableData[] = [
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'FDU',
-//     ProjectName: 'Forge Data Unity',
-//     Manager: 'Sneha',
-//   },
-//   {
-//     id: 'HON123',
-//     name: 'HoneyWell',
-//     ProjectID: 'X001',
-//     ProjectName: 'XDR',
-//     Manager: 'Sanjeev',
-//   },
-//   {
-//     id: 'SYM123',
-//     name: 'Symphony',
-//     ProjectID: 'ABC',
-//     ProjectName: 'Bot',
-//     Manager: 'Anshu',
-//   },
-// ];
+import { GetVendor } from '../../services/VendorApi';
 
 const VendorTable: React.FunctionComponent = () => {
   const [data, setData] = useState<VendorInterface[]>([]); 
  
-  const API_URL = 'http://localhost:5141/api/v1/Vendor';
-  // const [isDeleting, setIsDeleting] = useState(false);
- 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<VendorInterface[]>(API_URL);
-        setData(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-    console.log(data);
+    GetVendor()
+      .then((response: any) => {
+        setData(response.data);
+      })
+      .catch((error: any) => console.log('error', error));
   }, []);
+      
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});

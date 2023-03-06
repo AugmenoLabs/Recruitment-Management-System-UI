@@ -10,6 +10,7 @@ import MaterialReactTable, {
   MRT_ColumnDef,
   MRT_Row,
 } from 'material-react-table';
+import './Account.style.scss'
 import { Box, Button, MenuItem, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,41 +25,37 @@ const AccountTable: React.FunctionComponent = () => {
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
-  
+
   const handleSaveRowEdits: MaterialReactTableProps<AccountInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (!Object.keys(validationErrors).length) {
-       
+      if (Object.keys(validationErrors).length === 0) {
         try {
-          const response = await axios.put(`${API_BASE_PATH}${API_URL}/Update?id=${row.original.id}`, values);
-          
+          const response = await axios.put(
+            `${API_BASE_PATH}${API_URL}/Update?id=${row.original.id}`,
+            values
+          );
           const updatedRow = response.data;
           data[row.index] = values;
-         
           setData([...data]);
-  
+
           // Update the state with the updated row
-          setData(prevState => {
+          setData((prevState) => {
             const newData = [...prevState];
             newData[row.index] = updatedRow;
             return newData;
           });
-  
+
           exitEditingMode();
         } catch (error) {
           console.error(error);
         }
-       
       }
     };
-   
-   
-    const handleCancelRowEdits = () => {
+
+  const handleCancelRowEdits = () => {
     setValidationErrors({});
-   
   };
-  
+
   const handleDeleteRow = async (row: MRT_Row<AccountInterface>) => {
     if (
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -83,10 +80,11 @@ const AccountTable: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
-  GetAccount().then((response: any) => { 
-      setData(response.data);
-  })
-  .catch((error: any) => console.log("error", error))
+    GetAccount()
+      .then((response: any) => {
+        setData(response.data);
+      })
+      .catch((error: any) => console.log('error', error));
   }, []);
 
   const handleUpdateRow = (updatedRow: AccountInterface, index: number) => {
@@ -139,16 +137,13 @@ const AccountTable: React.FunctionComponent = () => {
         accessorKey: 'id',
         header: 'ID',
         enableColumnOrdering: false,
-        enableEditing: false, 
-        
+        enableEditing: false,
         enableSorting: false,
-       
       },
       {
         accessorKey: 'accountId',
         header: 'AccountID',
         size: 80,
-      
       },
       {
         accessorKey: 'accountName',
@@ -182,14 +177,6 @@ const AccountTable: React.FunctionComponent = () => {
       <Typography
         gutterBottom
         variant="h5"
-        sx={{
-          paddingLeft: '2rem',
-          paddingTop: '1.2rem',
-          margin: 0,
-          fontWeight: 600,
-          fontSize: '30px',
-          marginBottom: '2%',
-        }}
         className="tableheader"
       >
         Account
@@ -199,13 +186,12 @@ const AccountTable: React.FunctionComponent = () => {
         data={data}
         //    enableColumnActions={false}
         //    enableColumnFilters={false}
-
         muiTablePaginationProps={{
           rowsPerPageOptions: [5, 10, 20, 50],
         }}
         initialState={{
           density: 'compact',
-          columnVisibility: { id:false,},
+          columnVisibility: { id: false },
           pagination: { pageSize: 5, pageIndex: 0 },
         }}
         enableDensityToggle={false}
@@ -222,7 +208,6 @@ const AccountTable: React.FunctionComponent = () => {
           sx: {
             tableLayout: 'fixed',
             align: 'center',
-
             marginLeft: '2%',
           },
         }}
@@ -260,12 +245,12 @@ const AccountTable: React.FunctionComponent = () => {
           },
         }}
         enableColumnActions={false}
-        renderRowActionMenuItems={({ row,table }) => [
+        renderRowActionMenuItems={({ row, table }) => [
           <MenuItem
             key={1}
             onClick={(event) => {
               // Send email logic...
-              console.info(event)
+              console.info(event);
               table.setEditingRow(row);
             }}
             sx={{ m: 0, display: 'flex' }}

@@ -1,13 +1,14 @@
-import axios from 'axios' ;
+import axios from 'axios';
+// import { useParams } from 'react-router-dom';
 import { API_BASE_PATH } from '../Config/config';
-import { ProjectInterface } from '../Interface/ProjectInterface';
-export const API_URL='/Project';
+import { RequisitionInterface } from '../Interface/RequisitionInterface';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const GetProject = async () => {
+export const GetOpenPositionById = async (id:string | undefined) => {
     const Response = await axios
-      .get<ProjectInterface[]>(
-        `${API_BASE_PATH}${API_URL}`
+      .get(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        `${API_BASE_PATH}/OpenPosition/${id}`
       )
       .then((response) => {
         return response;
@@ -19,15 +20,12 @@ export const GetProject = async () => {
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  export const addProject = async (project: ProjectInterface) => {
+  export const addJobOpening = async (opening: RequisitionInterface) => {
     try {
-      const response = await axios.post(`${API_BASE_PATH}${API_URL}`, project);
+      const response = await axios.post(`${API_BASE_PATH}/OpenPosition`, opening);
       return response.data;
     } catch (error) {
       console.error(error);
       throw new Error('Failed to add account');
     }
   };
-
-
- 

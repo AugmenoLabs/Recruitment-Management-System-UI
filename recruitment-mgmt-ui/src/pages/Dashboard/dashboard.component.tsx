@@ -16,8 +16,8 @@ import {
 
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
-import JobCards from '../../components/Dashboard/JobCard';
-import JobOpeningTable from '../../components/JobOpeningTable/JobOpeningTable.component';
+import JobCards from '../../components/JobOpening/JobCard';
+import JobOpeningTable from '../../components/JobOpening/JobOpeningTable.component';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useNavigate } from 'react-router';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';

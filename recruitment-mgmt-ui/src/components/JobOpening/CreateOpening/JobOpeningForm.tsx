@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useEffect, useState } from 'react';
-// import { useFormik } from 'formik';
-import './Requisition.css';
-// import { toast } from "react-toastify";
 import {
   Box,
   TextField,
@@ -18,25 +15,24 @@ import {
   Select,
 } from '@mui/material';
 import axios from 'axios';
-import { AccountInterface } from '../../Interface/AccountInterface';
-import { ProjectInterface } from '../../Interface/ProjectInterface';
-import { RequisitionInterface } from '../../Interface/RequisitionInterface';
+import { AccountInterface } from '../../../Interface/AccountInterface';
+import { ProjectInterface } from '../../../Interface/ProjectInterface';
+import { RequisitionInterface } from '../../../Interface/RequisitionInterface';
+import { GetAccount } from '../../../services/AccountApi';
+import { addJobOpening } from '../../../services/OpenPositionApi';
 
 const skills = ['react', 'java', 'dotnet'];
 // const NotRequired = [""];
 const handleAddSkillTags: any = (value: any) => {
-  
   const skillValue = value.toString();
   value.setFieldValue('skills', skillValue);
 };
 const handleRemoveSkills: any = (value: any) => {
   value.setFieldValue('skills', value);
 };
-const Requisition: React.FunctionComponent = () => {
-  const API_URL="http://localhost:5141/api/v1/OpenPosition";
+const JobOpeningForm: React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
-  const [position,setPosition] = useState<RequisitionInterface>({
-    
+  const [position, setPosition] = useState<RequisitionInterface>({
     jobId: '',
     jobTitle: '',
     accountId: '',
@@ -55,31 +51,33 @@ const Requisition: React.FunctionComponent = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const [selectedProject, setSelectedProject] = useState<string>('');
 
-  const handleChange = (event:any): void => {
+  const handleChange = (event: any): void => {
     setPosition({ ...position, [event.target.name]: event.target.value });
   };
-  const  handleCreate =  async (event:React.MouseEvent<HTMLElement>): Promise<void> => {
+  const handleCreate = async (
+    event: React.MouseEvent<HTMLElement>
+  ): Promise<void> => {
     position.accountId = selectedAccountId;
     position.projectId = selectedProject;
 
-    position.skillSet = autoCompleteValue.join(",");
-    await axios.post(API_URL,position )
-      .then(response => {
+    position.skillSet = autoCompleteValue.join(',');
+    await addJobOpening(position)
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-      }); 
+      });
   };
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
       try {
-        const result = await axios.get<AccountInterface[]>(
-          'http://localhost:5141/api/v1/Account'
-        );
-        setData(result.data);
+        const result = await GetAccount();
+        if (result?.data) {
+          setData(result.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -165,16 +163,15 @@ const Requisition: React.FunctionComponent = () => {
               value={position.jobTitle}
               onChange={handleChange}
             />
-            <FormControl style = {{marginTop:'1rem'}}fullWidth>
+            <FormControl style={{ marginTop: '1rem' }} fullWidth>
               <InputLabel id="name-label">Accounts</InputLabel>
               <Select
                 labelId="name-label"
                 fullWidth
-                
                 value={selectedAccountId}
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => {
-                  setSelectedAccountId(event.target.value );
+                  setSelectedAccountId(event.target.value);
                 }}
               >
                 {data.map((data) => (
@@ -185,26 +182,29 @@ const Requisition: React.FunctionComponent = () => {
               </Select>
             </FormControl>
 
-            <FormControl style = {{marginTop:'1rem'}} fullWidth>
+            <FormControl style={{ marginTop: '1rem' }} fullWidth>
               <InputLabel id="project-label">Project</InputLabel>
               <Select
                 labelId="project-label"
                 value={selectedProject}
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                onChange={(event) =>
-                  setSelectedProject(event.target.value )
-                }
+                onChange={(event) => setSelectedProject(event.target.value)}
                 // disabled={!selectedAccountId}
               >
                 {data.map(
                   (account) =>
                     // Check if the account has any projects before mapping over them
                     !!account.projects &&
-                    account.projects.filter(selectedProject=>selectedProject.accountId===selectedAccountId).map((project) => (
-                      <MenuItem key={project.id} value={project.id}>
-                        {project.projectName}
-                      </MenuItem>
-                    ))
+                    account.projects
+                      .filter(
+                        (selectedProject) =>
+                          selectedProject.accountId === selectedAccountId
+                      )
+                      .map((project) => (
+                        <MenuItem key={project.id} value={project.id}>
+                          {project.projectName}
+                        </MenuItem>
+                      ))
                 )}
               </Select>
             </FormControl>
@@ -220,7 +220,7 @@ const Requisition: React.FunctionComponent = () => {
               onChange={handleChange}
             />
 
-{/* <TextField
+            {/* <TextField
               margin="normal"
               size="small"
               fullWidth
@@ -295,7 +295,6 @@ const Requisition: React.FunctionComponent = () => {
               size="small"
               value={position.qualification}
               onChange={handleChange}
-
             />
 
             <TextField
@@ -366,7 +365,7 @@ const Requisition: React.FunctionComponent = () => {
           }}
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          onClick = {handleCreate}
+          onClick={handleCreate}
         >
           Create Opening
         </Button>
@@ -384,4 +383,4 @@ const Requisition: React.FunctionComponent = () => {
   );
 };
 
-export default Requisition;
+export default JobOpeningForm;

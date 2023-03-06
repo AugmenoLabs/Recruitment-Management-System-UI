@@ -28,15 +28,16 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
 import { useParams } from 'react-router-dom';
+import { addCandidate } from '../../services/CandidateApi';
+import { GetVendor } from '../../services/VendorApi';
+import { GetOpenPositionById } from '../../services/OpenPositionApi';
 
 const CandidateApply: React.FunctionComponent = () => {
-  const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
-
-  // const [autoCompleteKeyword, setAutoCompleteKeyword] = useState<any>([]);
   const [noticePeriod, setnoticePeriod] = React.useState('');
   const handleChangeNotice: any = (event: SelectChangeEvent) => {
     setnoticePeriod(event.target.value);
   };
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [selectedName, setSelectedName] = useState<string>('');
   const [data, setData] = useState<CandidateInterface[]>([]);
   const [jobType, setjobType] = useState<string>('');
@@ -49,7 +50,7 @@ const CandidateApply: React.FunctionComponent = () => {
   const handleChangeOffer: any = (event: SelectChangeEvent) => {
     setoffer(event.target.value);
   };
-  const { id } = useParams<{ id: "" }>();
+  const { id } = useParams<{ id: string | undefined }>();
   const [positions, setPositions] = useState({
     jobId: '',
     id: '',
@@ -61,7 +62,6 @@ const CandidateApply: React.FunctionComponent = () => {
     qualification: '',
     jobDescription: '',
     noOfPositions: 0,
-   
     budget: '',
     location: '',
     account: '',
@@ -79,15 +79,10 @@ const CandidateApply: React.FunctionComponent = () => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          `http://localhost:5141/api/v1/OpenPosition/${id}`
-        );
-        // const dataArray = Array.from(response.data);
-        setPositions(response.data);
-        // setUser(response.data);
-        console.log(response.data);
-        // console.log('proj', dataArray.length);
+        const response = await GetOpenPositionById(id);
+        if (response?.data) {
+          setPositions(response.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -153,8 +148,8 @@ const CandidateApply: React.FunctionComponent = () => {
     residentialAddress: '',
     permanenetAddress: '',
     position: 'string',
-    primarySkills:'',
-    secondarySkills:'',
+    primarySkills: '',
+    secondarySkills: '',
     account: '',
     status: '',
     Hired: '',
@@ -167,22 +162,32 @@ const CandidateApply: React.FunctionComponent = () => {
     selectedVendorId: '',
     id: '',
     qualification: '',
-    openPositionId:id,
-   
+    openPositionId: id,
   };
   const formik = useFormik({
     initialValues,
-    onSubmit: (values) => {
+    // onSubmit: (values) => {
+    //   values.vendorId = values.selectedVendorId;
+    //   axios
+    //     .post(API_URL, values)
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    //   console.log(values);
+    // },
+    onSubmit: async (values, { resetForm }) => {
       values.vendorId = values.selectedVendorId;
-      axios
-        .post(API_URL, values)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      console.log(values);
+      try {
+        await addCandidate(values);
+        resetForm();
+        setSuccessMessage('Candidate uplaoded successfully');
+        // console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
     validate: (values) => {
       const errors: any = {};
@@ -208,10 +213,10 @@ const CandidateApply: React.FunctionComponent = () => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
       try {
-        const result = await axios.get<CandidateInterface[]>(
-          'http://localhost:5141/api/v1/Vendor'
-        );
-        setData(result.data);
+        const result = await GetVendor();
+        if (result?.data) {
+          setData(result.data);
+        }
       } catch (error) {
         console.error(error);
       }
