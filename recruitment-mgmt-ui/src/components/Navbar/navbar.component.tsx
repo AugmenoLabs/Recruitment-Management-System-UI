@@ -335,7 +335,7 @@ const NavBar: React.FunctionComponent = () => {
         PaperProps={{
           sx: {
             top: '2%',
-            backgroundColor: 'black',
+            backgroundColor:'rgb(0 36 126)',
             color: 'white',
           },
         }}
