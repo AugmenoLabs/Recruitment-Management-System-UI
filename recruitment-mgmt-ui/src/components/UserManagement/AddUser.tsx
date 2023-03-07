@@ -2,9 +2,10 @@
 import React,{useState} from 'react';
 // import { useFormik } from 'formik';
 import { Box, Button,Card, Grid, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+// import axios from 'axios';
 import { getToken } from '../../keycloak/GetToken';
 import { UserInterface } from '../../Interface/UserInterface';
+import { addUser } from '../../services/UserApi';
 
 
 const AddUser: React.FunctionComponent = () => {
@@ -25,12 +26,7 @@ const AddUser: React.FunctionComponent = () => {
   const handleSubmit =  async (event:React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const token = await getToken();
-    await axios.post('/admin/realms/MyRealm/users', user,{
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    await addUser(user,token)
       .then(response => {
         console.log(response.data);
       })

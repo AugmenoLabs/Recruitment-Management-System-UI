@@ -8,6 +8,7 @@ import axios from 'axios';
 import { clientId } from '../../keycloak/ClientDetails';
 // import { UserInterface } from '../../Interfaces/UserInterface';
 import { useParams } from 'react-router-dom';
+import { roleMapping } from '../../services/UserApi';
 
 const RoleMapping: React.FunctionComponent = () => {
   const columns: GridColDef[] = [
@@ -48,15 +49,12 @@ const GetAssignedRoles = async () => {
   try {
     const token = await getToken();
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const response = await axios.get<RoleInterface[]>(`/admin/realms/MyRealm/users/${id}/role-mappings/clients/${clientId}`, {
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    setRowdata(response.data);
-    
-    console.log("def",response.data);
+    const response = await roleMapping(id,token);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if(response){
+    setRowdata(response);
+  }
+  
   } catch (error) {
     
     console.error(error);
