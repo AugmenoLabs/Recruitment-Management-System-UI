@@ -284,20 +284,6 @@ const NavBar: React.FunctionComponent = () => {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <MailIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <NotificationsIcon />
-            </IconButton>
-            <IconButton
-              size="large"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"

@@ -165,7 +165,7 @@ const ProjectTable: React.FunctionComponent = () => {
         variant="h5"
         className="tableheader"
       >
-        Project
+        PROJECT
       </Typography>
       <MaterialReactTable
         columns={columns}

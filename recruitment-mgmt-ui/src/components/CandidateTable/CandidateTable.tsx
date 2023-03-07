@@ -23,12 +23,19 @@ const CandidateTable: React.FunctionComponent = () => {
       {
         accessorKey: 'candidateName',
         header: 'Candidate Name',
-        // size:70,
+        size:130,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'contactNumber',
         header: 'Contact No.',
-        // size:120,
+        size:100,
       },
       {
         accessorKey: 'email',
@@ -38,32 +45,61 @@ const CandidateTable: React.FunctionComponent = () => {
       {
         accessorKey: 'yearOfExperience',
         header: 'Experience',
-        // size:80,
+        size:90,
       },
       {
         accessorKey: 'position',
         header: 'Position',
-        // size:60,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'account',
         header: 'Account',
-        // size:120,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'project',
         header: 'Project',
-        // size:120,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'status',
         header: 'Status',
-        // size:120,
+        size:100,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'Hired',
         header: 'Hired',
-        // size:80,
+        size:100,
+
       },
     ],
     []
@@ -83,7 +119,7 @@ const CandidateTable: React.FunctionComponent = () => {
         }}
         className="tableheader"
       >
-        Candidate Details
+        CANDIDATE DETAILS
       </Typography>
       <MaterialReactTable
         columns={columns}
@@ -140,7 +176,7 @@ const CandidateTable: React.FunctionComponent = () => {
         enableColumnActions={false}
         renderRowActions={({ row }) => (
           <div>
-            <Box display="flex" justifyContent="center" alignItems="center">
+            <Box display="flex" justifyContent="flex-start" alignItems="center" style={{marginLeft:'-1rem'}}>
               <DownloadResume id={row.id} />
               <FeedbackDetails />
               {/* <EditCandidateStatus /> */}

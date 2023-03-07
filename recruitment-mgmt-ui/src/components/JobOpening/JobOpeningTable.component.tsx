@@ -227,17 +227,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           },
         }),
       },
-      {
-        accessorKey: 'onboarded',
-        header: 'Hired',
-        size:80,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
-      },
+      
       // {
       //   accessorKey: 'yearOfExp',
       //   header: 'Experience',
@@ -322,6 +312,17 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         //   },
         // }),
       },
+      {
+        accessorKey: 'onboarded',
+        header: 'Hired',
+        size:80,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -360,7 +361,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           '& .Mui-TableHeadCell-Content': {
             justifyContent: 'left',
             fontWeight: 600,
-            color: 'blue',
+            color: 'darkblue',
           },
         },
       }}

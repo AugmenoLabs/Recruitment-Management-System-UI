@@ -129,19 +129,20 @@ const JobOpeningForm: React.FunctionComponent = () => {
       </Typography>
       <Card
         style={{
-          width: '97%',
+         
           marginTop: '1rem',
           marginLeft: '1rem',
-          backgroundColor: 'lavender',
+          marginRight:'1rem',
+          backgroundColor: 'white',
         }}
       >
         {/* <form onSubmit={formik.handleSubmit}> */}
-        <Grid container spacing={5}>
+        <Grid container>
           <Grid
             item
-            xs={5.5}
+            xs={5.2}
             direction="column"
-            style={{ marginLeft: '1rem', marginRight: '2rem' }}
+            style={{ marginLeft: '2rem' }}
           >
             <TextField
               margin="normal"
@@ -163,11 +164,12 @@ const JobOpeningForm: React.FunctionComponent = () => {
               value={position.jobTitle}
               onChange={handleChange}
             />
-            <FormControl style={{ marginTop: '1rem' }} fullWidth>
-              <InputLabel id="name-label">Accounts</InputLabel>
+            <FormControl  size="small" style={{ marginTop: '1rem' }} fullWidth>
+              <InputLabel id="name-label" >Accounts</InputLabel>
               <Select
                 labelId="name-label"
                 fullWidth
+                label='Accounts'
                 value={selectedAccountId}
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => {
@@ -182,11 +184,12 @@ const JobOpeningForm: React.FunctionComponent = () => {
               </Select>
             </FormControl>
 
-            <FormControl style={{ marginTop: '1rem' }} fullWidth>
+            <FormControl size='small' style={{ marginTop: '1rem' }} fullWidth>
               <InputLabel id="project-label">Project</InputLabel>
               <Select
                 labelId="project-label"
                 value={selectedProject}
+                label='Project'
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => setSelectedProject(event.target.value)}
                 // disabled={!selectedAccountId}
@@ -274,7 +277,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
            
           /> */}
           </Grid>
-          <Grid item xs={5.5} direction="column">
+          <Grid item xs={5.2} direction="column" style={{marginLeft:'2.5rem',marginRight:'2rem'}}>
             <TextField
               margin="normal"
               fullWidth
@@ -354,14 +357,15 @@ const JobOpeningForm: React.FunctionComponent = () => {
                 </Typography>
               ) : null} */}
           </Grid>
-        </Grid>
-        <Button
+          </Grid>
+        <Grid container justifyContent='center' alignItems='center'>
+                 <Button
           // type="submit"
           size="large"
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: '32rem',
+       
           }}
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
@@ -369,6 +373,9 @@ const JobOpeningForm: React.FunctionComponent = () => {
         >
           Create Opening
         </Button>
+        </Grid>
+       
+ 
         {/* <Button
             type="submit"
             fullWidth

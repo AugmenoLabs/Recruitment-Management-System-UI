@@ -179,7 +179,7 @@ const AccountTable: React.FunctionComponent = () => {
         variant="h5"
         className="tableheader"
       >
-        Account
+        ACCOUNT
       </Typography>
       <MaterialReactTable
         columns={columns}
