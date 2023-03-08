@@ -244,25 +244,26 @@ const CandidateApply: React.FunctionComponent = () => {
       <Typography
         component="h1"
         variant="h5"
-        style={{ fontWeight: 600, marginLeft: '1rem' }}
+        style={{ fontWeight: 600, marginLeft: '1rem',fontFamily:'sans-serif' ,marginTop:'2rem'}}
       >
         {positions.jobTitle}-{positions.jobId}
       </Typography>
       <Card
         style={{
-          width: '97%',
           marginTop: '1rem',
+          marginRight: '1rem',
           marginLeft: '1rem',
-          backgroundColor: 'lavender',
+          backgroundColor: 'white',
         }}
       >
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={5}>
+          <Grid container justifyContent='space-between' >
             <Grid
               item
-              xs={5.5}
+              xs={12}
+              md={5.2}
               direction="column"
-              style={{ marginLeft: '1rem', marginRight: '2rem' }}
+              style={{ marginLeft: '2rem',marginRight:'2rem'}}
             >
               <TextField
                 margin="normal"
@@ -339,6 +340,7 @@ const CandidateApply: React.FunctionComponent = () => {
                   fullWidth
                   labelId="name-label"
                   value={formik.values.selectedVendorId}
+                  label='Vendor'
                   // update the selectedAccountId field in the values object
                   // eslint-disable-next-line @typescript-eslint/no-misused-promises
                   onChange={async (event) =>
@@ -422,7 +424,9 @@ const CandidateApply: React.FunctionComponent = () => {
            
           /> */}
             </Grid>
-            <Grid item xs={5.5} direction="column">
+            <Grid item  xs={12}
+    md={5.2} direction="column"
+            style={{ marginRight: '2rem' }}>
               <FormControl style={{ marginTop: '1rem' }}>
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Employment Type
@@ -466,10 +470,10 @@ const CandidateApply: React.FunctionComponent = () => {
               />
               {formik.touched.currentctc && formik.errors.currentctc ? (
                 <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
+                variant="body2"
+                sx={{ color: 'red', textAlign: 'start' }}
                 >
-                  {formik.errors.currentctc}
+            {formik.errors.currentctc}
                 </Typography>
               ) : null}
               <TextField
@@ -517,8 +521,35 @@ const CandidateApply: React.FunctionComponent = () => {
                   />
                 </RadioGroup>
               </FormControl>
-
-              <Box {...getRootProps()}>
+<Box  {...getRootProps()}>
+<input {...getInputProps()} />
+  <Card>
+  <Grid container display='flex'>
+                    <Box
+                      component="img"
+                      sx={{
+                        height: '50px',
+                        marginLeft:'0.5rem'
+                      }}
+                      alt="Upload_image"
+                      src={uploadImg}
+                    />
+                     <Typography variant="body1" textAlign="left" marginTop="1rem">
+                    Drag & drop some files here, or click to select files
+                  </Typography>
+                  </Grid>
+                  <Grid>
+                  {selectedFiles.map((item, index) => {
+                    return (
+                      <Grid key={item} mx="auto">
+                        <Typography>{item.name}</Typography>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+  </Card>
+</Box>
+              {/* <Box {...getRootProps()}>
                 <input {...getInputProps()} />
                 {isDragActive ? (
                   <Typography variant="body1" textAlign="left">
@@ -554,22 +585,23 @@ const CandidateApply: React.FunctionComponent = () => {
                     );
                   })}
                 </Grid>
-              </Box>
+              </Box> */}
             </Grid>
           </Grid>
+          <Grid container justifyContent="center" alignItems="center">
           <Button
             type="submit"
             size="large"
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              marginLeft: '32rem',
             }}
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Submit
           </Button>
+          </Grid>
           {/* <Button
             type="submit"
             fullWidth

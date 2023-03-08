@@ -37,17 +37,33 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       {
         accessorKey: 'candidateName',
         header: 'Candidate Name',
-        // size:70,
+        size:160,
+        muiTableBodyCellProps: ({ cell }) => ({
+       
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'vendor',
         header: 'Vendor',
-        // size:120,
+        size:90,
+        muiTableBodyCellProps: ({ cell }) => ({
+       
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'contactNumber',
         header: 'Contact',
-        // size:70,
+        size:110,
       },
       {
         accessorKey: 'email',
@@ -57,48 +73,44 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       {
         accessorKey: 'status',
         header: 'Status',
-        // size:80,
+        size:90,
       },
       {
         accessorKey: 'screening',
         header: 'Screening',
-        // size:60,
+        size:90,
       },
       {
         accessorKey: 'L1',
         header: 'L1',
-        // size:120,
+        size:70,
       },
       {
         accessorKey: 'L2',
         header: 'L2',
-        // size:120,
+        size:70,
       },
       {
         accessorKey: 'Managerial',
         header: 'Managerial',
-        // size:70,
+        size:110,
       },
       {
         accessorKey: 'HR',
         header: 'HR',
-        // size:100,
+        size:70,
       },
       {
         accessorKey: 'Offer',
         header: 'Offer',
-        // size:120,
+        size:80,
       },
       {
         accessorKey: 'Hired',
         header: 'Hired',
-        // size:80,
+        size:80,
       },
-      {
-        accessorKey: 'screening',
-        header: 'Screening',
-        // size:100,
-      },
+      
     ],
     []
   );
@@ -130,10 +142,12 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       }}
       muiTableProps={{
         sx: {
-          tableLayout: 'fixed',
+          tableLayout: 'auto',
           align: 'center',
-
-          marginLeft: '2%',
+          height: '80%',
+          '&::-webkit-scrollbar': {
+            overflow: 'hidden',
+          },
         },
       }}
       //   enableColumnFilterModes
@@ -157,7 +171,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       enableColumnActions={false}
       renderRowActions={({ row }) => (
         <div>
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box display="flex" justifyContent="flex-start" alignItems="center" >
             <ScheduleInterview candidateId={row.id}/>
             <EditCandidateStatus />
           </Box>
