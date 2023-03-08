@@ -42,9 +42,8 @@ const AddAccount: React.FunctionComponent = () => {
   });
 
   return (
-    <Box
-   className="add"
-    >
+    <div className='account_css'>
+    <Box className="add">
       <Typography
         component="h1"
         variant="h5"
@@ -139,6 +138,7 @@ const AddAccount: React.FunctionComponent = () => {
         </Card>
       </Grid>
     </Box>
+    </div>
   );
 };
 

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Box, Button,  Card, Grid,  TextField, Typography } from '@mui/material';
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useState } from 'react';
-import { clientId } from '../../keycloak/ClientDetails';
+// import { clientId } from '../../keycloak/ClientDetails';
 import { getToken } from '../../keycloak/GetToken';
 import { RoleInterface } from '../../Interface/RoleInterface';
+import { addRole } from '../../services/UserApi';
 // import { useFormik } from 'formik';
 
 
@@ -14,7 +15,7 @@ const AddRole: React.FunctionComponent = () => {
   const [role, setRole] = useState<RoleInterface>({
     id:'',
     name: '',
-    description: ''
+    description: '',
   });
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -26,12 +27,7 @@ const AddRole: React.FunctionComponent = () => {
   const AddRole =  async (event:React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const token = await getToken();
-    await axios.post(`/admin/realms/MyRealm/clients/${clientId}/roles`, role,{
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    await addRole(role,token)
       .then(response => {
         console.log(response.data);
       })

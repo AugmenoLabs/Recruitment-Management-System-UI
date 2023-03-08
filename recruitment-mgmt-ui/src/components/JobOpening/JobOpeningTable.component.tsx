@@ -9,6 +9,7 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import ScreeningPosition from './ScreeningPosition';
 
+import './JobOpening.style.scss';
 export interface JobOpeningProps{
   users:JobOpeningInterface[];
 }
@@ -243,17 +244,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           },
         }),
       },
-      {
-        accessorKey: 'onboarded',
-        header: 'Hired',
-        size:80,
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
-          sx: {
-            cursor: 'pointer',
-          },
-        }),
-      },
+      
       // {
       //   accessorKey: 'yearOfExp',
       //   header: 'Experience',
@@ -338,6 +329,17 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         //   },
         // }),
       },
+      {
+        accessorKey: 'onboarded',
+        header: 'Hired',
+        size:80,
+        muiTableBodyCellProps: ({ cell }) => ({
+          onClick: () =>  handleRowClick(cell.row), 
+          sx: {
+            cursor: 'pointer',
+          },
+        }),
+      },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -350,8 +352,10 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
   return (
     <>
       <MaterialReactTable
+    // <div className="table">
       columns={columns}
       data={data}
+      // style={{ overflowY: "scroll" }}
       //    enableColumnActions={false}
       //    enableColumnFilters={false}
       // enableRowSelection
@@ -375,7 +379,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           '& .Mui-TableHeadCell-Content': {
             justifyContent: 'left',
             fontWeight: 600,
-            color: 'blue',
+            color: 'darkblue',
           },
         },
       }}
@@ -383,8 +387,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         sx: {
           tableLayout: 'auto',
           align: 'center',
-
-          marginLeft: '1%',
+          height:'80%',
+'&::-webkit-scrollbar':{
+  overflow:'hidden',
+}
+        
         },
       }}
       //   defaultColumn={{
@@ -397,7 +404,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       //   enableRowSelection
       editingMode="modal" 
        
-      
+     
       onEditingRowSave={handleSaveRowEdits}
       onEditingRowCancel={handleCancelRowEdits}
 
@@ -467,6 +474,7 @@ handleapplyjobs(row);
             </Dialog>
         </>
     </>
+    // </div>
   );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions

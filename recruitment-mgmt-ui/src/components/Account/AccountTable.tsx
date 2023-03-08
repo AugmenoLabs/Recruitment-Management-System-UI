@@ -179,7 +179,7 @@ const AccountTable: React.FunctionComponent = () => {
         variant="h5"
         className="tableheader"
       >
-        Account
+        ACCOUNT
       </Typography>
       <MaterialReactTable
         columns={columns}
@@ -206,11 +206,16 @@ const AccountTable: React.FunctionComponent = () => {
         }}
         muiTableProps={{
           sx: {
-            tableLayout: 'fixed',
+            tableLayout: 'auto',
             align: 'center',
-            marginLeft: '2%',
+            height:'80%',
+  '&::-webkit-scrollbar':{
+    overflow:'hidden',
+  }
+          
           },
         }}
+        
         defaultColumn={{
           minSize: 20,
           maxSize: 300,
