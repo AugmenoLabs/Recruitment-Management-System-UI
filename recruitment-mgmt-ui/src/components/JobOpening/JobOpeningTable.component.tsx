@@ -2,16 +2,20 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate ,Link} from 'react-router-dom';
 import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
-import { MenuItem } from '@mui/material';
+import { MenuItem, Dialog, DialogContent } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
+import ScreeningPosition from './ScreeningPosition';
 
 export interface JobOpeningProps{
   users:JobOpeningInterface[];
 }
 const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
+
+  var positionId : string = '';
+  const [openPopUp, setPopUp] = useState(false)
   // const[users,setUsers]=useState<RequisitionInterface[]>([]);
   const history = useNavigate();
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -131,6 +135,18 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     [validationErrors],
   );
 
+  // TODO: Implement sceening functionality here
+  const handleProfilesReceived = (row: MRT_Row<JobOpeningInterface>) : any => {
+    positionId  = row.getValue('id')
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    // return(
+    //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    //   //  history(`/ScreeningPosition/${id}`)
+    //     // <ScreeningPosition positionId={positionId} />
+    // )
+
+      setPopUp(true)
+  }
   
   const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
     () => [
@@ -221,7 +237,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         header: 'Total Profile Recieved',
         size:110,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () =>  handleProfilesReceived(cell.row), 
           sx: {
             cursor: 'pointer',
           },
@@ -332,7 +348,8 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
   //   console.info({ rowSelection });
   // }, [rowSelection]);
   return (
-    <MaterialReactTable
+    <>
+      <MaterialReactTable
       columns={columns}
       data={data}
       //    enableColumnActions={false}
@@ -441,6 +458,15 @@ handleapplyjobs(row);
       //     </div>
       //   )}
     />
+
+        <>
+            <Dialog open={openPopUp} fullScreen>
+                  <DialogContent>
+                    <ScreeningPosition positionId={positionId}/>
+                  </DialogContent>
+            </Dialog>
+        </>
+    </>
   );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions
