@@ -3,6 +3,7 @@ import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import ScheduleInterview from '../../ScheduleInterview/ScheduleInterview';
 import EditCandidateStatus from './EditCandidateStatus';
 import { Box } from '@mui/material';
+
 import { GetCandidate } from '../../../services/CandidateApi';
 interface CandidateData {
   id:string;
