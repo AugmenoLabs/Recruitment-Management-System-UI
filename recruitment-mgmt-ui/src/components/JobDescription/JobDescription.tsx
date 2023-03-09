@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import {
   Box,
@@ -18,6 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import { GetOpenPositionById } from '../../services/OpenPositionApi';
 // import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
+import background from '../../assets/background.jpg';
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -100,7 +102,7 @@ const JobDescription: React.FunctionComponent = () => {
           <Card
             style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}
           >
-            <Card style={{ backgroundColor: 'lavender' }}>
+            <Card style={{ backgroundImage:`url(${background})` }}>
               <CardContent>
                 <Box style={{ display: 'flex' }}>
                   <Typography
@@ -150,13 +152,13 @@ const JobDescription: React.FunctionComponent = () => {
                   {positions.yearOfExp} years
                   <Box display="flex" style={{ marginTop: '0.5rem' }}>
                     {' '}
-                    <Typography style={{ color: 'gray', fontSize: '13px' }}>
+                    <Typography style={{ color: 'navy', fontSize: '13px' }}>
                       Posted On:31/01/23
                     </Typography>
                     <Typography
                       style={{
                         marginLeft: '3rem',
-                        color: 'gray',
+                        color:  'navy',
                         fontSize: '13px',
                       }}
                     >
@@ -165,7 +167,7 @@ const JobDescription: React.FunctionComponent = () => {
                     <Typography
                       style={{
                         marginLeft: '3rem',
-                        color: 'gray',
+                        color:  'navy',
                         fontSize: '13px',
                       }}
                     >
@@ -174,7 +176,7 @@ const JobDescription: React.FunctionComponent = () => {
                     <Typography
                       style={{
                         marginLeft: '3rem',
-                        color: 'gray',
+                        color:  'navy',
                         fontSize: '13px',
                       }}
                     >
@@ -183,7 +185,7 @@ const JobDescription: React.FunctionComponent = () => {
                     <Typography
                       style={{
                         marginLeft: '3rem',
-                        color: 'gray',
+                        color:  'navy',
                         fontSize: '13px',
                       }}
                     >
@@ -207,7 +209,7 @@ const JobDescription: React.FunctionComponent = () => {
                 </Box>
               </CardContent>
             </Card>
-            <Card>
+            <Card style={{ backgroundColor:'whitesmoke'}}>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                   <Typography style={{ fontSize: '16px', fontWeight: 600 }}>
@@ -216,7 +218,7 @@ const JobDescription: React.FunctionComponent = () => {
 
                   <Divider />
 
-                  <Typography style={{ fontSize: '14px', marginTop: '1rem' }}>
+                  <Typography style={{ fontSize: '14px', marginTop: '0.5rem' }}>
                     We are looking for someone who can stay updated with the new
                     technologies in the market and also work on new ideas to
                     incorporate the new tech in the company to stay up-to-date
@@ -249,7 +251,7 @@ const JobDescription: React.FunctionComponent = () => {
                       Qualifications
                     </Typography>
                     <Divider />
-                    <Typography style={{ fontSize: '14px' }}>
+                    <Typography style={{ fontSize: '14px' ,marginTop: '0.5rem'}}>
                       {positions.qualification}
                     </Typography>{' '}
                   </Typography>

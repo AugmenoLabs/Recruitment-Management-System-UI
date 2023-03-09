@@ -1,8 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate ,Link} from 'react-router-dom';
-import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
-import { MenuItem, Dialog, DialogContent } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import MaterialReactTable, {
+  MaterialReactTableProps,
+  MRT_Cell,
+  MRT_ColumnDef,
+  MRT_Row,
+} from 'material-react-table';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+} from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
@@ -10,58 +22,62 @@ import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import ScreeningPosition from './ScreeningPosition';
 
 import './JobOpening.style.scss';
-export interface JobOpeningProps{
-  users:JobOpeningInterface[];
+import ScreeningPosition from './ScreeningPosition';
+export interface JobOpeningProps {
+  users: JobOpeningInterface[];
 }
-const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
-
-  var positionId : string = '';
-  const [openPopUp, setPopUp] = useState(false)
+const JobOpeningTable: React.FunctionComponent<JobOpeningProps> = ({
+  users,
+}) => {
   // const[users,setUsers]=useState<RequisitionInterface[]>([]);
   const history = useNavigate();
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleRowClick = (row: MRT_Row<JobOpeningInterface>) => {
-   const id=row.getValue('id')
+    const id = row.getValue('id');
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  return(
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    history(`/jobdescription/${id}`)
-  )
-    };
-
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const handleapplyjobs = (row: MRT_Row<JobOpeningInterface>) => {
-      const id=row.getValue('id')
-       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-     return(
-       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-       history(`/applyforjobs/${id}`)
-     )
-       };
-    const navigatetojd = (): void => {
-      history('/applyforjobs');
-    };
-
+    return (
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      history(`/jobdescription/${id}`)
+    );
+  };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  // const navigatetoapply = (rowData:any) => {
-  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unused-expressions, array-callback-return
-  //   history(`/jobdescription/${rowData.id}`);
-  // };
 
-  
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleapplyjobs = (row: MRT_Row<JobOpeningInterface>) => {
+    const id = row.getValue('id');
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    return (
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      history(`/applyforjobs/${id}`)
+    );
+  };
+  const navigatetojd = (): void => {
+    history('/applyforjobs');
+  };
+
+  const positionId: string = '';
   const [data, setData] = useState<JobOpeningInterface[]>([]);
- 
-  const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
+
+  const API_URL =
+    'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
   // const [isDeleting, setIsDeleting] = useState(false);
- 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleScreening = (row: MRT_Row<JobOpeningInterface>) => {
+    const totalApplied = row.getValue('id');
+    setIsDialogOpen(true);
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    return (
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      <ScreeningPosition positionid={''} />
+    );
+  };
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
       try {
         const result = await axios.get<JobOpeningInterface[]>(API_URL);
         setData(result.data);
-
       } catch (error) {
         console.error(error);
       }
@@ -70,7 +86,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     fetchData();
     console.log(data);
   }, []);
- 
+
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
@@ -78,10 +94,10 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!Object.keys(validationErrors).length) {
-    data[row.index]=values
-      
+        data[row.index] = values;
+
         setData([...data]);
-        exitEditingMode(); 
+        exitEditingMode();
       }
     };
 
@@ -93,7 +109,10 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     (row: MRT_Row<JobOpeningInterface>) => {
       if (
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        !confirm(`Are you sure you want to delete ${row.getValue('accountName')}`)
+        !confirm(
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `Are you sure you want to delete ${row.getValue('accountName')}`
+        )
       ) {
         return;
       }
@@ -101,11 +120,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       data.splice(row.index, 1);
       setData([...data]);
     },
-    [data],
+    [data]
   );
   const getCommonEditTextFieldProps = useCallback(
     (
-      cell: MRT_Cell<JobOpeningInterface>,
+      cell: MRT_Cell<JobOpeningInterface>
     ): MRT_ColumnDef<JobOpeningInterface>['muiTableBodyCellEditTextFieldProps'] => {
       return {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -115,15 +134,13 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
           const isValid =
             cell.column.id === 'accountName'
               ? validateRequired(event.target.value)
-              :  validateRequired(event.target.value);
+              : validateRequired(event.target.value);
           if (!isValid) {
-          
             setValidationErrors({
               ...validationErrors,
               [cell.id]: `${cell.column.columnDef.header} is required`,
             });
           } else {
-         
             // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete validationErrors[cell.id];
             setValidationErrors({
@@ -133,37 +150,34 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         },
       };
     },
-    [validationErrors],
+    [validationErrors]
   );
 
-  // TODO: Implement sceening functionality here
-  const handleProfilesReceived = (row: MRT_Row<JobOpeningInterface>) : any => {
-    positionId  = row.getValue('id')
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    // return(
-    //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    //   //  history(`/ScreeningPosition/${id}`)
-    //     // <ScreeningPosition positionId={positionId} />
-    // )
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-      setPopUp(true)
-  }
-  
+  // Define a function to handle the click event on the screening column
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleScreeningClick = (row: any) => {
+    setIsDialogOpen(true);
+  };
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleScreeningClose = (row: any) => {
+    setIsDialogOpen(false);
+  };
+
   const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
     () => [
-     
       {
         accessorKey: 'id',
         header: 'ID',
-        size:70,
-      
+        size: 70,
       },
       {
         accessorKey: 'jobId',
         header: 'JobID',
-        size:80,
+        size: 80,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
             whiteSpace: 'pre-line',
@@ -174,27 +188,26 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'jobTitle',
         header: 'Job Title',
-        size:120,
+        size: 120,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
-           
-              whiteSpace: 'pre-line',
-              wordWrap: 'break-word',
-            
+
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
           },
         }),
       },
       {
         accessorKey: 'accountName',
         header: 'Account',
-        size:100,
+        size: 100,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
             whiteSpace: 'pre-line',
@@ -205,9 +218,9 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'projectName',
         header: 'Project',
-        size:100,
+        size: 100,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
           },
@@ -216,7 +229,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'noOfPositions',
         header: 'Total Position',
-        size:130,
+        size: 130,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
@@ -227,7 +240,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
         //   }
         // }),
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
           },
@@ -236,15 +249,15 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'totalApplied',
         header: 'Total Profile Recieved',
-        size:110,
+        size: 110,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleProfilesReceived(cell.row), 
+          onClick: () => handleScreening(cell.row),
           sx: {
             cursor: 'pointer',
           },
         }),
       },
-      
+
       // {
       //   accessorKey: 'yearOfExp',
       //   header: 'Experience',
@@ -252,7 +265,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       //     ...getCommonEditTextFieldProps(cell),
       //   }),
       //   muiTableBodyCellProps: ({ cell }) => ({
-      //     onClick: () =>  handleRowClick(cell.row), 
+      //     onClick: () =>  handleRowClick(cell.row),
       //     sx: {
       //       cursor: 'pointer',
       //     },
@@ -265,7 +278,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       //     ...getCommonEditTextFieldProps(cell),
       //   }),
       //   muiTableBodyCellProps: ({ cell }) => ({
-      //     onClick: () =>  handleRowClick(cell.row), 
+      //     onClick: () =>  handleRowClick(cell.row),
       //     sx: {
       //       cursor: 'pointer',
       //     },
@@ -278,11 +291,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       //   filterSelectOptions: [
       //     { text: 'Hiring', value: 'Hiring' },
       //     { text: 'Closed', value: 'Closed' },
-        
+
       //   ],
       //   filterVariant: 'select',
       //   muiTableBodyCellProps: ({ cell }) => ({
-      //     onClick: () =>  handleRowClick(cell.row), 
+      //     onClick: () =>  handleRowClick(cell.row),
       //     sx: {
       //       cursor: 'pointer',
       //     },
@@ -291,9 +304,9 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'screenings',
         header: 'Screening',
-        size:100,
+        size: 100,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
           },
@@ -302,23 +315,23 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'l1s',
         header: 'L1',
-        size:70,
+        size: 70,
       },
       {
         accessorKey: 'l2s',
         header: 'L2',
-        size:70,
+        size: 70,
       },
       {
         accessorKey: 'managerials',
         header: 'Manangerial',
-        size:120,
+        size: 120,
       },
-      
+
       {
         accessorKey: 'hr',
         header: 'HR',
-        size:70,
+        size: 70,
         // muiTableBodyCellProps: ({ cell }) => ({
         //   onClick: (event) => {
         //     console.info(event);
@@ -332,9 +345,9 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       {
         accessorKey: 'onboarded',
         header: 'Hired',
-        size:80,
+        size: 80,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () =>  handleRowClick(cell.row), 
+          onClick: () => handleRowClick(cell.row),
           sx: {
             cursor: 'pointer',
           },
@@ -343,6 +356,7 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     ],
     [getCommonEditTextFieldProps]
   );
+
   // const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   // useEffect(() => {
@@ -353,132 +367,140 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps>= ({users}) => {
     <>
       <MaterialReactTable
     // <div className="table">
-      columns={columns}
-      data={data}
-      // style={{ overflowY: "scroll" }}
-      //    enableColumnActions={false}
-      //    enableColumnFilters={false}
-      // enableRowSelection
-  // getRowId={(originalRow) => originalRow.id}
- 
-  // onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
-  //     state={{ rowSelection }
-  
-      muiTablePaginationProps={{
-        rowsPerPageOptions: [5, 10, 20, 50],
-      }}
-      initialState={{
-        density: 'compact',
-        // columnVisibility: { L1: false,id:false, L2: false,Managerial:false,HR:false },
-        columnVisibility: { id:false,},
-        pagination: { pageSize: 5, pageIndex: 0 },
-      }}
-      enableDensityToggle={false}
-      muiTableHeadCellProps={{
-        sx: {
-          '& .Mui-TableHeadCell-Content': {
-            justifyContent: 'left',
-            fontWeight: 600,
-            color: 'darkblue',
+    <>
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        // style={{ overflowY: "scroll" }}
+        //    enableColumnActions={false}
+        //    enableColumnFilters={false}
+        // enableRowSelection
+        // getRowId={(originalRow) => originalRow.id}
+
+        // onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
+        //     state={{ rowSelection }
+
+        muiTablePaginationProps={{
+          rowsPerPageOptions: [5, 10, 20, 50],
+        }}
+        initialState={{
+          density: 'compact',
+          // columnVisibility: { L1: false,id:false, L2: false,Managerial:false,HR:false },
+          columnVisibility: { id: false },
+          pagination: { pageSize: 5, pageIndex: 0 },
+        }}
+        enableDensityToggle={false}
+        muiTableHeadCellProps={{
+          sx: {
+            '& .Mui-TableHeadCell-Content': {
+              justifyContent: 'left',
+              fontWeight: 600,
+              color: 'darkblue',
+            },
           },
-        },
-      }}
-      muiTableProps={{
-        sx: {
-          tableLayout: 'auto',
-          align: 'center',
-          height:'80%',
-'&::-webkit-scrollbar':{
-  overflow:'hidden',
-}
-        
-        },
-      }}
-      //   defaultColumn={{
-      //     minSize: 20,
-      //     maxSize: 300,
-      //     size: 80,
-      //   }}
-
-      enableRowActions
-      //   enableRowSelection
-      editingMode="modal" 
-       
-     
-      onEditingRowSave={handleSaveRowEdits}
-      onEditingRowCancel={handleCancelRowEdits}
-
-      renderRowActionMenuItems={({row,table ,closeMenu }) => [
-        <MenuItem
-          key={0}
-          // onClick={() => {
-          //   // View profile logic...
-          //   // navigatetojd();
-          //   closeMenu();
-          // }}
-          onClick={()=>{
-handleapplyjobs(row);
-          }}
-          sx={{ m: 0 }}
-        >
-          Apply
-        </MenuItem>,
-        <MenuItem
-          key={1}
-          onClick={() => {
-            // Send email logic...
-            table.setEditingRow(row)
-          }}
-          sx={{ m: 0 }}
-        >
-          Edit
-        </MenuItem>,
-        <MenuItem
-          key={2}
-          onClick={() => {
-            // Send email logic...
-            handleDeleteRow(row)
-          }}
-          sx={{ m: 0 }}
-        >
-          Delete
-        </MenuItem>,
-      ]}
-      enableColumnResizing
-      positionActionsColumn="last"
-      displayColumnDefOptions={{
-        'mrt-row-actions': {
-          size: 50,
-
-          muiTableHeadCellProps: {
+        }}
+        muiTableProps={{
+          sx: {
+            tableLayout: 'auto',
             align: 'center',
+            height: '80%',
+            '&::-webkit-scrollbar': {
+              overflow: 'hidden',
+            },
           },
-        },
-      }}
-      enableColumnActions={false}
+        }}
+        //   defaultColumn={{
+        //     minSize: 20,
+        //     maxSize: 300,
+        //     size: 80,
+        //   }}
 
-      //   renderRowActions={({ row }) => (
-      //     <div>
-      //       <Button>Action 1</Button>
-      //       <Button>Action 2</Button>
-      //       <Button>Action 3</Button>
-      //     </div>
-      //   )}
-    />
+        enableRowActions
+        //   enableRowSelection
+        editingMode="modal"
+        onEditingRowSave={handleSaveRowEdits}
+        onEditingRowCancel={handleCancelRowEdits}
+        renderRowActionMenuItems={({ row, table, closeMenu }) => [
+          <MenuItem
+            key={0}
+            // onClick={() => {
+            //   // View profile logic...
+            //   // navigatetojd();
+            //   closeMenu();
+            // }}
+            onClick={() => {
+              handleapplyjobs(row);
+            }}
+            sx={{ m: 0 }}
+          >
+            Apply
+          </MenuItem>,
+          <MenuItem
+            key={1}
+            onClick={() => {
+              // Send email logic...
+              table.setEditingRow(row);
+            }}
+            sx={{ m: 0 }}
+          >
+            Edit
+          </MenuItem>,
+          <MenuItem
+            key={2}
+            onClick={() => {
+              // Send email logic...
+              handleDeleteRow(row);
+            }}
+            sx={{ m: 0 }}
+          >
+            Delete
+          </MenuItem>,
+        ]}
+        enableColumnResizing
+        positionActionsColumn="last"
+        displayColumnDefOptions={{
+          'mrt-row-actions': {
+            size: 50,
 
-        <>
-            <Dialog open={openPopUp} fullScreen>
-                  <DialogContent>
-                    <ScreeningPosition positionId={positionId}/>
-                  </DialogContent>
-            </Dialog>
-        </>
+            muiTableHeadCellProps: {
+              align: 'center',
+            },
+          },
+        }}
+        enableColumnActions={false}
+
+        //   renderRowActions={({ row }) => (
+        //     <div>
+        //       <Button>Action 1</Button>
+        //       <Button>Action 2</Button>
+        //       <Button>Action 3</Button>
+        //     </div>
+        //   )}
+      />
+
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleScreeningClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogContent>
+          <ScreeningPosition positionid={positionId} />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={handleScreeningClose}
+            style={{ marginRight: '1rem' }}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
-    // </div>
   );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions
 const validateRequired = (value: string) => !!value.length;
-
 
 export default JobOpeningTable;

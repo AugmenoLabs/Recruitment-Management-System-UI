@@ -59,7 +59,6 @@ const JobOpeningForm: React.FunctionComponent = () => {
   ): Promise<void> => {
     position.accountId = selectedAccountId;
     position.projectId = selectedProject;
-
     position.skillSet = autoCompleteValue.join(',');
     await addJobOpening(position)
       .then((response) => {
@@ -94,7 +93,6 @@ const JobOpeningForm: React.FunctionComponent = () => {
       if (selectedAccountId) {
         try {
           console.log('selectedAccountId:', selectedAccountId);
-
           const response = await axios.get<ProjectInterface[]>(
             `http://localhost:5141/api/v1/Account/${selectedAccountId}`
           );
@@ -123,27 +121,26 @@ const JobOpeningForm: React.FunctionComponent = () => {
       <Typography
         component="h1"
         variant="h5"
-        style={{ marginTop: '2rem', fontWeight: 600, marginLeft: '1rem' }}
+        style={{
+          marginTop: '2rem',
+          fontWeight: 600,
+          fontFamily: 'sans-serif',
+          marginLeft: '1rem',
+        }}
       >
-        Create Job Openings
+        CREATE OPENINGS
       </Typography>
       <Card
         style={{
-         
           marginTop: '1rem',
           marginLeft: '1rem',
-          marginRight:'1rem',
+          marginRight: '1rem',
           backgroundColor: 'white',
         }}
       >
         {/* <form onSubmit={formik.handleSubmit}> */}
-        <Grid container>
-          <Grid
-            item
-            xs={5.2}
-            direction="column"
-            style={{ marginLeft: '2rem' }}
-          >
+        <Grid container justifyContent="space-between" spacing={2}>
+          <Grid item md={5.2} xs={12} direction="column" style={{ marginLeft: '2rem' }}>
             <TextField
               margin="normal"
               size="small"
@@ -164,16 +161,16 @@ const JobOpeningForm: React.FunctionComponent = () => {
               value={position.jobTitle}
               onChange={handleChange}
             />
-            <FormControl  size="small" style={{ marginTop: '1rem' }} fullWidth>
-              <InputLabel id="name-label" >Accounts</InputLabel>
+            <FormControl size="small" style={{ marginTop: '1rem' }} fullWidth>
+              <InputLabel id="name-label">Accounts</InputLabel>
               <Select
                 labelId="name-label"
                 fullWidth
-                label='Accounts'
+                label="Accounts"
                 value={selectedAccountId}
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => {
-                  setSelectedAccountId(event.target.value);
+                setSelectedAccountId(event.target.value);
                 }}
               >
                 {data.map((data) => (
@@ -183,13 +180,12 @@ const JobOpeningForm: React.FunctionComponent = () => {
                 ))}
               </Select>
             </FormControl>
-
-            <FormControl size='small' style={{ marginTop: '1rem' }} fullWidth>
-              <InputLabel id="project-label">Project</InputLabel>
-              <Select
+            <FormControl size="small" style={{ marginTop: '1rem' }} fullWidth>
+            <InputLabel id="project-label">Project</InputLabel>
+             <Select
                 labelId="project-label"
                 value={selectedProject}
-                label='Project'
+                label="Project"
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 onChange={(event) => setSelectedProject(event.target.value)}
                 // disabled={!selectedAccountId}
@@ -211,7 +207,6 @@ const JobOpeningForm: React.FunctionComponent = () => {
                 )}
               </Select>
             </FormControl>
-
             <TextField
               margin="normal"
               fullWidth
@@ -277,7 +272,12 @@ const JobOpeningForm: React.FunctionComponent = () => {
            
           /> */}
           </Grid>
-          <Grid item xs={5.2} direction="column" style={{marginLeft:'2.5rem',marginRight:'2rem'}}>
+          <Grid
+            item
+            md={5.2} xs={12}
+            direction="column"
+            style={{ marginLeft: '2.5rem', marginRight: '2rem' }}
+          >
             <TextField
               margin="normal"
               fullWidth
@@ -357,25 +357,23 @@ const JobOpeningForm: React.FunctionComponent = () => {
                 </Typography>
               ) : null} */}
           </Grid>
-          </Grid>
-        <Grid container justifyContent='center' alignItems='center'>
-                 <Button
-          // type="submit"
-          size="large"
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-       
-          }}
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={handleCreate}
-        >
-          Create Opening
-        </Button>
         </Grid>
-       
- 
+        <Grid container justifyContent="center" alignItems="center">
+          <Button
+            // type="submit"
+            size="large"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={handleCreate}
+          >
+            Create Opening
+          </Button>
+        </Grid>
+
         {/* <Button
             type="submit"
             fullWidth

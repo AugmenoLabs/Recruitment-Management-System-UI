@@ -16,20 +16,21 @@ import ManageRoles from './ManageRoles';
 
   return (
     <>
-    <Box sx={{ marginTop: '4rem', marginLeft:'4rem' } }>
+    <Box sx={{ marginTop: '4rem' } }>
       <Typography
         gutterBottom
-        variant="h5"
+       
         sx={{
           paddingLeft: '2rem',
-          paddingTop: '0.7rem',
+          paddingTop: '1.5rem',
           margin: 0,
+          fonFfamily:'sans-serif',
           fontWeight: 600,
-          fontSize: '30px',
+          fontSize: '24px',
         }}
         className="tableheader"
       >
-        User Roles
+        USER ROLES
       </Typography>
       <Box sx={{ marginTop: '2rem', marginLeft:'4rem' } }>
       <TabContext value={value}>

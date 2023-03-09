@@ -104,6 +104,7 @@ const Drawer = styled(MuiDrawer, {
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: 'nowrap',
+  marginTop:'-2rem',
   boxSizing: 'border-box',
   ...((open ?? true) && {
     ...openedMixin(theme),
@@ -155,13 +156,11 @@ const NavBar: React.FunctionComponent = () => {
     navigate('/')}
   const usermanage=()=>{
     navigate('/UserDetails')}
-  const hrlinks = [
-  
+
+  const hrlinks = [  
     { title: 'Candidate', path: '/candidatedetails', icon: <GroupIcon /> },
     { title: 'Interview', path: '/interviewdetails', icon: <CalendarMonthIcon /> },
     { title: 'InterviewDetails', path: '/interviewdetailview', icon: <CalendarViewMonthIcon/> },
-
-    
   ];
 
   const masterlinks=[
@@ -169,6 +168,7 @@ const NavBar: React.FunctionComponent = () => {
     { title: 'Project', path: '/ProjectDetails', icon: <ImportContactsIcon /> },
     { title: 'Vendor', path: '/VendorDetails', icon: <HailIcon/> },
   ]
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openemnu = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -203,39 +203,9 @@ const NavBar: React.FunctionComponent = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="Add menu"
-          aria-controls="show add options"
-          color="inherit"
-        >
-          <Badge badgeContent={0} color="error">
-            <AddBoxIcon />
-          </Badge>
-        </IconButton>
-        <p>Add</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={0} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={0} color="error">
-            <AddBoxIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+     
+     
+    
       <MenuItem>
         <IconButton
           size="large"
@@ -248,8 +218,110 @@ const NavBar: React.FunctionComponent = () => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+          onClick={() => keycloak.logout(logoutOptions)}
+        >
+            <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
+
+  const accountmenu=(
+    <Menu   anchorEl={anchorElmaster}
+    id="account-menu"
+    open={openmaster}
+    onClose={handleClosemaster}
+    onClick={handleClosemaster}
+    PaperProps={{
+      elevation: 0,
+      sx: {
+        overflow: 'visible',
+        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+        mt: 1.5,
+        '& .MuiAvatar-root': {
+          width: 32,
+          height: 32,
+          ml: -0.5,
+          mr: 1,
+        },
+        '&:before': {
+          content: '""',
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          right: 14,
+          width: 10,
+          height: 10,
+          bgcolor: 'background.paper',
+          transform: 'translateY(-50%) rotate(45deg)',
+          zIndex: 0,
+        },
+      },
+    }}
+    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    >
+        {masterlinks.map(({ title, path, icon }) => {
+        return (
+      <MenuItem   onClick={() => {
+                navigate(path);
+              }}>{icon} {title}</MenuItem>
+   
+        )})}
+         </Menu>
+
+  )
+
+  const dashboardmenu=(
+    <Menu   anchorEl={anchorEl}
+    id="account-menu"
+    open={openemnu}
+    onClose={handleClose}
+    onClick={handleClose}
+    PaperProps={{
+      elevation: 0,
+      sx: {
+        overflow: 'visible',
+        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+        mt: 1.5,
+        '& .MuiAvatar-root': {
+          width: 32,
+          height: 32,
+          ml: -0.5,
+          mr: 1,
+        },
+        '&:before': {
+          content: '""',
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          right: 14,
+          width: 10,
+          height: 10,
+          bgcolor: 'background.paper',
+          transform: 'translateY(-50%) rotate(45deg)',
+          zIndex: 0,
+        },
+      },
+    }}
+    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    >
+        {hrlinks.map(({ title, path, icon }) => {
+        return (
+      <MenuItem   onClick={() => {
+                navigate(path);
+              }}>{icon} {title}</MenuItem>
+   
+        )})}
+         </Menu>
+  )
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -321,8 +393,9 @@ const NavBar: React.FunctionComponent = () => {
         PaperProps={{
           sx: {
             top: '2%',
-            backgroundColor:'rgb(0 36 126)',
-            color: 'white',
+            backgroundColor:'grey',
+            color: 'black',
+            fontWeight:600,
           },
         }}
       >
@@ -335,39 +408,6 @@ const NavBar: React.FunctionComponent = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        {/* <List>
-          {hrlinks.map(({ title, path, icon }) => {
-            return (
-              <ListItem key={path} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                  onClick={() => {
-                    navigate(path);
-                  }}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      color: 'white',
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={title}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List> */}
 <List>
 
 <ListItem disablePadding sx={{ display: 'block' }}>
@@ -377,6 +417,7 @@ const NavBar: React.FunctionComponent = () => {
                   }}
                   sx={{
                     minHeight: 48,
+                   
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
@@ -384,7 +425,7 @@ const NavBar: React.FunctionComponent = () => {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color: 'white',
+                      color:'white',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -392,7 +433,8 @@ const NavBar: React.FunctionComponent = () => {
                     <HomeIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Dashboard"         
+                    primary="Dashboard"  
+                    style={{fontWeight:'600 !important',fontSize:'26px'}}       
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -410,7 +452,7 @@ const NavBar: React.FunctionComponent = () => {
                     <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color: 'white',
+                      color:'white',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -418,53 +460,12 @@ const NavBar: React.FunctionComponent = () => {
                   <PersonAddAltIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="User Management"         
+                    primary="Accounts"         
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
-              
-                <Menu   anchorEl={anchorElmaster}
-        id="account-menu"
-        open={openmaster}
-        onClose={handleClosemaster}
-        onClick={handleClosemaster}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-            {masterlinks.map(({ title, path, icon }) => {
-            return (
-          <MenuItem   onClick={() => {
-                    navigate(path);
-                  }}>{icon} {title}</MenuItem>
-       
-            )})}
-             </Menu>
+              {accountmenu}
+               
                 </ListItem>
         
                 <ListItem disablePadding sx={{ display: 'block' }}>
@@ -479,7 +480,7 @@ const NavBar: React.FunctionComponent = () => {
                     <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color: 'white',
+                      color:'white',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -487,53 +488,12 @@ const NavBar: React.FunctionComponent = () => {
                   <DashboardIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="User Management"         
+                    primary="Candidates"         
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
-              
-                <Menu   anchorEl={anchorEl}
-        id="account-menu"
-        open={openemnu}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-            {hrlinks.map(({ title, path, icon }) => {
-            return (
-          <MenuItem   onClick={() => {
-                    navigate(path);
-                  }}>{icon} {title}</MenuItem>
-       
-            )})}
-             </Menu>
+              {dashboardmenu}
+             
                 </ListItem>
               <ListItem disablePadding sx={{ display: 'block' }}>
                 <ListItemButton
@@ -549,7 +509,7 @@ const NavBar: React.FunctionComponent = () => {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color: 'white',
+                      color:'white',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}

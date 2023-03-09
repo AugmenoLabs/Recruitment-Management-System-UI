@@ -35,7 +35,7 @@ const users:JobOpeningInterface[]=[];
   return (
     <>
       <Box className="page-header">
-        <Typography variant="h6" style={{ fontSize: '24px', fontWeight: 600 ,fontFamily:'sans-serif'}}>
+        <Typography variant="h6" style={{ fontSize: '24px', fontWeight: 600 ,fontFamily:'sans-serif',marginTop:'1rem'}}>
           JOB OPENINGS
         </Typography>
         <Box className="button-section">
