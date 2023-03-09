@@ -28,13 +28,13 @@ import ManageRoles from './ManageRoles';
           fontWeight: 600,
           fontSize: '24px',
         }}
-        className="tableheader"
+        // className="tableheader"
       >
         USER ROLES
       </Typography>
-      <Box sx={{ marginTop: '2rem', marginLeft:'4rem' } }>
+      <Box sx={{ marginTop: '2rem',marginLeft:'2rem'} } justifyContent='center' alignItems='center'>
       <TabContext value={value}>
-        <Box  sx={{ borderBottom: 1, borderColor: 'divider', width:'80%'}}>
+        <Box  sx={{ borderBottom: 1, borderColor: 'divider', width:'95%'}} justifyContent='center' alignItems='center'>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Users" value="1" />
             <Tab label="Roles" value="2" />

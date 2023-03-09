@@ -17,10 +17,12 @@ import {
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 import JobCards from '../../components/JobOpening/JobCard';
-import JobOpeningTable from '../../components/JobOpening/JobOpeningTable.component';
+// import JobOpeningTable from '../../components/JobOpening/JobOpeningTable.component';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useNavigate } from 'react-router';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
+import JobOpeningReport from '../../components/JobOpening/JobOpeningReport';
+// import Example from '../../components/JobOpening/test';
 
 
 const Dashboard: React.FunctionComponent = () => {
@@ -31,20 +33,27 @@ const Dashboard: React.FunctionComponent = () => {
   const navigateform = (): void => {
     history('/requisition');
   };
+
 const users:JobOpeningInterface[]=[];
   return (
-    <>
+    <div className='page-body'>
       <Box className="page-header">
-        <Typography variant="h6" style={{ fontSize: '24px', fontWeight: 600 ,fontFamily:'sans-serif',marginTop:'1rem'}}>
-          JOB OPENINGS
+        <Typography variant="h6" 
+            style={
+              { 
+                fontSize: '20px', 
+                fontWeight: 500,                 
+              }
+              }>
+          OPEN POSITION(S)
         </Typography>
         <Box className="button-section">
           <Button variant="contained"
-          onClick={navigateform}>New Position</Button>
+          onClick={navigateform}>Post Job</Button>
           <ButtonGroup
             variant="contained"
             aria-label="outlined primary button group"
-            sx={{ ml: 4 }}
+            sx={{ ml: 4, backgroundColor:'white' }}
           >
             <IconButton
               aria-label="delete"
@@ -67,8 +76,11 @@ const users:JobOpeningInterface[]=[];
           </ButtonGroup>
         </Box>
       </Box>
-      {IsListView ?  <JobCards />:<JobOpeningTable users={users} /> }
-:    </>
+      {/* {IsListView ?  <JobCards />:<JobOpeningTable users={users} /> } */}
+      {IsListView ?  <JobCards />:<JobOpeningReport users={users} /> }    
+      {/* <Example></Example> */}
+
+:    </div>
   );
 };
 
