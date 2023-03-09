@@ -393,14 +393,14 @@ const NavBar: React.FunctionComponent = () => {
         PaperProps={{
           sx: {
             top: '2%',
-            backgroundColor:'grey',
+            backgroundColor:'black',
             color: 'black',
             fontWeight:600,
           },
         }}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} color="inherit">
+          <IconButton onClick={handleDrawerClose} style={{color:'white'}}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
@@ -434,7 +434,7 @@ const NavBar: React.FunctionComponent = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary="Dashboard"  
-                    style={{fontWeight:'600 !important',fontSize:'26px'}}       
+                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}       
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -460,7 +460,8 @@ const NavBar: React.FunctionComponent = () => {
                   <PersonAddAltIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Accounts"         
+                    primary="Accounts"
+                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}           
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -488,7 +489,8 @@ const NavBar: React.FunctionComponent = () => {
                   <DashboardIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Candidates"         
+                    primary="Candidates"   
+                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}        
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -517,7 +519,8 @@ const NavBar: React.FunctionComponent = () => {
                     <ManageAccountsIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="User Management"         
+                    primary="User Management"  
+                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}         
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
