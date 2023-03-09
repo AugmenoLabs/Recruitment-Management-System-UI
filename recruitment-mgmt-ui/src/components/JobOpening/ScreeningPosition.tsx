@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useMemo} from "react"
 import axios from 'axios';
-import { Dialog, DialogContent, DialogActions, Button } from "@mui/material";
+import { Dialog, DialogContent, DialogActions, Button, Box } from "@mui/material";
 import {CandidateInterface} from '../../Interface/CandidateInterface';
 // import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-// import { useNavigate } from 'react-router-dom';
+import DownloadResume from "../Resume/downloadResume";
+import PreviewResume from "../Resume/PreviewResume";
 
 export interface Props{
     positionId : string,
@@ -13,7 +14,6 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({positionId}) =>{
     const [open, setOpen] = useState<boolean>(true)
     const [data, setData] = useState<CandidateInterface[]>([])
     const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
-    // const history = useNavigate();
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         const fetchData = async () => {
@@ -49,7 +49,7 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({positionId}) =>{
             {
                 accessorKey: 'resume',
                 header: 'Resume',
-                size:70,
+                size:70
             }
         ], []
       )
@@ -65,12 +65,13 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({positionId}) =>{
                     <MaterialReactTable
                         columns={columns}
                         data={data}
+                        getRowId={(row) => row.id}
                         muiTablePaginationProps={{
                             rowsPerPageOptions: [5, 10, 20, 50],
                         }}
                         initialState={{
                             density: 'compact',
-                            columnVisibility: { id:false,},
+                            columnVisibility: { id:false, resume:false},
                             pagination: { pageSize: 5, pageIndex: 0 },
                         }}
                         enableDensityToggle={false}
@@ -87,7 +88,7 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({positionId}) =>{
                             sx: {
                             tableLayout: 'auto',
                             align: 'center',
-                            marginLeft: '1%',
+                            // marginLeft: '1%',
                             },
                         }}
                         // enableColumnResizing
@@ -100,6 +101,16 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({positionId}) =>{
                             },
                             },
                         }}
+                        enableRowActions
+                        positionActionsColumn="last"
+                        renderRowActions={({ row }) => (
+                                <div>
+                                    <Box display="flex" justifyContent="flex-start" alignItems="center" style={{marginLeft:'-1rem'}}>
+                                        <PreviewResume id = {row.id} data = {data}/>
+                                        <DownloadResume id = {row.id} />
+                                    </Box>
+                                </div>
+                               )}
                     />
                 </DialogContent>
                 <DialogActions>
