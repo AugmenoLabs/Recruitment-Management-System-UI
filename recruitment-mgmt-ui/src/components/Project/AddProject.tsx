@@ -10,6 +10,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
@@ -34,6 +38,13 @@ const AddProject: React.FunctionComponent = () => {
   // const [names, setNames] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedName, setSelectedName] = useState<string>('');
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
   const initialValues: ProjectInterface = {
     id: '',
     projectName: '',
@@ -84,20 +95,30 @@ const AddProject: React.FunctionComponent = () => {
     setSelectedName(selectedAccount?.accountName ?? '');
   }, [formik.values.selectedAccountId, data]);
   return (
+    <div>
+      <Button variant="contained"
+          onClick={handleClickOpen}>Add Project</Button>
+   <Dialog open={open} onClose={handleClose} maxWidth="xs">
+        <DialogTitle className='header' style={{fontWeight:600}} >Add Project</DialogTitle>
+        <DialogContent>
+    {/* <Box
+      sx={{
+        marginLeft: '2%',
+        marginRight: '2%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+
+    </Box> */}
     <Box
     className="add"
     >
-      <Typography
-        component="h1"
-        variant="h5"
-        className="addheader"
-      >
-        Add Project
-      </Typography>
-      <Grid container justifyContent="center" alignItems="center">
+      {/* <Grid container justifyContent="center" alignItems="center">
         <Card
           className='cardstyle'
-        >
+        > */}
           {successMessage && (
             <div style={{ color: 'green', margin: '10px 0' }}>
               {successMessage}
@@ -146,7 +167,7 @@ const AddProject: React.FunctionComponent = () => {
                 )}
               /> */}
 
-              <FormControl style={{ marginTop: '1rem', width: '40%' }}>
+              <FormControl style={{ marginTop: '1rem' , width:'100%'}}>
                 <InputLabel id="name-label">Account</InputLabel>
                 <Select
                   fullWidth
@@ -176,6 +197,7 @@ const AddProject: React.FunctionComponent = () => {
                 label="Project Name"
                 type="text"
                 name="projectName"
+                fullWidth
                 value={formik.values.projectName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -195,6 +217,7 @@ const AddProject: React.FunctionComponent = () => {
                 label="Project Manager"
                 type="text"
                 name="projectManager"
+                fullWidth
                 value={formik.values.projectManager}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -217,6 +240,7 @@ const AddProject: React.FunctionComponent = () => {
                 label="Project Details"
                 type="text"
                 name="projectDetails"
+                fullWidth
                 value={formik.values.projectDetails}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -229,21 +253,26 @@ const AddProject: React.FunctionComponent = () => {
                   {formik.errors.projectDetails}
                 </Typography>
               ) : null}
-
-              <Button
-                type="submit"
-                className='textfield'
-                size="small"
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Create Project
-              </Button>
             </Grid>
           </form>
-        </Card>
-      </Grid>
+        {/* </Card>
+      </Grid> */}
     </Box>
+    <DialogActions>
+             <Button variant="contained" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" 
+           type='submit'
+          >
+            Save
+          </Button>
+      
+  
+        </DialogActions>
+    </DialogContent>
+    </Dialog>
+    </div>
   );
 };
 

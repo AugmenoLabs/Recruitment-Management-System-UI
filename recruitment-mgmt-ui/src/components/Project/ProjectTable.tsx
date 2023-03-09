@@ -159,14 +159,6 @@ const ProjectTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
-    <Box>
-      <Typography
-        gutterBottom
-        variant="h5"
-        className="tableheader"
-      >
-        PROJECT
-      </Typography>
       <MaterialReactTable
         columns={columns}
         data={data}
@@ -176,10 +168,9 @@ const ProjectTable: React.FunctionComponent = () => {
           sx: {
             tableLayout: 'auto',
             align: 'center',
-            height:'80%',
-  '&::-webkit-scrollbar':{
-    overflow:'hidden',
-  }
+            marginLeft: '1%',
+            marginRight: '1%',
+            width: '98%',
           
           },
         }}
@@ -195,8 +186,8 @@ const ProjectTable: React.FunctionComponent = () => {
           sx: {
             '& .Mui-TableHeadCell-Content': {
               justifyContent: 'left',
-              fontWeight: 600,
-              color: 'blue',
+              fontWeight: 500,
+              color: 'black',
             },
           },
         }}
@@ -207,18 +198,7 @@ const ProjectTable: React.FunctionComponent = () => {
         }}
         enableRowActions
         //   enableRowSelection
-        renderTopToolbarCustomActions={({ table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
-            <Button
-              color="primary"
-              size="small"
-              onClick={navigateAddProject}
-              variant="contained"
-            >
-              Add Project
-            </Button>
-          </Box>
-        )}
+       
         editingMode="modal"
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
@@ -226,7 +206,7 @@ const ProjectTable: React.FunctionComponent = () => {
         positionActionsColumn="last"
         displayColumnDefOptions={{
           'mrt-row-actions': {
-            size: 40,
+            size: 50,
 
             muiTableHeadCellProps: {
               align: 'center',
@@ -234,6 +214,22 @@ const ProjectTable: React.FunctionComponent = () => {
           },
         }}
         enableColumnActions={false}
+        muiTableHeadRowProps={{
+          sx: {
+           background:'#9fd7fc',
+           borderStyle: 'solid',
+           borderColor: '#a9d6f5',
+          },
+        }}
+        muiTableBodyProps={{
+          sx: {
+            height: 300,
+            background:'#e3f2fc',
+            borderStyle: 'solid',
+            borderColor: 'blue',
+            borderWidth: 2,
+          },      
+        }}   
         renderRowActionMenuItems={({ row, table }) => [
           <MenuItem
             key={1}
@@ -259,7 +255,7 @@ const ProjectTable: React.FunctionComponent = () => {
           </MenuItem>,
         ]}
       />
-    </Box>
+    
   );
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

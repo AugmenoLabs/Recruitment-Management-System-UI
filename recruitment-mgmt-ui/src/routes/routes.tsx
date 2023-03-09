@@ -23,6 +23,8 @@ import InterviewDetailTable from '../components/InterviewDetailTable/InterviewDe
 import AddRole from '../components/UserManagement/AddRole';
 import VendorTable from '../components/Vendor/VendorTable';
 import RoleMapping from '../components/UserManagement/RoleMapping';
+import Account from '../pages/Account/account.component';
+import Project from '../pages/Project/Project.component';
 
 interface IProps {
     IsSidebarOpen: boolean;
@@ -71,14 +73,14 @@ return(
             <Route path="/candidatedetails" element={<CandidateTable />} />
             <Route path="/AddAccount" element={<AddAccount />} />
             <Route path="/AddProject" element={<AddProject />} />
-            <Route path="/Accountdetails" element={<AccountTable />} />
+            <Route path="/Accountdetails" element={<Account />} />
             <Route path="/scheduleinterview" element={<InterviewForm />} />
             <Route path="/interviewdetails" element={<InterviewFinalTable />} />
             <Route path="/interviewdetailview" element={<InterviewDetailTable />} />
             <Route path="/UserDetails" element={<ManagementPage />} />
             <Route path="/AddUser" element={<AddUser/>} />
             <Route path="/AddRole" element={<AddRole/>} />
-            <Route path="/ProjectDetails" element={<ProjectTable/>} />
+            <Route path="/ProjectDetails" element={<Project/>} />
             <Route path="/VendorDetails" element={<VendorTable/>} />
             <Route path="/AddVendor" element={<AddVendor/>} />
             <Route path="/RoleMapping/:id" element={<RoleMapping/>} />
