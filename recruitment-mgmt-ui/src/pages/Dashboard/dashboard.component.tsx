@@ -28,9 +28,8 @@ const Dashboard: React.FunctionComponent = () => {
         <Typography
           variant="h6"
           style={{
-            fontSize: '20px',
-           
-            fontWeight: 500,
+            fontSize: '20px',           
+            fontWeight: 600,
           }}
         >
           OPEN POSITION(S)

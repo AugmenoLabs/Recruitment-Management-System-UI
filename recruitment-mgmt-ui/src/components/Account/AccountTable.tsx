@@ -245,7 +245,6 @@ const AccountTable: React.FunctionComponent = () => {
 
         muiTableBodyProps={{
           sx: {
-            height: 300,
             background:'#e3f2fc',
             borderStyle: 'solid',
             borderColor: 'blue',
