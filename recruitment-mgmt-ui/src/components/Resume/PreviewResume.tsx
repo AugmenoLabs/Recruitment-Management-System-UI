@@ -1,23 +1,22 @@
-import { Dialog, DialogTitle, IconButton } from '@mui/material';
+import { IconButton, Dialog, Button, Tooltip, DialogActions, DialogContent } from '@mui/material';
 import React, {useState} from 'react'
 import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
-import { Viewer, Worker} from '@react-pdf-viewer/core';
-// import { DefaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css' 
-import '@react-pdf-viewer/default-layout/lib/styles/index.css'
+import { Viewer, SpecialZoomLevel, Worker } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 interface Props {
     id: string;
     data : CandidateInterface[];
   }
+
 const PreviewResume: React.FunctionComponent<Props> = ({id, data}) => {
 
-    const [pdfFile, setpdfFile] = useState<any>(null)
+    const [byteArray, setArray] = useState<Uint8Array>(new Uint8Array())
     const [open, setOpen] = useState(false)
-    const APIcall = () : any => {
-        // console.log(data)
-        // alert('clicked')
+    const APIcall = () : void => {
+        setOpen(true);
         const row = data.filter(x => x.id === id)
         const resume = row[0].resume
         const byteCharacters = atob(resume)
@@ -25,17 +24,11 @@ const PreviewResume: React.FunctionComponent<Props> = ({id, data}) => {
         for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        // console.log(byteArray)
-        const blob = new Blob([byteArray])
-        const reader = new FileReader()
-        reader.readAsDataURL(blob)
-        reader.onload = e => {
-            // setpdfFile(e.target?.result)
-            setpdfFile(blob)
-        }
-        console.log(pdfFile)
-        setOpen(true)
+        setArray(new Uint8Array(byteNumbers))
+    }
+
+    const handleClose = () : void => {
+        setOpen(false)
     }
 
     return(
@@ -43,16 +36,34 @@ const PreviewResume: React.FunctionComponent<Props> = ({id, data}) => {
             <IconButton
                 style={{ marginLeft: '1rem' }}
             >
-                <VisibilitySharpIcon onClick={APIcall} />
+                <Tooltip title = "Preview the Resume"><VisibilitySharpIcon onClick={APIcall} /></Tooltip>
             </IconButton>
 
-           
-
-            <Dialog open = {open}>
-                <DialogTitle>Hello</DialogTitle>
-                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
-                    <Viewer fileUrl={pdfFile} plugins = {[]}/>
-                 </Worker>
+            <Dialog open = {open}
+                maxWidth="md"
+                fullWidth
+                
+            >
+                    <Dialog open = {open}
+                    fullWidth
+                    maxWidth="sm"
+                    >
+                        <DialogContent>
+                            <Viewer
+                                    fileUrl={byteArray}
+                                    defaultScale={SpecialZoomLevel.PageFit}
+                                />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                variant="contained"
+                                onClick={handleClose}
+                                style={{ marginRight: '1rem' }}
+                            >
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
             </Dialog>
         </>
     )

@@ -3,12 +3,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate ,Link} from 'react-router-dom';
 import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
-import { Avatar, Box, Grid, MenuItem, Typography } from '@mui/material';
+import { Avatar, Box, Grid, MenuItem, Typography, Dialog, DialogActions, DialogContent, Button, Tooltip } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import { fontFamily, fontSize } from '@mui/system';
+import ScreeningPosition from './ScreeningPosition';
+import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
+import { cursorTo } from 'readline';
 
 export interface JobOpeningProps{
   users:JobOpeningInterface[];
@@ -48,7 +51,6 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
  //   history(`/jobdescription/${rowData.id}`);
  // };
 
- 
  const [data, setData] = useState<JobOpeningInterface[]>([]);
 
  const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
@@ -102,6 +104,23 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
    },
    [data],
  );
+
+ const [isDialogOpen, setIsDialogOpen] = useState(false); 
+ const handleScreeningClose = (row: any) => {
+  setIsDialogOpen(false);
+ };
+
+ const [positionId, setPositionId] = useState<string>('')
+ const handleScreening = (row: MRT_Row<JobOpeningInterface>) => {
+  setPositionId(row.getValue('id'))
+  setIsDialogOpen(true);
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return (
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    <ScreeningPosition positionid={positionId} />
+  );
+};
+
  const getCommonEditTextFieldProps = useCallback(
    (
      cell: MRT_Cell<JobOpeningInterface>,
@@ -211,10 +230,9 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
             gap: '1rem',
           }}
         >         
-
              <Grid container>
-                <Grid item lg = {12}>
-                    <Typography>Position Title   : {row.original.jobTitle}</Typography>
+                <Grid item lg = {12} onClick = {() => handleRowClick(row)}>
+                    <Typography onClick = {() => handleRowClick(row)}>Position Title   : {row.original.jobTitle}</Typography>
                     <Typography><b>Open Positions :</b> {row.original.noOfPositions}</Typography>
                     <Typography><b>Budget Range   :</b>  {row.original.budget}</Typography>
                     <Typography><b>Job Post Date  :</b> {'08-March-2023'}</Typography>
@@ -234,14 +252,17 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
             display: 'flex',
             alignItems: 'center',
             gap: '1rem',
+            // textAlign: 'center'
           }}
-        >      
+        >    
              <Grid container>
                 <Grid item lg = {12}>
-                  <Typography><b>Profile Received :</b> {row.original.totalApplied}</Typography>
+                <Link onClick={() => handleScreening(row)} to={''}><Typography><b>Profile Received :</b> {row.original.totalApplied}</Typography></Link>
                   <Typography><b>Screenings       :</b>  {row.original.screenings}</Typography>
                   <Typography><b>Hired            :</b> {row.original.onboarded}</Typography>
+                  {/* <Tooltip title = "Click to preview the candidate profiles"><VisibilitySharpIcon onClick = {() => handleScreening(row)} style={{cursor: 'pointer', marginLeft: '3rem'}}/></Tooltip> */}
                 </Grid>
+                
              </Grid>
            
             <span>{renderedCellValue}</span>
@@ -278,6 +299,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
    [getCommonEditTextFieldProps]
  );
  return (
+  <>
    <MaterialReactTable
      columns={columns}
      data={data}
@@ -376,6 +398,27 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps>= ({users}) => {
       },      
     }}   
    />
+
+    <Dialog
+      open={isDialogOpen}
+      onClose={handleScreeningClose}
+      maxWidth="md"
+    >
+    <DialogContent>
+      <ScreeningPosition positionid={positionId} />
+    </DialogContent>
+    <DialogActions>
+      <Button
+        variant="contained"
+        onClick={handleScreeningClose}
+        style={{ marginRight: '1rem' }}
+      >
+        Close
+      </Button>
+    </DialogActions>
+    </Dialog>
+
+  </>
  );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions

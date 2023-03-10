@@ -20,9 +20,8 @@ import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import ScreeningPosition from './ScreeningPosition';
-
 import './JobOpening.style.scss';
-import ScreeningPosition from './ScreeningPosition';
+
 export interface JobOpeningProps {
   users: JobOpeningInterface[];
 }
@@ -56,20 +55,20 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps> = ({
     history('/applyforjobs');
   };
 
-  const positionId: string = '';
+  var positionid: string = '';
   const [data, setData] = useState<JobOpeningInterface[]>([]);
 
-  const API_URL =
-    'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
+  const API_URL = 'http://localhost:5141/api/v1/OpenPosition';
   // const [isDeleting, setIsDeleting] = useState(false);
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleScreening = (row: MRT_Row<JobOpeningInterface>) => {
-    const totalApplied = row.getValue('id');
+    positionid = row.getValue('id');
+    alert(positionid)
     setIsDialogOpen(true);
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     return (
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      <ScreeningPosition positionid={''} />
+      <ScreeningPosition positionid={positionid} />
     );
   };
   useEffect(() => {
@@ -364,8 +363,6 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps> = ({
   //   console.info({ rowSelection });
   // }, [rowSelection]);
   return (
-    <>
-      <MaterialReactTable
     // <div className="table">
     <>
       <MaterialReactTable
@@ -481,11 +478,11 @@ const JobOpeningTable: React.FunctionComponent<JobOpeningProps> = ({
       <Dialog
         open={isDialogOpen}
         onClose={handleScreeningClose}
-        maxWidth="sm"
+        maxWidth="lg"
         fullWidth
       >
         <DialogContent>
-          <ScreeningPosition positionid={positionId} />
+          <ScreeningPosition positionid={positionid} />
         </DialogContent>
         <DialogActions>
           <Button

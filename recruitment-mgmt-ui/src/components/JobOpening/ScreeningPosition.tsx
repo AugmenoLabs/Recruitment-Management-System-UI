@@ -4,15 +4,17 @@ import { CandidateInterface } from '../../Interface/CandidateInterface';
 // import MaterialReactTable, { MaterialReactTableProps, MRT_Cell, MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import DownloadResume from '../Resume/downloadResume';
-import {Box} from '@mui/material';
+import {Box, MenuItem, Tooltip} from '@mui/material';
+import PreviewResume from '../Resume/PreviewResume';
 
 export interface Props {
   positionid: string;
 }
 
+
 const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [open, setOpen] = useState<boolean>(true);
+  // const [open, setOpen] = useState<boolean>(true);
   // const handleClickOpen = (): void => {
   //     setOpen(true);
   //   };
@@ -23,7 +25,8 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
     const fetchData = async () => {
       try {
         const result = await axios.get<CandidateInterface[]>(API_URL);
-        // const data = result.data.filter(x => x.openPositionId === positionId);
+        const data = result.data.filter(x => x.openPositionId === positionid);
+        console.log(data)
         setData(result.data);
       } catch (error) {
         console.error(error);
@@ -39,6 +42,11 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
   const columns = useMemo<Array<MRT_ColumnDef<CandidateInterface>>>(
     () => [
       {
+        accessorKey: 'id',
+        header: 'Id',
+        size: 50
+      },
+      {
         accessorKey: 'candidateName',
         header: 'Candidate Name',
         size: 50,
@@ -47,21 +55,23 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
               cursor: 'pointer',
               whiteSpace: 'pre-line',
               wordWrap: 'break-word',
+              textAlign: 'center'
             },
           }),
       },
-      {
-        accessorKey: 'contactNumber',
-        header: 'Contact No.',
-        size: 50,
-        muiTableBodyCellProps: ({ cell }) => ({
-            sx: {
-              cursor: 'pointer',
-              whiteSpace: 'pre-line',
-              wordWrap: 'break-word',
-            },
-          }),
-      },
+      // {
+      //   accessorKey: 'contactNumber',
+      //   header: 'Contact No.',
+      //   size: 50,
+      //   muiTableBodyCellProps: ({ cell }) => ({
+      //       sx: {
+      //         cursor: 'pointer',
+      //         whiteSpace: 'pre-line',
+      //         wordWrap: 'break-word',
+      //         textAlign: 'center'
+      //       },
+      //     }),
+      // },
     ],
     []
   );
@@ -71,6 +81,7 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
       <MaterialReactTable
         columns={columns}
         data={data}
+        getRowId={(originalRow) => originalRow.id}
         muiTablePaginationProps={{
           rowsPerPageOptions: [5, 10, 20, 50],
         }}
@@ -79,47 +90,31 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
           columnVisibility: { id: false },
           pagination: { pageSize: 5, pageIndex: 0 },
         }}
+        enableRowNumbers
         enableDensityToggle={false}
-        muiTableHeadCellProps={{
-          sx: {
-            '& .Mui-TableHeadCell-Content': {
-              justifyContent: 'left',
-              fontWeight: 600,
-              color: 'blue',
-            },
-          },
-        }}
-        muiTableProps={{
-          sx: {
-            tableLayout: 'auto',
-            align: 'center',
-            '&::-webkit-scrollbar':{
-                overflow:'hidden',
-              }
-          },
-        }}
-        // enableColumnResizing
-        // positionActionsColumn="last"
-        displayColumnDefOptions={{
-          'mrt-row-actions': {
-            size: 40,
-            muiTableHeadCellProps: {
-              align: 'center',
-            },
-          },
-        }}
         enableRowActions
         positionActionsColumn="last"
         enableColumnActions={false}
         renderRowActions={({ row }) => (
           <div>
             <Box display="flex" justifyContent="flex-start" alignItems="center" style={{marginLeft:'-1rem'}}>
-              <DownloadResume id={row.id} />
-            
-           
+              <Tooltip title = "Download the Resume"><DownloadResume id={row.id} /></Tooltip>
+              <Tooltip title = "Preview the Resume"><PreviewResume id = {row.id} data = {data}/></Tooltip>
             </Box>
           </div>
         )}
+        renderRowActionMenuItems={({row,table ,closeMenu }) => [
+          <MenuItem
+            key={0}
+          >
+            Select
+          </MenuItem>,
+          <MenuItem
+            key={1}
+          >
+            Reject
+          </MenuItem>,
+        ]}
       />
     </>
   );
