@@ -31,6 +31,7 @@ import { useParams } from 'react-router-dom';
 import { addCandidate } from '../../services/CandidateApi';
 import { GetVendor } from '../../services/VendorApi';
 import { GetOpenPositionById } from '../../services/OpenPositionApi';
+import Swal from 'sweetalert2';
 
 const CandidateApply: React.FunctionComponent = () => {
   const [noticePeriod, setnoticePeriod] = React.useState('');
@@ -183,10 +184,19 @@ const CandidateApply: React.FunctionComponent = () => {
       try {
         await addCandidate(values);
         resetForm();
-        setSuccessMessage('Candidate uplaoded successfully');
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'Candidate Uploaded Successfully',
+        });
         // console.log(response);
       } catch (error) {
         console.log(error);
+        void Swal.fire({
+          icon: 'error',
+          confirmButtonText: 'OK',
+          text: 'Error in adding candidate!! Please add again',
+        });
       }
     },
     validate: (values) => {
