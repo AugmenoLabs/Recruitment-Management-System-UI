@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import axios from 'axios';
 import { InterviewInterface } from '../../Interface/InterviewInterface';
+import Swal from 'sweetalert2';
 // import { dA } from '@fullcalendar/core/internal-common';
 interface props {
   candidateId: string;
@@ -62,9 +63,19 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
       await axios.post(API_URL,data )
         .then(response => {
           console.log(response.data);
+          void Swal.fire({
+            icon: 'success',
+            confirmButtonText: 'OK',
+            text: 'Interview Scheduled',
+          });
         })
         .catch(error => {
           console.error(error);
+          void Swal.fire({
+            icon: 'error',
+            confirmButtonText: 'OK',
+            text: 'Error in adding project!! Please add again',
+          });
         }); 
     };
   
@@ -85,7 +96,7 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
         Schedule
       </Fab>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open}   BackdropProps={{ invisible: true }}>
         <DialogTitle>Schedule Interview</DialogTitle>
         <DialogContent>
           <TextField

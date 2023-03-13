@@ -1,58 +1,30 @@
 import React from 'react';
 import './Project.style.scss';
 
+import { Box, Typography } from '@mui/material';
 
-import type { RootState } from './../../redux/store';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { NavbarActions } from '../../redux/Navbar/slice';
-
-import {
-  Button,
-  Box,
-  Typography,
-  ButtonGroup,
-  IconButton,
-} from '@mui/material';
-
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-
-import JobCards from '../../components/JobOpening/JobCard';
-// import JobOpeningTable from '../../components/JobOpening/JobOpeningTable.component';
-import GridViewIcon from '@mui/icons-material/GridView';
-import { useNavigate } from 'react-router';
-import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
-import JobOpeningReport from '../../components/JobOpening/JobOpeningReport';
-import AccountTable from '../../components/Account/AccountTable';
 import ProjectTable from '../../components/Project/ProjectTable';
 import AddProject from '../../components/Project/AddProject';
+import { ProjectInterface } from '../../Interface/ProjectInterface';
 // import Example from '../../components/JobOpening/test';
 
-
 const Project: React.FunctionComponent = () => {
-  const IsListView = useSelector((state: RootState) => state.Navbar.IsListView);
-
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const navigateform = (): void => {
-    history('/AddProject');
-  };
-
-const users:JobOpeningInterface[]=[];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const users: ProjectInterface[] = [];
   return (
-    <div className='page-body'>
+    <div className="page-body">
       <Box className="page-header">
-        <Typography variant="h6" 
-            style={
-              { 
-                fontSize: '20px', 
-                fontWeight: 500,                 
-              }
-              }>
+        <Typography
+          variant="h6"
+          style={{
+            fontSize: '20px',
+            fontWeight: 600,
+          }}
+        >
           PROJECT(S)
         </Typography>
         <Box className="button-section">
-          <AddProject/>
+          <AddProject />
           {/* <Button variant="contained"
           onClick={navigateform}>Add Project</Button>
           <ButtonGroup
@@ -63,9 +35,8 @@ const users:JobOpeningInterface[]=[];
           </ButtonGroup> */}
         </Box>
       </Box>
-      <ProjectTable/>
-
-  </div>
+      <ProjectTable />
+    </div>
   );
 };
 

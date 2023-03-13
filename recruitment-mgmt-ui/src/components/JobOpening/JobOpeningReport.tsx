@@ -6,7 +6,7 @@ import MaterialReactTable, {
   MaterialReactTableProps,
   MRT_Cell,
   MRT_ColumnDef,
-  MRT_Row,
+  MRT_Row
 } from 'material-react-table';
 import { Avatar, Box, Grid, MenuItem, Typography } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
@@ -18,6 +18,13 @@ import './JobOpening.style.scss';
 export interface JobOpeningProps {
   users: JobOpeningInterface[];
 }
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const NoDataComponent = () => (
+  <Typography variant="body1" align="center">
+    No data to display.
+  </Typography>
+);
 
 const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
   users,
@@ -63,7 +70,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
     const fetchData = async () => {
       try {
         const result = await axios.get<JobOpeningInterface[]>(API_URL);
-        setData(result.data);
+  setData(result.data);
         console.log(result.data);
       } catch (error) {
         console.error(error);
@@ -430,6 +437,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
         pagination: { pageSize: 5, pageIndex: 0 },
       }}
       enableDensityToggle={false}
+
       muiTableHeadCellProps={{
         sx: {
           '& .Mui-TableHeadCell-Content': {

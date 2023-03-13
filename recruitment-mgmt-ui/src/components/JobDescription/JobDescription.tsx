@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import { GetOpenPositionById } from '../../services/OpenPositionApi';
 // import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
-import background from '../../assets/background.jpg';
+// import background from '../../assets/background.jpg';
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -102,7 +102,9 @@ const JobDescription: React.FunctionComponent = () => {
           <Card
             style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}
           >
-            <Card style={{ backgroundImage:`url(${background})` }}>
+            <Card style={{ backgroundColor:"lightgray"
+              // backgroundImage:`url(${background})`
+               }}>
               <CardContent>
                 <Box style={{ display: 'flex' }}>
                   <Typography
