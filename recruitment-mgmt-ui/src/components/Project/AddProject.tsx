@@ -3,13 +3,16 @@ import {
   Box,
   Button,
   Grid,
-  Card,
   TextField,
   Typography,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
@@ -18,6 +21,7 @@ import { ProjectInterface } from '../../Interface/ProjectInterface';
 import { GetAccount } from '../../services/AccountApi';
 import { addProject } from '../../services/ProjectApi';
 import '../Account/Account.style.scss';
+import Swal from 'sweetalert2';
 
 // const Accounts = ['Honeywell', 'LG', 'Symphony'];
 // const handleAddSkillTags: any = (value: any) => {
@@ -30,10 +34,17 @@ import '../Account/Account.style.scss';
 
 const AddProject: React.FunctionComponent = () => {
   // const [accountsValue, setaccountsValue] = useState<any>([]);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   // const [names, setNames] = useState<string[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedName, setSelectedName] = useState<string>('');
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
   const initialValues: ProjectInterface = {
     id: '',
     projectName: '',
@@ -43,17 +54,28 @@ const AddProject: React.FunctionComponent = () => {
     selectedAccountId: '',
     accountId: '',
   };
+
   const formik = useFormik({
     initialValues,
-    onSubmit:async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       values.accountId = values.selectedAccountId;
       try {
         await addProject(values);
         resetForm();
-        setSuccessMessage('Project added successfully');
+        handleClose();
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'Project added Successfully',
+        });
         // console.log(response);
       } catch (error) {
         console.log(error);
+        void Swal.fire({
+          icon: 'error',
+          confirmButtonText: 'OK',
+          text: 'Error in adding project!! Please add again',
+        });
       }
     },
     validate: (values) => {
@@ -84,34 +106,35 @@ const AddProject: React.FunctionComponent = () => {
     setSelectedName(selectedAccount?.accountName ?? '');
   }, [formik.values.selectedAccountId, data]);
   return (
-    <Box
-    className="add"
-    >
-      <Typography
-        component="h1"
-        variant="h5"
-        className="addheader"
-      >
+    <div>
+      <Button variant="contained" onClick={handleClickOpen}>
         Add Project
-      </Typography>
-      <Grid container justifyContent="center" alignItems="center">
+      </Button>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm">
+        <DialogTitle className="header" style={{ fontWeight: 600 }}>
+          Add Project
+        </DialogTitle>
+        <DialogContent>
+          {/* <Box
+      sx={{
+        marginLeft: '2%',
+        marginRight: '2%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+
+    </Box> */}
+          <Box className="add">
+            {/* <Grid container justifyContent="center" alignItems="center">
         <Card
           className='cardstyle'
-        >
-          {successMessage && (
-            <div style={{ color: 'green', margin: '10px 0' }}>
-              {successMessage}
-            </div>
-          )}
-          <form onSubmit={formik.handleSubmit}>
-            <Grid
-              container
-              direction="column"
-              className="girdstyle"
-              justifyContent="center"
-              alignItems="center"
-            >
-              {/* <Autocomplete
+        > */}
+
+            <form onSubmit={formik.handleSubmit}>
+              <Grid container justifyContent="space-between">
+                {/* <Autocomplete
                 multiple
                 size="small"
                 style={{ width: '40%' }}
@@ -146,104 +169,102 @@ const AddProject: React.FunctionComponent = () => {
                 )}
               /> */}
 
-              <FormControl style={{ marginTop: '1rem', width: '40%' }}>
-                <InputLabel id="name-label">Account</InputLabel>
-                <Select
+                <FormControl style={{ marginTop: '1rem', width: '100%' }}>
+                  <InputLabel id="name-label">Account</InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="name-label"
+                    label="Account"
+                    value={formik.values.selectedAccountId}
+                    // update the selectedAccountId field in the values object
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    onChange={async (event) =>
+                      await formik.setFieldValue(
+                        'selectedAccountId',
+                        event.target.value
+                      )
+                    }
+                  >
+                    {data.map((data) => (
+                      <MenuItem key={data.id} value={data.id}>
+                        {data.accountName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  margin="normal"
+                  className="textfield"
+                  size="small"
+                  label="Project Name"
+                  type="text"
+                  name="projectName"
                   fullWidth
-                  labelId="name-label"
-                  value={formik.values.selectedAccountId}
-                  // update the selectedAccountId field in the values object
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                  onChange={async (event) =>
-                    await formik.setFieldValue(
-                      'selectedAccountId',
-                      event.target.value
-                    )
-                  }
-                >
-                  {data.map((data) => (
-                    <MenuItem key={data.id} value={data.id}>
-                      {data.accountName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <TextField
-                margin="normal"
-                className='textfield'
-                size="small"
-                label="Project Name"
-                type="text"
-                name="projectName"
-                value={formik.values.projectName}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.projectName ? (
-                <Typography
-                  variant="body2"
-                  className="error"
-                >
-                  {formik.errors.projectName}
-                </Typography>
-              ) : null}
-              <TextField
-                margin="normal"
-                className='textfield'
-                size="small"
-                label="Project Manager"
-                type="text"
-                name="projectManager"
-                value={formik.values.projectManager}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.projectManager ? (
-                <Typography
-                  variant="body2"
-                  className="error"
-                >
-                  {formik.errors.projectManager}
-                </Typography>
-              ) : null}
-              <TextField
-                id="outlined-textarea"
-                margin="normal"
-                multiline
-                rows={2}
-                className='textfield'
-                size="small"
-                label="Project Details"
-                type="text"
-                name="projectDetails"
-                value={formik.values.projectDetails}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-              />
-              {formik.errors.projectDetails ? (
-                <Typography
-                  variant="body2"
-                  className="error"
-                >
-                  {formik.errors.projectDetails}
-                </Typography>
-              ) : null}
-
-              <Button
-                type="submit"
-                className='textfield'
-                size="small"
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Create Project
-              </Button>
-            </Grid>
+                  value={formik.values.projectName}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.projectName ? (
+                  <Typography variant="body2" className="error">
+                    {formik.errors.projectName}
+                  </Typography>
+                ) : null}
+                <TextField
+                  margin="normal"
+                  className="textfield"
+                  size="small"
+                  label="Project Manager"
+                  type="text"
+                  name="projectManager"
+                  fullWidth
+                  value={formik.values.projectManager}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.projectManager ? (
+                  <Typography variant="body2" className="error">
+                    {formik.errors.projectManager}
+                  </Typography>
+                ) : null}
+                <TextField
+                  id="outlined-textarea"
+                  margin="normal"
+                  multiline
+                  rows={2}
+                  className="textfield"
+                  size="small"
+                  label="Project Details"
+                  type="text"
+                  name="projectDetails"
+                  fullWidth
+                  value={formik.values.projectDetails}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.projectDetails ? (
+                  <Typography variant="body2" className="error">
+                    {formik.errors.projectDetails}
+                  </Typography>
+                ) : null}
+              </Grid>
+           x
+            {/* </Card>
+      </Grid> */}
+          
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" type="submit" >
+              Save
+            </Button>
+          </DialogActions>
           </form>
-        </Card>
-      </Grid>
-    </Box>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

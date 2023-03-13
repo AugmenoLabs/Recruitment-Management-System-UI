@@ -159,107 +159,101 @@ const ProjectTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
-    <Box>
-      <Typography
-        gutterBottom
-        variant="h5"
-        className="tableheader"
-      >
-        PROJECT
-      </Typography>
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        //    enableColumnActions={false}
-        //    enableColumnFilters={false}
-        muiTableProps={{
-          sx: {
-            tableLayout: 'auto',
-            align: 'center',
-            height:'80%',
-  '&::-webkit-scrollbar':{
-    overflow:'hidden',
-  }
-          
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      //    enableColumnActions={false}
+      //    enableColumnFilters={false}
+      muiTableProps={{
+        sx: {
+          tableLayout: 'auto',
+          align: 'center',
+          marginLeft: '1%',
+          marginRight: '1%',
+          width: '98%',
+        },
+      }}
+      muiTablePaginationProps={{
+        rowsPerPageOptions: [5, 10, 20, 50],
+      }}
+      initialState={{
+        density: 'compact',
+        pagination: { pageSize: 5, pageIndex: 0 },
+      }}
+      enableDensityToggle={false}
+      muiTableHeadCellProps={{
+        sx: {
+          '& .Mui-TableHeadCell-Content': {
+            justifyContent: 'left',
+            fontWeight: 500,
+            color: 'black',
           },
-        }}
-        muiTablePaginationProps={{
-          rowsPerPageOptions: [5, 10, 20, 50],
-        }}
-        initialState={{
-          density: 'compact',
-          pagination: { pageSize: 5, pageIndex: 0 },
-        }}
-        enableDensityToggle={false}
-        muiTableHeadCellProps={{
-          sx: {
-            '& .Mui-TableHeadCell-Content': {
-              justifyContent: 'left',
-              fontWeight: 600,
-              color: 'blue',
-            },
-          },
-        }}
-        defaultColumn={{
-          minSize: 20,
-          maxSize: 300,
-          size: 80,
-        }}
-        enableRowActions
-        //   enableRowSelection
-        renderTopToolbarCustomActions={({ table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
-            <Button
-              color="primary"
-              size="small"
-              onClick={navigateAddProject}
-              variant="contained"
-            >
-              Add Project
-            </Button>
-          </Box>
-        )}
-        editingMode="modal"
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
-        enableColumnResizing
-        positionActionsColumn="last"
-        displayColumnDefOptions={{
-          'mrt-row-actions': {
-            size: 40,
+        },
+      }}
+      defaultColumn={{
+        minSize: 20,
+        maxSize: 300,
+        size: 80,
+      }}
+      enableRowActions
+      //   enableRowSelection
 
-            muiTableHeadCellProps: {
-              align: 'center',
-            },
+      editingMode="modal"
+      onEditingRowSave={handleSaveRowEdits}
+      onEditingRowCancel={handleCancelRowEdits}
+      enableColumnResizing
+      positionActionsColumn="last"
+      displayColumnDefOptions={{
+        'mrt-row-actions': {
+          size: 50,
+
+          muiTableHeadCellProps: {
+            align: 'center',
           },
-        }}
-        enableColumnActions={false}
-        renderRowActionMenuItems={({ row, table }) => [
-          <MenuItem
-            key={1}
-            onClick={(event) => {
-              // Send email logic...
-              console.info(event);
-              table.setEditingRow(row);
-            }}
-            sx={{ m: 0, display: 'flex' }}
-          >
-            <EditIcon />
-          </MenuItem>,
-          <MenuItem
-            key={2}
-            onClick={() => {
-              // Send email logic...
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              handleDeleteRow(row);
-            }}
-            sx={{ m: 0 }}
-          >
-            <DeleteIcon />
-          </MenuItem>,
-        ]}
-      />
-    </Box>
+        },
+      }}
+      enableColumnActions={false}
+      muiTableHeadRowProps={{
+        sx: {
+          background: '#9fd7fc',
+          borderStyle: 'solid',
+          borderColor: '#a9d6f5',
+        },
+      }}
+      muiTableBodyProps={{
+        sx: {
+         
+          background: '#e3f2fc',
+          borderStyle: 'solid',
+          borderColor: 'blue',
+          borderWidth: 2,
+        },
+      }}
+      renderRowActionMenuItems={({ row, table }) => [
+        <MenuItem
+          key={1}
+          onClick={(event) => {
+            // Send email logic...
+            console.info(event);
+            table.setEditingRow(row);
+          }}
+          sx={{ m: 0, display: 'flex' }}
+        >
+          <EditIcon />
+        </MenuItem>,
+        <MenuItem
+          key={2}
+          onClick={() => {
+            // Send email logic...
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            handleDeleteRow(row);
+          }}
+          sx={{ m: 0 }}
+        >
+          <DeleteIcon />
+        </MenuItem>,
+      ]}
+    />
   );
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
