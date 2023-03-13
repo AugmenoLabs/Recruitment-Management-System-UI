@@ -6,7 +6,7 @@ import { Box, Button,Card, Grid, TextField, Typography } from '@mui/material';
 import { getToken } from '../../keycloak/GetToken';
 import { UserInterface } from '../../Interface/UserInterface';
 import { addUser } from '../../services/UserApi';
-
+import Swal from 'sweetalert2';
 
 const AddUser: React.FunctionComponent = () => {
   const [user, setUser] = useState<UserInterface>({
@@ -16,6 +16,16 @@ const AddUser: React.FunctionComponent = () => {
     firstName: '',
     lastName: ''
   });
+
+  const handleReset = (): void => {
+    setUser({
+      id:'',
+    username: '',   
+    email: '',
+    firstName: '',
+    lastName: ''
+    });
+  };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,10 +39,22 @@ const AddUser: React.FunctionComponent = () => {
     await addUser(user,token)
       .then(response => {
         console.log(response.data);
+        handleReset();
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'User Created Successfully',
+        });
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(error => { 
+        console.error("err",error);      
+            void Swal.fire({
+              icon: 'error',
+              confirmButtonText: 'OK',
+              text: 'Failed to add role',
+            });
+          }  
+      ); 
   };
   // const formik = useFormik({
   //   initialValues: {

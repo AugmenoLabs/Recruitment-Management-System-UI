@@ -2,13 +2,21 @@ import axios from 'axios';
 // import { useParams } from 'react-router-dom';
 import { API_BASE_PATH } from '../Config/config';
 import { RequisitionInterface } from '../Interface/RequisitionInterface';
+import keycloak from '../keycloak/keycloak';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const GetOpenPositionById = async (id:string | undefined) => {
+  const token = keycloak.token;
     const Response = await axios
       .get(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `${API_BASE_PATH}/OpenPosition/${id}`
+        `${API_BASE_PATH}/OpenPosition/${id}`,
+        {
+          headers: {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
       .then((response) => {
         return response;

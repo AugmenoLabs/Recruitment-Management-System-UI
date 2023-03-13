@@ -174,6 +174,7 @@ const AccountTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
+    
       <MaterialReactTable
         columns={columns}
         data={data}
