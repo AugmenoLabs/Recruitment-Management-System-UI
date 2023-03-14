@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 // import { useFormik } from 'formik';
-import { Box, Button,Card, Grid, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+} from '@mui/material';
 // import axios from 'axios';
 import { getToken } from '../../keycloak/GetToken';
 import { UserInterface } from '../../Interface/UserInterface';
@@ -9,21 +17,29 @@ import { addUser } from '../../services/UserApi';
 import Swal from 'sweetalert2';
 
 const AddUser: React.FunctionComponent = () => {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
+
   const [user, setUser] = useState<UserInterface>({
-    id:'',
-    username: '',   
+    id: '',
+    username: '',
     email: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
   });
 
   const handleReset = (): void => {
     setUser({
-      id:'',
-    username: '',   
-    email: '',
-    firstName: '',
-    lastName: ''
+      id: '',
+      username: '',
+      email: '',
+      firstName: '',
+      lastName: '',
     });
   };
 
@@ -33,11 +49,11 @@ const AddUser: React.FunctionComponent = () => {
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleSubmit =  async (event:React.MouseEvent<HTMLElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const token = await getToken();
-    await addUser(user,token)
-      .then(response => {
+    await addUser(user, token)
+      .then((response) => {
         console.log(response.data);
         handleReset();
         void Swal.fire({
@@ -46,20 +62,19 @@ const AddUser: React.FunctionComponent = () => {
           text: 'User Created Successfully',
         });
       })
-      .catch(error => { 
-        console.error("err",error);      
-            void Swal.fire({
-              icon: 'error',
-              confirmButtonText: 'OK',
-              text: 'Failed to add role',
-            });
-          }  
-      ); 
+      .catch((error) => {
+        console.error('err', error);
+        void Swal.fire({
+          icon: 'error',
+          confirmButtonText: 'OK',
+          text: 'Failed to add role',
+        });
+      });
   };
   // const formik = useFormik({
   //   initialValues: {
   //     user:user
-     
+
   //   },
   //   onSubmit: (values) => {
   //     console.log(values);
@@ -78,58 +93,47 @@ const AddUser: React.FunctionComponent = () => {
   //     if (values.user.firstName.length === 0) {
   //       errors.user.firstName = 'Please enter firstname';
   //     }
-     
+
   //     return errors;
   //   },
   // });
   return (
-    <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      marginLeft: '2%',
-      marginRight: '2%',
-      marginTop: '2%',
-    }}
-   >
-    <Typography
-      component="h1"
-      variant="h5"
-      style={{ fontWeight: 600, marginTop: '2%' }}
-    >
+    <div className="account_css">
+      <Button
+        variant="contained"
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          mt: 0,
+          mb: 0,
+          marginLeft: 95,
+        }}
+        onClick={handleClickOpen}
+      >
+        Add User
+      </Button>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm">
+        <DialogTitle className="header" style={{ fontWeight: 600 }}>
           Add User
-        </Typography>
-        <Grid container justifyContent="center" alignItems="center">
-        <Card
-          style={{
-            marginBottom: '1%',
-            width: '100%',
-            marginTop: '1rem',
-            backgroundColor: 'lavender',
-          }}
-        >
+        </DialogTitle>
+        <DialogContent>
           {/* <form onSubmit={formik.handleSubmit}> */}
-            <Grid
-              container
-              direction="column"
-              style={{ marginLeft: '2rem', marginRight: '2rem' }}
-              justifyContent="center"
-              alignItems="center"
-            >
-          <TextField
-            margin="normal"
-            style={{ width: '40%' }}
-            label="Username"
-            type="text"
-            name="username"
-            value={user.username}
-            onChange={handleChange}
-            // value={formik.values.user.username}
-            // onBlur={formik.handleBlur}
-            // onChange={formik.handleChange}
-          />
-    {/* {formik.touched.user?.username && formik.errors.user?.username ? (
+          <Grid justifyContent="space-between">
+            <TextField
+              margin="normal"
+              className="textfield"
+              fullWidth
+              size="small"
+              label="Username"
+              type="text"
+              name="username"
+              value={user.username}
+              onChange={handleChange}
+              // value={formik.values.user.username}
+              // onBlur={formik.handleBlur}
+              // onChange={formik.handleChange}
+            />
+            {/* {formik.touched.user?.username && formik.errors.user?.username ? (
                 <Typography
                   variant="body2"
                   sx={{ color: 'red', textAlign: 'start',marginRight:'19rem' }}
@@ -137,19 +141,20 @@ const AddUser: React.FunctionComponent = () => {
                   {formik.errors.user.username}
                 </Typography>
               ) : null} */}
-          <TextField
-            margin="normal"
-            style={{ width: '40%' }}
-            label="Email"
-            type="text"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            // value={formik.values.user.email}
-            // onBlur={formik.handleBlur}
-            // onChange={formik.handleChange}
-          />
-           {/* {formik.touched.user?.email && formik.errors.user?.email ? (
+            <TextField
+              margin="normal"
+              fullWidth
+              size="small"
+              label="Email"
+              type="text"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+              // value={formik.values.user.email}
+              // onBlur={formik.handleBlur}
+              // onChange={formik.handleChange}
+            />
+            {/* {formik.touched.user?.email && formik.errors.user?.email ? (
                 <Typography
                   variant="body2"
                   sx={{ color: 'red', textAlign: 'start',marginRight:'21rem' }}
@@ -158,19 +163,20 @@ const AddUser: React.FunctionComponent = () => {
                 </Typography>
               ) : null} */}
 
-          <TextField
-            margin="normal"
-            style={{ width: '40%' }}
-            label="First Name"
-            type="text"
-            name="firstName"
-             value={user.firstName}
-             onChange={handleChange}
-            // name="firstname"
-            // value={formik.values.user.firstName}
-            //     onBlur={formik.handleBlur}
-            //     onChange={formik.handleChange}
-          />
+            <TextField
+              margin="normal"
+              fullWidth
+              size="small"
+              label="First Name"
+              type="text"
+              name="firstName"
+              value={user.firstName}
+              onChange={handleChange}
+              // name="firstname"
+              // value={formik.values.user.firstName}
+              //     onBlur={formik.handleBlur}
+              //     onChange={formik.handleChange}
+            />
             {/* {formik.touched.user?.firstName && formik.errors.user?.firstName ? (
                 <Typography
                   variant="body2"
@@ -183,18 +189,19 @@ const AddUser: React.FunctionComponent = () => {
                   {formik.errors.user.firstName}
                 </Typography>
               ) : null} */}
-          <TextField
-            id="outlined-textarea"
-            margin="normal"
-            style={{ width: '40%' }}
-            label="Last Name"
-            type="text"
-            name="lastName"
-            value={user.lastName}
-            onChange={handleChange}
-          />
+            <TextField
+              id="outlined-textarea"
+              margin="normal"
+              fullWidth
+              size="small"
+              label="Last Name"
+              type="text"
+              name="lastName"
+              value={user.lastName}
+              onChange={handleChange}
+            />
 
-          <Button
+            {/* <Button
             type="submit"
            
             variant="contained"
@@ -204,11 +211,20 @@ const AddUser: React.FunctionComponent = () => {
           >
             Add User
           </Button>
+          </Grid> */}
+            {/* </form> */}
           </Grid>
-           {/* </form> */}
-        </Card> 
-      </Grid>
-    </Box>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
+              Save
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

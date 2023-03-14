@@ -9,6 +9,7 @@ export const API_URL='/Account';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const GetAccount = async () => {
   const token = keycloak.token;
+  const us = keycloak.tokenParsed?.preferred_username;
     const Response = await axios
       .get<AccountInterface[]>(
         `${API_BASE_PATH}${API_URL}`,
@@ -21,6 +22,7 @@ export const GetAccount = async () => {
       )
       .then((response) => {
         console.log(token);
+        console.log("hi",us);
         return response;
       })
       .catch((error) => {

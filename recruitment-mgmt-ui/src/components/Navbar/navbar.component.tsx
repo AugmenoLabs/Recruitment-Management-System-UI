@@ -42,6 +42,7 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import GroupIcon from '@mui/icons-material/Group';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import './navbar.scss';
+import UserInfo from '../UserInfo/UserInfo';
 
 const drawerWidth = 240;
 
@@ -207,6 +208,7 @@ const NavBar: React.FunctionComponent = () => {
      
     
       <MenuItem>
+      
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -218,7 +220,7 @@ const NavBar: React.FunctionComponent = () => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -228,7 +230,7 @@ const NavBar: React.FunctionComponent = () => {
             <LogoutIcon />
         </IconButton>
         <p>Logout</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
@@ -354,7 +356,7 @@ const NavBar: React.FunctionComponent = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -362,15 +364,15 @@ const NavBar: React.FunctionComponent = () => {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
-
-            <IconButton 
+            </IconButton> */}
+            <UserInfo/>
+            {/* <IconButton 
             size="large"
             color="inherit"
             edge="end"
             onClick={() => keycloak.logout(logoutOptions)}>
               <LogoutIcon />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

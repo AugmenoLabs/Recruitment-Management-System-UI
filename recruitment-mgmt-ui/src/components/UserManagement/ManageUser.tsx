@@ -21,6 +21,7 @@ import { UserInterface } from '../../Interface/UserInterface';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AccountUserInterface } from '../../Interface/AccountUserInterface';
 import { deleteUser, getUser } from '../../services/UserApi';
+import AddUser from './AddUser';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -94,19 +95,20 @@ const ManageUser: React.FunctionComponent = () => {
           width={'80%'}
         >
           <h4>User Info</h4>
-          <Button
+          <AddUser/>
+          {/* <Button
             variant="contained"
             sx={{
               alignItems: 'center',
               justifyContent: 'center',
               mt: 0,
               mb: 0,
-              marginLeft: 76,
+              marginLeft: 95,
             }}
             onClick={navigateAddUser}
           >
             Add User
-          </Button>
+          </Button> */}
         </Box>
       </div>
       <Paper
@@ -144,7 +146,7 @@ const ManageUser: React.FunctionComponent = () => {
             }}
             aria-label="customized table"
           >
-            <TableHead>
+            <TableHead >
               <TableRow>
                 <StyledTableCell style={{ fontWeight: 600 }}>
                   Username

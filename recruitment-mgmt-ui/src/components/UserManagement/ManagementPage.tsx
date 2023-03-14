@@ -16,22 +16,7 @@ import ManageRoles from './ManageRoles';
 
   return (
     <>
-    <Box sx={{ marginTop: '4rem' } }>
-      <Typography
-        gutterBottom
-       
-        sx={{
-          paddingLeft: '2rem',
-          paddingTop: '1.5rem',
-          margin: 0,
-          fonFfamily:'sans-serif',
-          fontWeight: 600,
-          fontSize: '24px',
-        }}
-        // className="tableheader"
-      >
-        USER ROLES
-      </Typography>
+    
       <Box sx={{ marginTop: '2rem',marginLeft:'2rem'} } justifyContent='center' alignItems='center'>
       <TabContext value={value}>
         <Box  sx={{ borderBottom: 1, borderColor: 'divider', width:'95%'}} justifyContent='center' alignItems='center'>
@@ -43,8 +28,7 @@ import ManageRoles from './ManageRoles';
         <TabPanel value="1"><ManageUser/></TabPanel>
         <TabPanel value="2"><ManageRoles/></TabPanel>
       </TabContext>
-      </Box>
-      </Box>
+      </Box>     
     </>
   );
 };

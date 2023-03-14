@@ -8,15 +8,18 @@ import MaterialReactTable, {
   MRT_ColumnDef,
   MRT_Row
 } from 'material-react-table';
-import { Avatar, Box, Grid, MenuItem, Typography } from '@mui/material';
+import { Avatar, Box, Grid,MenuItem, Typography,Dialog,DialogContent,DialogActions,Button } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import { fontFamily, fontSize } from '@mui/system';
-import './JobOpening.style.scss';
-export interface JobOpeningProps {
-  users: JobOpeningInterface[];
+import ScreeningPosition from './ScreeningPosition';
+import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
+import { cursorTo } from 'readline';
+
+export interface JobOpeningProps{
+  users:JobOpeningInterface[];
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -63,7 +66,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
   const [data, setData] = useState<JobOpeningInterface[]>([]);
 
   const API_URL =
-    'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
+    'http://localhost:5141/api/v1/OpenPosition/OpenPosition';
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -133,116 +136,128 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
         return;
       }
 
-      data.splice(row.index, 1);
-      setData([...data]);
-    },
-    [data]
-  );
-  const getCommonEditTextFieldProps = useCallback(
-    (
-      cell: MRT_Cell<JobOpeningInterface>
-    ): MRT_ColumnDef<JobOpeningInterface>['muiTableBodyCellEditTextFieldProps'] => {
-      return {
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        error: !!validationErrors[cell.id],
-        helperText: validationErrors[cell.id],
-        onBlur: (event) => {
-          const isValid =
-            cell.column.id === 'accountName'
-              ? validateRequired(event.target.value)
-              : validateRequired(event.target.value);
-          if (!isValid) {
-            setValidationErrors({
-              ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} is required`,
-            });
-          } else {
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-            delete validationErrors[cell.id];
-            setValidationErrors({
-              ...validationErrors,
-            });
-          }
-        },
-      };
-    },
-    [validationErrors]
-  );
+     data.splice(row.index, 1);
+     setData([...data]);
+   },
+   [data],
+ );
 
-  const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
-    () => [
-      {
-        accessorKey: 'id',
-        header: 'ID',
-        size: 70,
-      },
-      {
-        id: 'accountandprojectinfo',
-        header: 'Account & Project',
-        muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () => handleRowClick(cell.row),
-          sx: {
-            cursor: 'pointer',
-            whiteSpace: 'pre-line',
-            wordWrap: 'break-word',
-          },
-        }),
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-            }}
-          >
-            <Grid container>
-              <Grid item lg={2}>
-                <Avatar
-                  alt={row.original.jobId}
-                  src="."
-                  sx={{
-                    backgroundColor: randomColor(),
-                  }}
-                ></Avatar>
-              </Grid>
-              <Grid item lg={10}>
-                <Typography sx={{ paddingLeft: 3 }}>
-                  <Grid
-                    sx={{
-                      fontFamily: 'cursive',
-                      fontWeight: 'bold',
-                      color: 'darkred',
-                      fontSize: 15,
-                    }}
-                  >
-                    {row.original.jobId}
-                  </Grid>
-                </Typography>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
+ const [isDialogOpen, setIsDialogOpen] = useState(false); 
+ // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+ const handleScreeningClose = (row: any) => {
+  setIsDialogOpen(false);
+ };
 
-                    fontSize: 12,
+ const [positionId, setPositionId] = useState<string>('')
+ // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+ const handleScreening = (row: MRT_Row<JobOpeningInterface>) => {
+  setPositionId(row.getValue('id'))
+  setIsDialogOpen(true);
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return (
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    <ScreeningPosition positionid={positionId} />
+  );
+};
+
+ const getCommonEditTextFieldProps = useCallback(
+   (
+     cell: MRT_Cell<JobOpeningInterface>,
+   ): MRT_ColumnDef<JobOpeningInterface>['muiTableBodyCellEditTextFieldProps'] => {
+     return {
+       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+       error: !!validationErrors[cell.id],
+       helperText: validationErrors[cell.id],
+       onBlur: (event) => {
+         const isValid =
+           cell.column.id === 'accountName'
+             ? validateRequired(event.target.value)
+             :  validateRequired(event.target.value);
+         if (!isValid) {
+         
+           setValidationErrors({
+             ...validationErrors,
+             [cell.id]: `${cell.column.columnDef.header} is required`,
+           });
+         } else {
+        
+           // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+           delete validationErrors[cell.id];
+           setValidationErrors({
+             ...validationErrors,
+           });
+         }
+       },
+     };
+   },
+   [validationErrors],
+ );
+ 
+ const columns = useMemo<Array<MRT_ColumnDef<JobOpeningInterface>>>(
+   () => [
+    
+     {
+       accessorKey: 'id',
+       header: 'ID',
+       size:70,     
+     },
+     {
+      id: 'accountandprojectinfo',
+      header: 'Account & Project',
+      Cell:({renderedCellValue, row}) => (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+          }}
+        >
+          <Grid container>
+            <Grid item lg = {2}>
+              <Avatar alt={row.original.jobId} src='.'                
+                sx = {{
+                   backgroundColor: randomColor(),   
+                }}
+              >
+              </Avatar>
+            </Grid>
+            <Grid item lg = {10}>
+              <Typography sx = {{ paddingLeft: 3,}}>
+                <Grid 
+                  sx = {{
+                    fontFamily: 'cursive',
+                    fontWeight: 'bold',
+                    color: 'darkred',
+                    fontSize: 15,
                   }}
                 >
-                  <b>Account :</b> {row.original.accountName}
-                </Typography>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
-
-                    fontSize: 12,
-                  }}
-                >
-                  <b> Project :</b> {row.original.projectName}
-                </Typography>
-              </Grid>
+                   {row.original.jobId}
+                </Grid>
+              
+              </Typography>
+              <Typography 
+                    sx = {{ 
+                        paddingLeft: 3,                        
+                        fontWeight: 'bold',                       
+                        fontSize: 12,
+                      }}>
+                      Account : {row.original.accountName}
+              </Typography >
+              <Typography   sx = {{ 
+                        paddingLeft: 3,                        
+                        fontWeight: 'bold',                       
+                        fontSize: 12,
+                      }}>
+                      Project : {row.original.projectName}</Typography>
+              
+            </Grid>
             </Grid>
 
             {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
             <span>{renderedCellValue}</span>
           </Box>
         ),
+       
       },
       {
         id: 'openpositioninfo',
@@ -329,7 +344,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
                     fontSize: 12,
                   }}
                 >
-                  <b>Profile Received :</b> {row.original.totalApplied}
+                 <Link onClick={() => handleScreening(row)} to={''}>  <b>Profile Received :</b> </Link> {row.original.totalApplied}
                 </Typography>
                 <Typography
                   sx={{
@@ -425,6 +440,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
     [getCommonEditTextFieldProps]
   );
   return (
+    <>
     <MaterialReactTable
       columns={columns}
       data={data}
@@ -497,30 +513,53 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
         'mrt-row-actions': {
           size: 50,
 
-          muiTableHeadCellProps: {
-            align: 'center',
-          },
-        },
-      }}
-      enableColumnActions={false}
-      muiTableHeadRowProps={{
-        sx: {
-          background: '#9fd7fc',
-          borderStyle: 'solid',
-          borderColor: '#a9d6f5',
-        },
-      }}
-      muiTableBodyProps={{
-        sx: {
-          height: 300,
-          background: '#e3f2fc',
-          borderStyle: 'solid',
-          borderColor: 'blue',
-          borderWidth: 2,
-        },
-      }}
-    />
-  );
+         muiTableHeadCellProps: {
+           align: 'center',
+         },
+       },
+     }}
+     enableColumnActions={false}
+
+    muiTableHeadRowProps={{
+      sx: {
+       background:'#9fd7fc',
+       borderStyle: 'solid',
+       borderColor: '#a9d6f5',
+      },
+    }}
+
+    muiTableBodyProps={{
+      sx: {
+        height: 300,
+        background:'#e3f2fc',
+        borderStyle: 'solid',
+        borderColor: 'blue',
+        borderWidth: 2,
+      },      
+    }}   
+   />
+
+    <Dialog
+      open={isDialogOpen}
+      onClose={handleScreeningClose}
+      maxWidth="md"
+    >
+    <DialogContent>
+      <ScreeningPosition positionid={positionId} />
+    </DialogContent>
+    <DialogActions>
+      <Button
+        variant="contained"
+        onClick={handleScreeningClose}
+        style={{ marginRight: '1rem' }}
+      >
+        Close
+      </Button>
+    </DialogActions>
+    </Dialog>
+
+  </>
+ );
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/strict-boolean-expressions
 const validateRequired = (value: string) => !!value.length;
