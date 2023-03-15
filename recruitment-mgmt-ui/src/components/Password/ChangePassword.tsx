@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import {
     Box,
@@ -35,6 +34,7 @@ import keycloak from '../../keycloak/keycloak';
         type:'Password',
         value: '',
         temporary: false,
+        // current: '',
       };
     
     const formik = useFormik({
@@ -77,7 +77,7 @@ import keycloak from '../../keycloak/keycloak';
             Change Pasword
           </DialogTitle>
           <DialogContent>
-            <Box className="add">
+            <Box >
               <form onSubmit={formik.handleSubmit}>
                 <Grid container justifyContent="space-between">
                   <TextField
@@ -88,6 +88,7 @@ import keycloak from '../../keycloak/keycloak';
                     label="Current Password"
                     type="text"
                     name="current" 
+                    
                     // onBlur={formik.handleBlur}
                     // onChange={formik.handleChange}
                   />

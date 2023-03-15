@@ -62,7 +62,7 @@ const UserInfo: React.FunctionComponent = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32, backgroundColor: randomColor() }}></Avatar>
+            <Avatar sx={{ width: 32, height: 32, backgroundColor:'blueviolet' }}></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
