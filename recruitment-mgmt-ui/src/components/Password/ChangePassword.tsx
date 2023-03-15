@@ -87,8 +87,7 @@ import keycloak from '../../keycloak/keycloak';
                     fullWidth
                     label="Current Password"
                     type="text"
-                    name="current"
-                    //value= 
+                    name="current" 
                     // onBlur={formik.handleBlur}
                     // onChange={formik.handleChange}
                   />

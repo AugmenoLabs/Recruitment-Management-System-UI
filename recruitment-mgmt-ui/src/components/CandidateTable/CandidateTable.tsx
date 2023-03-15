@@ -114,7 +114,7 @@ const CandidateTable: React.FunctionComponent = () => {
           paddingTop: '1.2rem',
           margin: 0,
           fontWeight: 600,
-          fontSize: '30px',
+          fontSize: '24px',
           marginBottom: '2%',
         }}
         className="tableheader"

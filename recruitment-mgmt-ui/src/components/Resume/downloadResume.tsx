@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios from 'axios';
 import { CandidateInterface } from '../../Interface/CandidateInterface';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 // import { saveAs } from 'file-saver';
 // import { useParams } from 'react-router-dom';
 
@@ -84,7 +84,7 @@ const DownloadResume: React.FunctionComponent<props> = ({ id }) => {
       <IconButton
         style={{ marginLeft: '1rem' }}
       >
-        <DownloadIcon onClick={APIcall} />
+        <Tooltip title = "Download the Resume"><DownloadIcon onClick={APIcall} /></Tooltip>
       </IconButton>
     </>
   );

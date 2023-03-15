@@ -19,10 +19,11 @@ import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 import { API_URL, GetAccount } from '../../services/AccountApi';
 import { API_BASE_PATH } from '../../Config/config';
-
+import Loader from '../Loader/Loader';
 
 const AccountTable: React.FunctionComponent = () => {
   const [data, setData] = useState<AccountInterface[]>([]);
+  const [loading, setLoading] = useState(true);
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
@@ -83,8 +84,11 @@ const AccountTable: React.FunctionComponent = () => {
   useEffect(() => {
     GetAccount()
       .then((response: any) => {
+        setTimeout(()=>{
         setData(response.data);
-      })
+      setLoading(false);
+      },2000);
+     })
       .catch((error: any) => console.log('error', error));
   }, []);
 
@@ -174,7 +178,10 @@ const AccountTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
-    
+    <>
+      {loading ? (
+        <Loader/>
+      ) : (
       <MaterialReactTable
         columns={columns}
         data={data}
@@ -277,7 +284,8 @@ const AccountTable: React.FunctionComponent = () => {
           </MenuItem>,
         ]}
       />
-    
+      )}
+      </>
   );
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
