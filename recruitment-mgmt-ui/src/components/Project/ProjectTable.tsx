@@ -15,16 +15,20 @@ import axios from 'axios';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 import { API_URL, GetProject } from '../../services/ProjectApi';
 import { API_BASE_PATH } from '../../Config/config';
+import Loader from '../Loader/Loader';
 import '../Account/Account.style.scss';
+
 
 const ProjectTable: React.FunctionComponent = () => {
   const [data, setData] = useState<ProjectInterface[]>([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     GetProject()
       .then((response: any) => {
+        setTimeout(()=>{
         setData(response.data);
-      })
+        setLoading(false);
+      },2000)})
       .catch((error: any) => console.log('error', error));
   }, []);
 
@@ -74,11 +78,13 @@ const ProjectTable: React.FunctionComponent = () => {
 
     try {
       await axios.delete(`${API_BASE_PATH}${API_URL}/${row.original.id}`);
+     setTimeout(()=>{
       setData((prevState) =>
         prevState.filter((item) => item.id !== row.original.id)
       );
+      setLoading(false);
       console.log('Row deleted successfully!');
-
+    },2000)
       // Perform additional logic here, such as updating the UI to reflect the deleted item
     } catch (error) {
       console.error(error);
@@ -159,6 +165,10 @@ const ProjectTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
+    <>
+   {loading ? (
+        <Loader />
+      ) : (
     <MaterialReactTable
       columns={columns}
       data={data}
@@ -254,6 +264,8 @@ const ProjectTable: React.FunctionComponent = () => {
         </MenuItem>,
       ]}
     />
+      )}
+      </>
   );
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

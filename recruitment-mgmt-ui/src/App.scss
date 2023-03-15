@@ -1,24 +1,34 @@
-// *{
-//     &::-webkit-scrollbar {
-//         width: 2rem;
-//         // display: none;
-//         overflow-y: scroll;
-//         overflow-x: hidden;
-//       }
-//     }
-.custom-mrt-paper {
-    /* hide scrollbar on MaterialReactTable */
-    .MuiTable-root::-webkit-scrollbar {
-      display: none;
-    }
-  
-    /* hide horizontal scrollbar on MaterialReactTable */
-    .MuiTable-root {
-      overflow-x: hidden;
-    }
+* {
+  &::-webkit-scrollbar {
+    width: 8px;
+
+
+    // display: none;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
-*{
-.font{
-font-family: sans-serif;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius   : 10px;
+  }
 }
+
+.custom-mrt-paper {
+
+  /* hide scrollbar on MaterialReactTable */
+  .MuiTable-root::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* hide horizontal scrollbar on MaterialReactTable */
+  .MuiTable-root {
+    overflow-x: hidden;
+  }
+}
+
+* {
+  .font {
+    font-family: sans-serif;
+  }
 }
