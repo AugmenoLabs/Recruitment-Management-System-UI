@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Box, Button, Card, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { VendorInterface } from '../../Interface/VendorInterface';
 import { addVendor } from '../../services/VendorApi';
-
+import Swal from 'sweetalert2';
 // interface AddAccountInterface{
 //   id:string;
 //   accountId: string;
@@ -13,8 +13,14 @@ import { addVendor } from '../../services/VendorApi';
 //     accountManager: string;
 // }
 const AddVendor: React.FunctionComponent = () => {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
   
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const initialValues:VendorInterface={
     vendorId:'',
     vendorName: '',
@@ -30,10 +36,19 @@ const AddVendor: React.FunctionComponent = () => {
       try {
         await addVendor(values);
         resetForm();
-        setSuccessMessage('Vendor added successfully');
-        // console.log(response);
+        handleClose();
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'Vendor added Successfully',
+        });
       } catch (error) {
         console.log(error);
+        void Swal.fire({
+          icon: 'error',
+          confirmButtonText: 'OK',
+          text: 'Error in adding account!! Please add again',
+        });
       }
     },
     validate: (values) => {
@@ -50,53 +65,26 @@ const AddVendor: React.FunctionComponent = () => {
   });
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginLeft: '2%',
-        marginRight: '2%',
-        marginTop: '2%',
-      }}
-    >
-      <Typography
-        component="h1"
-        variant="h5"
-        style={{ fontWeight: 600, marginTop: '2%' }}
-      >
+    <div className="account_css">
+      <Button variant="contained" onClick={handleClickOpen}>
         Add Vendor
-      </Typography>
-
-      <Grid container justifyContent="center" alignItems="center">
-        <Card
-          style={{
-            marginBottom: '1%',
-            width: '100%',
-            marginTop: '1rem',
-            backgroundColor: 'lavender',
-          }}
-        >
-           {successMessage && (
-      <div style={{ color: 'green', margin: '10px 0' }}>
-        {successMessage}
-      </div>
-    )}
+      </Button>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm">
+        <DialogTitle className="header" style={{ fontWeight: 600 }}>
+          Add Vendor
+        </DialogTitle>
+        <DialogContent>
+          <Box className="add">
           <form onSubmit={formik.handleSubmit}>
-            <Grid
-              container
-              direction="column"
-              style={{ marginLeft: '2rem', marginRight: '2rem' }}
-              justifyContent="center"
-              alignItems="center"
-            >
+          <Grid container justifyContent="space-between">
               <TextField
                 margin="normal"
+                className="textfield"
                 size="small"
                 label="Vendor Name"
                 type="text"
                 name="vendorName"
-                style={{ width: '40%' }}
+                fullWidth
                 value={formik.values.vendorName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -115,7 +103,8 @@ const AddVendor: React.FunctionComponent = () => {
               ) : null}
               <TextField
                 margin="normal"
-                style={{ width: '40%' }}
+                className="textfield"
+                fullWidth
                 size="small"
                 label="Spoc Name"
                 type="text"
@@ -127,7 +116,7 @@ const AddVendor: React.FunctionComponent = () => {
              
               <TextField
                 margin="normal"
-                style={{ width: '40%' }}
+                fullWidth
                 label="SPOC Contact"
                 size="small"
                 type="text"
@@ -141,7 +130,7 @@ const AddVendor: React.FunctionComponent = () => {
                 id="outlined-textarea"
                 margin="normal"
                 size="small"
-                style={{ width: '40%' }}
+                fullWidth
                 label="SPOC Email"
                 type="email"
                 name="spocEmail"
@@ -149,16 +138,20 @@ const AddVendor: React.FunctionComponent = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
               />
-             
-
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Submit
-              </Button>
             </Grid>
+            <DialogActions>
+                <Button variant="contained" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button variant="contained" type="submit">
+                  Save
+                </Button>
+              </DialogActions>
           </form>
-        </Card>
-      </Grid>
-    </Box>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

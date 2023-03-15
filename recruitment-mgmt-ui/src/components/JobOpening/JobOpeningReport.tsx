@@ -35,15 +35,7 @@ export interface JobOpeningProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const NoDataComponent = () => (
-  <Typography variant="body1" align="center">
-    No data to display.
-  </Typography>
-);
-
-const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
-  users,
-}) => {
+const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) => {
   // const[users,setUsers]=useState<RequisitionInterface[]>([]);
   const history = useNavigate();
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -78,7 +70,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
   const [data, setData] = useState<JobOpeningInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const API_URL =
-    'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
+  'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -151,11 +143,11 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
         return;
       }
 
-      data.splice(row.index, 1);
-      setData([...data]);
-    },
-    [data]
-  );
+     data.splice(row.index, 1);
+     setData([...data]);
+   },
+   [data],
+ );
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -276,6 +268,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
             {/* <span>{renderedCellValue}</span> */}
           </Box>
         ),
+       
       },
       {
         accessorFn: (row) =>

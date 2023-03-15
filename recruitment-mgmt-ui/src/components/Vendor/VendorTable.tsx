@@ -12,7 +12,10 @@ import { GetVendor } from '../../services/VendorApi';
 
 const VendorTable: React.FunctionComponent = () => {
   const [data, setData] = useState<VendorInterface[]>([]); 
- 
+  const [validationErrors, setValidationErrors] = useState<{
+    [cellId: string]: string;
+  }>({});
+
   useEffect(() => {
     GetVendor()
       .then((response: any) => {
@@ -21,9 +24,7 @@ const VendorTable: React.FunctionComponent = () => {
       .catch((error: any) => console.log('error', error));
   }, []);
       
-  const [validationErrors, setValidationErrors] = useState<{
-    [cellId: string]: string;
-  }>({});
+  
   const handleSaveRowEdits: MaterialReactTableProps<VendorInterface>['onEditingRowSave'] =
     async ({ exitEditingMode, row, values }) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -141,22 +142,6 @@ const VendorTable: React.FunctionComponent = () => {
     setAnchorEl(null);
   };
   return (
-    <Box>
-      <Typography
-        gutterBottom
-        variant="h5"
-        sx={{
-          paddingLeft: '2rem',
-          paddingTop: '1.2rem',
-          margin: 0,
-          fontWeight: 600,
-          fontSize: '30px',
-          marginBottom: '2%',
-        }}
-        className="tableheader"
-      >
-        Account
-      </Typography>
       <MaterialReactTable
         columns={columns}
         data={data}
@@ -175,8 +160,8 @@ const VendorTable: React.FunctionComponent = () => {
           sx: {
             '& .Mui-TableHeadCell-Content': {
               justifyContent: 'left',
-              fontWeight: 600,
-              color: 'blue',
+              fontWeight: 500,
+              color: 'black',
             },
           },
         }}
@@ -184,8 +169,9 @@ const VendorTable: React.FunctionComponent = () => {
           sx: {
             tableLayout: 'fixed',
             align: 'center',
-
-            marginLeft: '2%',
+            marginLeft: '1%',
+            marginRight: '1%',
+            width: '98%',
           },
         }}
         defaultColumn={{
@@ -193,21 +179,11 @@ const VendorTable: React.FunctionComponent = () => {
           maxSize: 300,
           size: 80,
         }}
+        
+
+        
         enableRowActions
         //   enableRowSelection
-        renderTopToolbarCustomActions={({ table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem', p: '4px' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={navigateAddVendor}
-              size="small"
-            >
-              Add Vendor
-            </Button>
-           
-          </Box>
-        )}
         editingMode="modal" 
        
       
@@ -217,7 +193,7 @@ const VendorTable: React.FunctionComponent = () => {
         positionActionsColumn="last"
         displayColumnDefOptions={{
           'mrt-row-actions': {
-            size: 40,
+            size: 50,
 
             muiTableHeadCellProps: {
               align: 'center',
@@ -225,6 +201,21 @@ const VendorTable: React.FunctionComponent = () => {
           },
         }}
         enableColumnActions={false}
+        muiTableHeadRowProps={{
+          sx: {
+           background:'#9fd7fc',
+           borderStyle: 'solid',
+           borderColor: '#a9d6f5',
+          },
+        }}
+        muiTableBodyProps={{
+          sx: {
+            background:'#e3f2fc',
+            borderStyle: 'solid',
+            borderColor: 'blue',
+            borderWidth: 2,
+          },      
+        }}   
         renderRowActionMenuItems={({ row,table }) => [
           <MenuItem
             key={1}
@@ -248,11 +239,9 @@ const VendorTable: React.FunctionComponent = () => {
           </MenuItem>,
         ]}
       />
-    </Box>
   );
 };
 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 const validateRequired = (value: string) => !!value.length;
-
 
 export default VendorTable;

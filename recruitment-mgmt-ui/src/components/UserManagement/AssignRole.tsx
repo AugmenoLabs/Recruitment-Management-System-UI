@@ -15,7 +15,7 @@ import { getToken } from '../../keycloak/GetToken';
 import { useParams } from 'react-router';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { assignRoles, getAllRoles } from '../../services/UserApi';
-
+import Swal from 'sweetalert2';
 const AssignRole: React.FunctionComponent = () => {
   const [open, setOpen] = React.useState(false);
   // const [available,setAvailable]= React.useState<RoleInterface[]>([]);
@@ -111,6 +111,12 @@ const AssignRole: React.FunctionComponent = () => {
     await assignRoles(id, selectedRows, token)
       .then((response) => {
         console.log(response.data);
+        setOpen(false);
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'Role Assigned Successfully',
+        });
       })
       .catch((error) => {
         console.error(error);
