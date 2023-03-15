@@ -1,0 +1,19 @@
+.page-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    margin-bottom: 0.5rem;
+    background-color: #e1e4e6;
+    height: 60px !important;
+}
+.button-section{
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.page-body{
+    margin: 10px;
+    min-height: 300px;
+}

@@ -1,0 +1,28 @@
+.logo {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600 !important;
+  font-size: 23px !important;
+  margin-left: -1rem !important;
+  letter-spacing: 2px;
+  text-transform: uppercase; 
+  background: linear-gradient(to right, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  }
+
+  .logo:hover {
+    background-color: #edf2f7; /* medium shade */
+  }
+
+  .css-10hburv-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 600 !important;
+    font-size: 17px !important;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    display: block;
+}
