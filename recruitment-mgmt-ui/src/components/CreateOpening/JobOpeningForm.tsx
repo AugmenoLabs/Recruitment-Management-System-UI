@@ -136,7 +136,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
   const validationSchema = Yup.object({
     jobId: Yup.string().required('Job Id is required'),
     jobTitle: Yup.string().required('Job Title is required'),
-    // accountId: Yup.string().required('Account is required'),
+    accountId: Yup.string().required('Account is required'),
     // projectId: Yup.string().required('Project is required'),
     // skillSet: Yup.string().required('Skill Set is required'),
     yearOfExp: Yup.string().required('Year of Experience is required'),
@@ -260,6 +260,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
                     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                     onChange={(event) => {
                       setSelectedAccountId(event.target.value);
+                     
                     }}
                   >
                     {data.map((data) => (
