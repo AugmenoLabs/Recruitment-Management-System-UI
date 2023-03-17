@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { 
@@ -52,7 +53,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
             interviewerName: 'Interviewer',
             scheduledTime: new Date().toISOString(),
             isSelected: value,
-            feedback: feedback,
+            feedback,
             modeOfInterview: '',
             level: 'Screening'
         }
@@ -60,11 +61,13 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         await axios.post(API_URL, data)
         .then(response => {
             console.log(response.data);
-            // handleClose();
+            handleClose();
             void Swal.fire({
                 icon: 'success',
                 confirmButtonText: 'OK',
                 text: 'Sumitted Successfully',
+               backdrop:true,
+               timer:1000,
               });
         })
         .catch(error => {
@@ -85,7 +88,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         </IconButton>
         
             <Dialog open= {open} BackdropProps={{ invisible: true }}>
-            <form onSubmit= {submitHandler}>
+          
             <Box>
                 <Typography sx={{textAlign: 'center'}}>
                     Candidate Name : <b> {name}</b>
@@ -125,11 +128,11 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                     <Button variant="contained" onClick={() => setOpen(!open)}>
                         Cancel
                     </Button>
-                    <Button variant="contained" type="submit">
+                    <Button variant="contained" type="submit" onClick={submitHandler}>
                         Submit
                     </Button>
                 </DialogActions>
-                </form>
+                
             </Dialog>
     </>
     )

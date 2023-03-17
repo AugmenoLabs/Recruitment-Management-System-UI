@@ -329,7 +329,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
                     fontSize: 12,
                   }}
                 >
-                  <b>Job Post Date :</b> {'08-March-2023'}
+                  <b>Posted On :</b> {row.original.postedOn}
                 </Typography>
               </Grid>
             </Grid>
@@ -564,7 +564,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           }}
         />
       )}
-      <Dialog open={isDialogOpen} onClose={handleScreeningClose} maxWidth="md">
+      <Dialog open={isDialogOpen} BackdropProps={{ invisible: true }} maxWidth="md">
         <DialogContent>
           <ScreeningPosition positionid={positionId} />
         </DialogContent>
