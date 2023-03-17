@@ -8,7 +8,7 @@ import MaterialReactTable, {
   MRT_ColumnDef,
   MRT_Row,
 } from 'material-react-table';
-import { Avatar, Box, Grid, MenuItem, Typography } from '@mui/material';
+import { Avatar, Box, Grid, MenuItem, Typography, Dialog, DialogActions, DialogContent, Button } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
 import { AccountInterface } from '../../Interface/AccountInterface';
@@ -136,12 +136,12 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
  );
 
  const [isDialogOpen, setIsDialogOpen] = useState(false); 
- const handleScreeningClose = (row: any) => {
+ const handleScreeningClose = (row: any) : void => {
   setIsDialogOpen(false);
  };
 
  const [positionId, setPositionId] = useState<string>('')
- const handleScreening = (row: MRT_Row<JobOpeningInterface>) => {
+ const handleScreening = (row: MRT_Row<JobOpeningInterface>) : any => {
   setPositionId(row.getValue('id'))
   setIsDialogOpen(true);
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -242,7 +242,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
                       Project : {row.original.project}</Typography>
               
             </Grid>
-
+            </Grid>
             {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
             <span>{renderedCellValue}</span>
           </Box>
@@ -315,7 +315,6 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
       {
         id: 'screeninginfo',
         header: 'Screening Info',
-
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
@@ -326,15 +325,16 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
           >
             <Grid container>
               <Grid item lg={12}>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
-
-                    fontSize: 12,
-                  }}
-                >
-                  <b>Profile Received :</b> {row.original.totalApplied}
-                </Typography>
+                <Link to={''} onClick = {() => handleScreening(row)}>
+                    <Typography
+                      sx={{
+                        paddingLeft: 3,
+                        fontSize: 12,
+                      }}
+                    >
+                      <b>Profile Received :</b> {row.original.totalApplied}
+                    </Typography>
+                </Link>
                 <Typography
                   sx={{
                     paddingLeft: 3,
@@ -429,6 +429,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
     [getCommonEditTextFieldProps]
   );
   return (
+    <>
     <MaterialReactTable
       columns={columns}
       data={data}
@@ -526,8 +527,10 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({
 
     <Dialog
       open={isDialogOpen}
-      onClose={handleScreeningClose}
-      maxWidth="md"
+      // onClose={handleScreeningClose}
+      maxWidth="sm"
+      fullWidth
+      BackdropProps={{ invisible: true }}
     >
     <DialogContent>
       <ScreeningPosition positionid={positionId} />

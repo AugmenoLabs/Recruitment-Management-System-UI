@@ -82,7 +82,7 @@ const DownloadResume: React.FunctionComponent<props> = ({ id }) => {
   return (
     <>
       <IconButton
-        style={{ marginLeft: '1rem' }}
+        // style={{ marginLeft: '1rem' }}
       >
         <Tooltip title = "Download the Resume"><DownloadIcon onClick={APIcall} /></Tooltip>
       </IconButton>
