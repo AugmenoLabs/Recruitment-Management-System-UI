@@ -136,7 +136,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
   const validationSchema = Yup.object({
     jobId: Yup.string().required('Job Id is required'),
     jobTitle: Yup.string().required('Job Title is required'),
-    accountId: Yup.string().required('Account is required'),
+    // accountId: Yup.string().required('Account is required'),
     // projectId: Yup.string().required('Project is required'),
     // skillSet: Yup.string().required('Skill Set is required'),
     yearOfExp: Yup.string().required('Year of Experience is required'),
@@ -157,7 +157,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        BackdropProps={{ invisible: true }}
         maxWidth="sm"
         PaperProps={{ sx: { m: 0, height: '80%' } }}
         sx={{
