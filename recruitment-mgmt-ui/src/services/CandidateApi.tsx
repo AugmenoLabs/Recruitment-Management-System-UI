@@ -32,7 +32,7 @@ export const addCandidate = async (candidate: CandidateInterface) => {
       return response.data;
     } catch (error) {
       console.error(error);
-      throw new Error('Failed to add account');
+      throw new Error('Failed to add candidate');
     }
   };
 
@@ -40,4 +40,3 @@ export const addCandidate = async (candidate: CandidateInterface) => {
 
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  

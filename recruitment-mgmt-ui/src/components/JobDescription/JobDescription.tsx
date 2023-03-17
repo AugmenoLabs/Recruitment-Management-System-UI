@@ -156,8 +156,7 @@ const JobDescription: React.FunctionComponent = () => {
                   <Box display="flex" style={{ marginTop: '0.5rem' }}>
                     {' '}
                     <Typography style={{ color: 'navy', fontSize: '13px' }}>
-                      Posted On:{positions.postedOn}
-                      {}
+                      Posted On :{positions.postedOn}
                     </Typography>
                     <Typography
                       style={{
