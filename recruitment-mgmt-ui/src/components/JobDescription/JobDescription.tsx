@@ -50,6 +50,7 @@ const JobDescription: React.FunctionComponent = () => {
     qualification: '',
     jobDescription: '',
     noOfPositions: 0,
+    postedOn:'',
     budget: '',
     accountName: '',
     projectName: '',
@@ -155,7 +156,8 @@ const JobDescription: React.FunctionComponent = () => {
                   <Box display="flex" style={{ marginTop: '0.5rem' }}>
                     {' '}
                     <Typography style={{ color: 'navy', fontSize: '13px' }}>
-                      Posted On:31/01/23
+                      Posted On:{positions.postedOn}
+                      {}
                     </Typography>
                     <Typography
                       style={{
