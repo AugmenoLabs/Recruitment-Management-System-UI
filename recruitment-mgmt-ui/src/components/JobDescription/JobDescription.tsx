@@ -89,7 +89,13 @@ const JobDescription: React.FunctionComponent = () => {
         if (response?.data) {
           setPositions(response.data);
           const date = new Date(response.data.postedOn);
-          const formatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' });
+          const formatter = new Intl.DateTimeFormat('en-US', {  year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true});
           const formattedDate = formatter.format(date);
           setPostedOn(formattedDate);
           console.log(formattedDate);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useEffect, useState } from 'react';
@@ -30,16 +31,7 @@ import { Form,Formik } from 'formik';
 import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 
-const skills = ['react', 'java', 'dotnet'];
-// const NotRequired = [""];
-const handleAddSkillTags: any = (value: any) => {
-  const skillValue = value.toString();
-  value.setFieldValue('skills', skillValue);
-};
 
-const handleRemoveSkills: any = (value: any) => {
-  value.setFieldValue('skills', value);
-};
 
 const JobOpeningForm: React.FunctionComponent = () => {
   const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
@@ -86,6 +78,42 @@ const JobOpeningForm: React.FunctionComponent = () => {
  
   const handleClose = (): void => {
     setOpen(false);
+  };
+
+  const [skills,setSkills] =useState( [
+    {label:'react', value: 1},
+  {label:'java', value: 2},
+  {label:'.Net', value: 3},
+  ]);
+  
+  // const handleSearch = (event:any, value:any) => {
+  //   if (value === '') {
+  //     setSkills([
+  //       {label:'react', value: 1},
+  // {label:'java', value: 2},
+  // {label:'.Net', value: 3},
+  //     ]);
+  //   } else {
+  //     const filteredOptions = skills.filter(option =>
+  //       option.label.toLowerCase().includes(value.toLowerCase())
+  //     );
+  //     setSkills(filteredOptions);
+  //   }
+  // };
+  // const NotRequired = [""];
+  const handleAddSkillTags: any = (value: any) => {
+    const skillValue = value.toString();
+    value.setFieldValue('skills', skillValue);
+  };
+  
+  const handleRemoveSkills: any = (value: any) => {
+    value.setFieldValue('skills', value);
+  };
+
+  const handleInputChange = (event:any, value:any) => {
+    if (!skills.find(option => option.label === value)) {
+      setSkills([...skills, { label: value, value }]);
+    }
   };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const handleChange = (event: any): void => {
@@ -150,6 +178,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
     location: Yup.string().required('Location is required'),
   });
 
+ 
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen}>
@@ -191,19 +220,25 @@ const JobOpeningForm: React.FunctionComponent = () => {
   initialValues={initialValues}
   validationSchema={validationSchema}
   onSubmit={async (values, { resetForm }) => {
+  
     try {
+     
       values.accountId = selectedAccountId;
       values.projectId = selectedProject;
       values.skillSet = autoCompleteValue.join(',');
       await addJobOpening(values);
+      setTimeout(()=>{
       handleClose();
+      window.location.reload();
       resetForm();
       void Swal.fire({
         icon: 'success',
         confirmButtonText: 'OK',
         text: 'Job Created Successfully',
       });
-    } catch (error) {
+    },2000);
+    } 
+     catch (error) {
       console.error(error);
       handleClose();
       void Swal.fire({
@@ -334,6 +369,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
                   fullWidth
                   id="skills"
                   options={skills}
+                  // getOptionLabel={option => option.label}
                   value={autoCompleteValue}
                   onChange={(e: any, newval: any) => {
                     setAutoCompleteValue(newval);
@@ -361,6 +397,12 @@ const JobOpeningForm: React.FunctionComponent = () => {
                       }}
                     />
                   )}
+                  onInputChange={handleInputChange}
+                  // onOpen={() => setSkills(skills)}
+                  // onClose={() => handleSearch(null, '')}
+                  // filterOptions={(options) => options}
+                  freeSolo
+                  includeInputInList
                 />
 
                 {/* <TextField
@@ -412,7 +454,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
                 <TextField
                   margin="normal"
                   fullWidth
-                  label="no Of Positions"
+                  label="No Of Positions"
                   type="text"
                   size="small"
                   name="noOfPositions"
