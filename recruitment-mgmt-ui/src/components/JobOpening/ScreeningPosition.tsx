@@ -14,21 +14,28 @@ export interface Props {
 const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
 
   const [candidateData, setCandidateData] = useState<CandidateInterface[]>([]);
-  const API_URL = 'http://localhost:5141/api/v1/CandidateProfile';
+  // const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionScreeningReport/';
+  const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionScreeningReport';
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
       try {
-        const result = await axios.get<CandidateInterface[]>(API_URL);
-        const response = result.data.filter(x => x.openPositionId === positionid);
-        setCandidateData(response);
+        
+        await axios.get<CandidateInterface[]>(`${API_URL}/${positionid}`)
+                       .then(response => {
+                        console.log(response.data)
+                        setCandidateData(response.data)
+                       })
+                       .catch(error => {
+                        console.error(error)
+                       });
       } catch (error) {
         console.error(error);
       }
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
-  }, []);
+  });
 
   const columns = useMemo<Array<MRT_ColumnDef<CandidateInterface>>>(
     () => [
@@ -71,13 +78,11 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
         enableRowNumbers
         enableDensityToggle={false}
         enableRowActions
-        // enableRowSelection
         positionActionsColumn="last"
         enableColumnActions={false}
         muiTableHeadCellProps={{
           sx: {
             '& .Mui-TableHeadCell-Content': {
-              // justifyContent: 'center',
               fontWeight: 500,
               color: 'black',
             },
@@ -86,7 +91,6 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
         muiTableProps={{
           sx: {
             tableLayout: 'auto',
-            // align: 'center',
             marginLeft: '1%',
             marginRight: '1%',
             width: '98%',
@@ -101,7 +105,6 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
         }}
         muiTableBodyProps={{
           sx: {
-            // height: 100,
             background: '#e3f2fc',
             borderStyle: 'solid',
             borderColor: 'blue',
