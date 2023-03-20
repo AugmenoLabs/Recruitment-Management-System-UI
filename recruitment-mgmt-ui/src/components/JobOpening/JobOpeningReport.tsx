@@ -29,6 +29,7 @@ import ScreeningPosition from './ScreeningPosition';
 import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
 import { cursorTo } from 'readline';
 import Loader from '../Loader/Loader';
+import formatDate from '../formatDate/formatDate';
 
 export interface JobOpeningProps {
   users: JobOpeningInterface[];
@@ -71,6 +72,10 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
   const [loading, setLoading] = useState(true);
   const API_URL =
   'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
+  // const [lastUpdate, setLastUpdate] = useState(Date.now());
+
+
+ 
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -79,6 +84,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         const result = await axios.get<JobOpeningInterface[]>(API_URL);
         setTimeout(() => {
           setData(result.data);
+        
           setLoading(false);
           console.log(result.data);
         }, 2000);
@@ -90,6 +96,13 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
     fetchData();
     console.log(data);
   }, []);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setLastUpdate(Date.now());
+  //   }, 5000); // update every 5 seconds
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
@@ -104,6 +117,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         exitEditingMode();
       }
     };
+    
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const randomColor = () => {
     const colors = [
@@ -127,6 +141,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
+
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleCancelRowEdits = () => {
     setValidationErrors({});
@@ -148,6 +163,16 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
    },
    [data],
  );
+
+ const options = {
+  year: 'numeric',
+  month: 'short',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+};
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -329,7 +354,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
                     fontSize: 12,
                   }}
                 >
-                  <b>Posted On :</b> {row.original.postedOn}
+                  <b>Posted On :</b>{formatDate(row.original.postedOn)}
                 </Typography>
               </Grid>
             </Grid>
