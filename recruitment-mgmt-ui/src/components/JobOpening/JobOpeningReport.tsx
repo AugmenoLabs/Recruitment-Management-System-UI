@@ -13,12 +13,18 @@ import {
   CircularProgress,
   Box,
   Grid,
-  MenuItem,
   Typography,
   Dialog,
   DialogContent,
   DialogActions,
   Button,
+  Drawer,
+  styled,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Checkbox,
 } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
@@ -30,10 +36,21 @@ import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
 import { cursorTo } from 'readline';
 import Loader from '../Loader/Loader';
 import formatDate from '../formatDate/formatDate';
+import { GridArrowUpwardIcon } from '@mui/x-data-grid';
 
 export interface JobOpeningProps {
   users: JobOpeningInterface[];
 }
+
+const drawerWidth = 500;
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) => {
@@ -61,6 +78,8 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
   const navigatetojd = (): void => {
     history('/applyforjobs');
   };
+
+ 
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   // const navigatetoapply = (rowData:any) => {
@@ -164,15 +183,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
    [data],
  );
 
- const options = {
-  year: 'numeric',
-  month: 'short',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-  hour12: false,
-};
+
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -190,6 +201,19 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       <ScreeningPosition positionid={positionId} />
     );
+  };
+
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleDrawerOpen = (row:MRT_Row<JobOpeningInterface>) => {
+    setPositionId(row.getValue('id'));
+    setOpenDrawer(true);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleDrawerClose = (row:any) => {
+    setOpenDrawer(false);
   };
 
   const getCommonEditTextFieldProps = useCallback(
@@ -426,7 +450,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         isFilterable: true,
         isFilterMatched: true,
         muiTableBodyCellProps: ({ cell }) => ({
-          onClick: () => handleRowClick(cell.row),
+          onClick: () => handleDrawerOpen(cell.row),
           sx: {
             cursor: 'pointer',
             whiteSpace: 'pre-line',
@@ -587,6 +611,55 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
               borderWidth: 2,
             },
           }}
+
+          renderTopToolbarCustomActions={({ table }) => {
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+            const [selectedFilters, setSelectedFilters] = useState([]);
+          
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            const handleFilterMenuOpen = () => {
+              setFilterMenuOpen(true);
+            };
+          
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            const handleFilterMenuClose = () => {
+              setFilterMenuOpen(false);
+            };
+          
+          
+            const filters = ['filter1', 'filter2', 'filter3'];
+          
+            return (
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <Button
+                  color="secondary"
+                  onClick={handleFilterMenuOpen}
+                  variant="contained"
+                >
+                  Filters
+                </Button>
+                <Menu
+                  anchorEl={filterMenuOpen}
+                  open={Boolean(filterMenuOpen)}
+                  onClose={handleFilterMenuClose}
+                >
+                  {filters.map((filter) => (
+                    <MenuItem key={filter}>
+                      <Checkbox
+                        // checked={selectedFilters.indexOf(filter) !== -1}
+                        // onChange={handleFilterToggle(filter)}
+                      />
+                      {filter}
+                    </MenuItem>
+                  ))}
+                  <Button
+                  //  onClick={handleApplyFilters}
+                   >Apply Filters</Button>
+                </Menu>
+              </div>
+            );
+          }}
         />
       )}
       <Dialog open={isDialogOpen} BackdropProps={{ invisible: true }} maxWidth="md">
@@ -603,6 +676,30 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           </Button>
         </DialogActions>
       </Dialog>
+      <Drawer
+       sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+        },
+      }}
+        variant="persistent"
+        anchor="right"
+        open={openDrawer}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            <ListItemIcon/>
+          </IconButton>
+        </DrawerHeader>
+        <IconButton onClick={handleDrawerClose} style={{color:'black'}}>
+            <ListItemIcon style={{color:'black'}}/>
+          </IconButton>
+        <Typography>Hii</Typography>
+
+      </Drawer>
     </>
   );
 };
