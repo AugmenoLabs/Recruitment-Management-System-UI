@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import './JobOpening.style.scss';
 import { useNavigate, Link } from 'react-router-dom';
 import MaterialReactTable, {
   MaterialReactTableProps,
@@ -10,7 +11,6 @@ import MaterialReactTable, {
 } from 'material-react-table';
 import {
   Avatar,
-  CircularProgress,
   Box,
   Grid,
   Typography,
@@ -28,16 +28,11 @@ import {
 } from '@mui/material';
 import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
 import axios from 'axios';
-import { AccountInterface } from '../../Interface/AccountInterface';
-import { RequisitionInterface } from '../../Interface/RequisitionInterface';
-import { fontFamily, fontSize } from '@mui/system';
 import ScreeningPosition from './ScreeningPosition';
-import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
-import { cursorTo } from 'readline';
 import Loader from '../Loader/Loader';
 import formatDate from '../formatDate/formatDate';
-import { GridArrowUpwardIcon } from '@mui/x-data-grid';
-
+import JobDetailsDrawer from './JobDetailsDrawer';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 export interface JobOpeningProps {
   users: JobOpeningInterface[];
 }
@@ -209,6 +204,9 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
   const handleDrawerOpen = (row:MRT_Row<JobOpeningInterface>) => {
     setPositionId(row.getValue('id'));
     setOpenDrawer(true);
+    return(
+      <JobDetailsDrawer positionid={positionId}/>
+    )
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -640,7 +638,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
                   Filters
                 </Button>
                 <Menu
-                  anchorEl={filterMenuOpen}
+                  // anchorEl={filterMenuOpen}
                   open={Boolean(filterMenuOpen)}
                   onClose={handleFilterMenuClose}
                 >
@@ -683,6 +681,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
+          overflow:'hidden'
         },
       }}
         variant="persistent"
@@ -692,12 +691,16 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             <ListItemIcon/>
+            {/* <KeyboardArrowRightIcon/> */}
           </IconButton>
+
         </DrawerHeader>
-        <IconButton onClick={handleDrawerClose} style={{color:'black'}}>
-            <ListItemIcon style={{color:'black'}}/>
+        <IconButton onClick={handleDrawerClose} style={{color:'black',marginRight:'20px',float:'right',display:'end'}}>
+            {/* <ListItemIcon style={{color:'black'}}/> */}
+            <KeyboardArrowRightIcon/>
           </IconButton>
-        <Typography>Hii</Typography>
+          <JobDetailsDrawer positionid={positionId}/>
+       
 
       </Drawer>
     </>
