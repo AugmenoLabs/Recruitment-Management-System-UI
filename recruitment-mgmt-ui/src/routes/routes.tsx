@@ -12,7 +12,6 @@ import AddAccount from '../components/Account/AddAccount';
 import AddProject from '../components/Project/AddProject';
 // import AccountTable from '../components/Account/AccountTable';
 import InterviewForm from '../components/InterviewCalendar/InterviewForm';
-import ManagementPage from '../components/UserManagement/ManagementPage';
 import AddUser from '../components/UserManagement/AddUser';
 // import ProjectTable from '../components/Project/ProjectTable';
 import AddVendor from '../components/Vendor/AddVendor';

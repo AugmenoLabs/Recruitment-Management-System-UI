@@ -3,34 +3,39 @@ import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import ScheduleInterview from '../../ScheduleInterview/ScheduleInterview';
 import EditCandidateStatus from './EditCandidateStatus';
 import { Box } from '@mui/material';
+import { CandidateData } from '../../../Interface/CandidateData';
+import { API_BASE_PATH } from '../../../Config/config';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-import { GetCandidate } from '../../../services/CandidateApi';
-interface CandidateData {
-  id:string;
-  vendor: string;
-  candidateName: string;
-  contactNumber: number;
-  email: string;
-  status: string;
-  screening: string;
-  L1: string;
-  L2: string;
-  Managerial: string;
-  HR: string;
-  Offer: string;
-  Hired: string;
-}
 
 const AppliedCandidateTable: React.FunctionComponent = () => {
   const [data, setData] = useState<CandidateData[]>([]);
-
+  const { id } = useParams<{ id: '' }>();
+  // useEffect(() => {
+  //   GetCandidateByPositionId(positionid)
+  //     .then((response: any) => {
+  //       setData(response.data);
+  //     })
+  //     .catch((error: any) => console.log('error', error));
+  // }, []);
   useEffect(() => {
-    GetCandidate()
-      .then((response: any) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    const fetchCandidate = async () => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        const response = await axios.get<CandidateData[]>(  `${API_BASE_PATH}/CandidateProfile/CandidateProfileByOpenPositionId?openPositionId=${id}`);
+       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+       if(response?.data){
         setData(response.data);
-      })
-      .catch((error: any) => console.log('error', error));
-  }, []);
+       }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchCandidate();
+  }, [id]);
    
   const columns = useMemo<Array<MRT_ColumnDef<CandidateData>>>(
     () => [
@@ -48,7 +53,7 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         }),
       },
       {
-        accessorKey: 'vendor',
+        accessorKey: 'vendorName',
         header: 'Vendor',
         size:90,
         muiTableBodyCellProps: ({ cell }) => ({
