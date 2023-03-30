@@ -140,19 +140,22 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
         sx: {
           '& .Mui-TableHeadCell-Content': {
             justifyContent: 'left',
-            fontWeight: 600,
-            color: 'blue',
+            fontWeight: 500,
+            color: 'black',
           },
         },
       }}
       muiTableProps={{
         sx: {
           tableLayout: 'auto',
-          align: 'center',
-          height: '80%',
-          '&::-webkit-scrollbar': {
-            overflow: 'hidden',
-          },
+          marginLeft: '1%',
+          marginRight: '1%',
+          width: '98%',
+//           height:'80%',
+// '&::-webkit-scrollbar':{
+//   overflow:'hidden',
+// }
+          
         },
       }}
       //   enableColumnFilterModes
@@ -174,6 +177,22 @@ const AppliedCandidateTable: React.FunctionComponent = () => {
       }}
       getRowId={(row)=>row.id}
       enableColumnActions={false}
+      muiTableHeadRowProps={{
+        sx: {
+         background:'#9fd7fc',
+         borderStyle: 'solid',
+         borderColor: '#a9d6f5',
+        },
+      }}
+
+      muiTableBodyProps={{
+        sx: {
+          background:'#e3f2fc',
+          borderStyle: 'solid',
+          borderColor: 'blue',
+          borderWidth: 2,
+        },      
+      }}   
       renderRowActions={({ row }) => (
         <div>
           <Box display="flex" justifyContent="flex-start" alignItems="center" >
