@@ -22,46 +22,77 @@ const InterviewDetailTable: React.FunctionComponent = () => {
         accessorKey: 'name',
         header: 'Candidate Name',
         // size:70,
+        size:130,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'contactNumber',
         header: 'Contact No.',
+        size:100,
         // size:120,
       },
       {
         accessorKey: 'cceMail',
         header: 'Email',
-        // size:120,
+        size:120,
       },
       {
         accessorKey: 'experience',
         header: 'Experience',
-        // size:80,
+        size:80,
       },
       {
         accessorKey: 'position',
         header: 'Position',
         // size:60,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'account',
         header: 'Account',
-        // size:120,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'project',
         header: 'Project',
-        // size:120,
+        size:120,
+        muiTableBodyCellProps: ({ cell }) => ({
+          sx: {
+            cursor: 'pointer',
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+          },
+        }),
       },
       {
         accessorKey: 'interviewerName',
         header: 'Interviewer Name',
-        // size:120,
+        size:120,
       },
       {
         accessorKey: 'scheduledTimeFrom',
         header: 'Scheduled Date',
-        // size:80,
+        size:100,
       },
     ],
     []
@@ -109,10 +140,12 @@ const InterviewDetailTable: React.FunctionComponent = () => {
         }}
         muiTableProps={{
           sx: {
-            tableLayout: 'fixed',
+            tableLayout: 'auto',
             align: 'center',
-
-            marginLeft: '2%',
+            height:'80%',
+  '&::-webkit-scrollbar':{
+    overflow:'hidden',
+  }        
           },
         }}
         //   enableColumnFilterModes

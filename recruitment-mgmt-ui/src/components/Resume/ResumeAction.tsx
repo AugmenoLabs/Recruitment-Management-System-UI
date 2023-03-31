@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { 
@@ -122,11 +123,11 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                     <Button variant="contained" onClick={() => setOpen(!open)}>
                         Cancel
                     </Button>
-                    <Button variant="contained" type="submit">
+                    <Button variant="contained" type="submit" onClick={submitHandler}>
                         Submit
                     </Button>
                 </DialogActions>
-                </form>
+                
             </Dialog>
     </>
     )

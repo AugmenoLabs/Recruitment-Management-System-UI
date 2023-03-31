@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Box, Button,  Card, Grid,  TextField, Typography } from '@mui/material';
+import { Button,  Dialog, DialogActions, DialogContent, DialogTitle, Grid,  TextField } from '@mui/material';
 // import axios from 'axios';
 import React, { useState } from 'react';
 // import { clientId } from '../../keycloak/ClientDetails';
@@ -11,7 +11,13 @@ import { addRole } from '../../services/UserApi';
 
 
 const AddRole: React.FunctionComponent = () => {
-
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
   const [role, setRole] = useState<RoleInterface>({
     id:'',
     name: '',
@@ -60,49 +66,36 @@ const AddRole: React.FunctionComponent = () => {
   //   },
   // });
    return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginLeft: '2%',
-        marginRight: '2%',
-        marginTop: '2%',
-      }}
-    >
-      <Typography
-        component="h1"
-        variant="h5"
-        style={{ fontWeight: 600, marginTop: '2%' }}
+    <div className="account_css">
+      <Button
+        variant="contained"
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          mt: 0,
+          mb: 0,
+          marginLeft: 87,
+        }}
+        onClick={handleClickOpen}
       >
+        Add Role
+      </Button>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm">
+        <DialogTitle className="header" style={{ fontWeight: 600 }}>
           Add Role
-        </Typography>
-        <Grid container justifyContent="center" alignItems="center">
-        <Card
-          style={{
-            marginBottom: '1%',
-            width: '100%',
-            marginTop: '1rem',
-            backgroundColor: 'lavender',
-          }}
-        >
+        </DialogTitle>
+        <DialogContent>
           {/* <form onSubmit={formik.handleSubmit}> */}
-            <Grid
-              container
-              direction="column"
-              style={{ marginLeft: '2rem', marginRight: '2rem' }}
-              justifyContent="center"
-              alignItems="center"
-            >
+          <Grid justifyContent="space-between">
           <TextField
             margin="normal"
             fullWidth
+              size="small"
             label="Role name"
             type="text"
             value={role.name}
             onChange={handleChange}
             name="name"
-            style={{ width: '40%' }}
             // value={formik.values.Role}
             // onBlur={formik.handleBlur}
             // onChange={formik.handleChange}
@@ -122,12 +115,12 @@ const AddRole: React.FunctionComponent = () => {
           <TextField
             margin="normal"
             fullWidth
+              size="small"
             label="Description"
             type="text"
             name="description"
             value={role.description}
             onChange={handleChange}
-            style={{ width: '40%' }}
             // value={formik.values.description}
             // onBlur={formik.handleBlur}
             // onChange={formik.handleChange}
@@ -144,20 +137,18 @@ const AddRole: React.FunctionComponent = () => {
                   {formik.errors.description}
                 </Typography>
               ) : null} */}
-          <Button
-            type="submit"
-            
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={AddRole}
-          >
-            Add Role
-          </Button>
           </Grid>
-          {/* </form> */}
-        </Card>
-      </Grid>
-    </Box>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" type="submit" onClick={AddRole}>
+              Save
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

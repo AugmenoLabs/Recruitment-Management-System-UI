@@ -89,9 +89,11 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
         muiTableProps={{
           sx: {
             tableLayout: 'auto',
-            marginLeft: '1%',
-            marginRight: '1%',
-            width: '98%',
+            align: 'center',
+            height: '80%',
+            '&::-webkit-scrollbar': {
+              overflow: 'hidden',
+            },
           },
         }}
         muiTableHeadRowProps={{

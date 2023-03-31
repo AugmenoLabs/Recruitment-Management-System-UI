@@ -10,4 +10,7 @@ export interface RequisitionInterface {
     noOfPositions: number;
     budget: string;
     location: string;
+    selectedAccountId:string;
+    selectedProject:string;
+    
   }

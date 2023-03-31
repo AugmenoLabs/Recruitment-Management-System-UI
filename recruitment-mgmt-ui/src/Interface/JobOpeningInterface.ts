@@ -26,4 +26,5 @@ export interface JobOpeningInterface{
 "hr":string,
 "offers":string,
 "onboarded":string,
+"postedOn":string;
 }

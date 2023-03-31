@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Box,
-  Button,
   IconButton,
   Paper,
   styled,
@@ -24,6 +23,7 @@ import { getToken } from '../../keycloak/GetToken';
 // import axios from 'axios';
 // import { clientId } from '../../keycloak/ClientDetails';
 import { deleteRoles, getAllRoles } from '../../services/UserApi';
+import AddRole from './AddRole';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -94,19 +94,20 @@ const ManageRoles: React.FunctionComponent = () => {
           width={'80%'}
         >
           <h4>Available Roles</h4>
-          <Button
+          <AddRole/>
+          {/* <Button
             variant="contained"
             sx={{
               alignItems: 'center',
               justifyContent: 'center',
               mt: 0,
               mb: 0,
-              marginLeft: 69,
+              marginLeft: 90,
             }}
             onClick={navigateAddRole}
           >
             Add Roles
-          </Button>
+          </Button> */}
         </Box>
       </div>
       <Paper

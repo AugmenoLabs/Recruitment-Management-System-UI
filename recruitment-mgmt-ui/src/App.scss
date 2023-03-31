@@ -1,24 +1,49 @@
-// *{
-//     &::-webkit-scrollbar {
-//         width: 2rem;
-//         // display: none;
-//         overflow-y: scroll;
-//         overflow-x: hidden;
-//       }
-//     }
-.custom-mrt-paper {
-    /* hide scrollbar on MaterialReactTable */
-    .MuiTable-root::-webkit-scrollbar {
-      display: none;
-    }
-  
-    /* hide horizontal scrollbar on MaterialReactTable */
-    .MuiTable-root {
-      overflow-x: hidden;
-    }
+* {
+  &::-webkit-scrollbar {
+    width: 8px;
+
+
+    // display: none;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
-*{
-.font{
-font-family: sans-serif;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius   : 8px;
+
+  }
 }
+
+.css-1vlry5a-MuiTableContainer-root {
+  &::-webkit-scrollbar {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    height: 6px !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius   : 4px;
+  }
+}
+
+.custom-mrt-paper {
+
+  /* hide scrollbar on MaterialReactTable */
+  .MuiTable-root::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* hide horizontal scrollbar on MaterialReactTable */
+  .MuiTable-root {
+    overflow-x: hidden;
+  }
+}
+
+* {
+  .font {
+    font-family: sans-serif;
+  }
 }

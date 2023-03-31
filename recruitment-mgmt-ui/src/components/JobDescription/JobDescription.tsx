@@ -19,7 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { RequisitionInterface } from '../../Interface/RequisitionInterface';
 import { GetOpenPositionById } from '../../services/OpenPositionApi';
 // import { JobOpeningInterface } from '../../Interface/JobOpeningInterface';
-import background from '../../assets/background.jpg';
+// import background from '../../assets/background.jpg';
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -39,6 +39,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const JobDescription: React.FunctionComponent = () => {
   const [expanded, setExpanded] = useState(false);
   const { id } = useParams<{ id: '' }>();
+  const[postedOn,setPostedOn] = useState('');
   const [positions, setPositions] = useState({
     jobId: '',
     id: '',
@@ -65,6 +66,7 @@ const JobDescription: React.FunctionComponent = () => {
     Managerial: '',
     HR: '',
   });
+  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedAccountId, setSelectedAccountId] = useState<''>('');
   const history = useNavigate();
@@ -73,6 +75,8 @@ const JobDescription: React.FunctionComponent = () => {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     history(`/applyforjobs/${id}`);
   };
+
+  
 
   const handleExpandClick = (): void => {
     setExpanded(!expanded);
@@ -84,6 +88,18 @@ const JobDescription: React.FunctionComponent = () => {
         const response = await GetOpenPositionById(id);
         if (response?.data) {
           setPositions(response.data);
+          const date = new Date(response.data.postedOn);
+          const formatter = new Intl.DateTimeFormat('en-US', {  year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true});
+          const formattedDate = formatter.format(date);
+          setPostedOn(formattedDate);
+          console.log(formattedDate);
+          
         }
       } catch (error) {
         console.error(error);
@@ -102,7 +118,9 @@ const JobDescription: React.FunctionComponent = () => {
           <Card
             style={{ marginLeft: '2rem', marginTop: '5.5rem', width: '95%' }}
           >
-            <Card style={{ backgroundImage:`url(${background})` }}>
+            <Card style={{ backgroundColor:"lightgray"
+              // backgroundImage:`url(${background})`
+               }}>
               <CardContent>
                 <Box style={{ display: 'flex' }}>
                   <Typography
@@ -153,7 +171,8 @@ const JobDescription: React.FunctionComponent = () => {
                   <Box display="flex" style={{ marginTop: '0.5rem' }}>
                     {' '}
                     <Typography style={{ color: 'navy', fontSize: '13px' }}>
-                      Posted On:31/01/23
+                      Posted On : {postedOn}
+                      
                     </Typography>
                     <Typography
                       style={{

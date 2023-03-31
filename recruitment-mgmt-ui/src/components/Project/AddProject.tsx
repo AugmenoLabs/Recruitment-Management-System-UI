@@ -4,7 +4,6 @@ import {
   Button,
   Grid,
   TextField,
-  Typography,
   FormControl,
   InputLabel,
   MenuItem,
@@ -22,6 +21,7 @@ import { GetAccount } from '../../services/AccountApi';
 import { addProject } from '../../services/ProjectApi';
 import '../Account/Account.style.scss';
 import Swal from 'sweetalert2';
+import * as Yup from 'yup';
 
 // const Accounts = ['Honeywell', 'LG', 'Symphony'];
 // const handleAddSkillTags: any = (value: any) => {
@@ -44,6 +44,7 @@ const AddProject: React.FunctionComponent = () => {
   };
   const handleClose = (): void => {
     setOpen(false);
+    
   };
   const initialValues: ProjectInterface = {
     id: '',
@@ -55,8 +56,16 @@ const AddProject: React.FunctionComponent = () => {
     accountId: '',
   };
 
+  const validationSchema = Yup.object().shape({
+    projectName: Yup.string().required('Please enter name'),
+    projectManager: Yup.string().required('Please enter manager name'),
+    // selectedAccountId: Yup.number().required('Account is required'),
+  });
+
+
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit: async (values, { resetForm }) => {
       values.accountId = values.selectedAccountId;
       try {
@@ -71,23 +80,13 @@ const AddProject: React.FunctionComponent = () => {
         // console.log(response);
       } catch (error) {
         console.log(error);
+        handleClose();
         void Swal.fire({
           icon: 'error',
           confirmButtonText: 'OK',
           text: 'Error in adding project!! Please add again',
         });
       }
-    },
-    validate: (values) => {
-      const errors: any = {};
-
-      if (values.projectName.length === 0) {
-        errors.Pname = 'Please enter name';
-      }
-      if (values.projectManager.length === 0) {
-        errors.Pmanager = 'Please enter manager name';
-      }
-      return errors;
     },
   });
   const [data, setData] = useState<AccountInterface[]>([]);
@@ -183,7 +182,7 @@ const AddProject: React.FunctionComponent = () => {
                         'selectedAccountId',
                         event.target.value
                       )
-                    }
+                    } 
                   >
                     {data.map((data) => (
                       <MenuItem key={data.id} value={data.id}>
@@ -204,12 +203,9 @@ const AddProject: React.FunctionComponent = () => {
                   value={formik.values.projectName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                   error={formik.touched.projectName && Boolean(formik.errors.projectName)}
+                   helperText={formik.touched.projectName && formik.errors.projectName}
                 />
-                {formik.errors.projectName ? (
-                  <Typography variant="body2" className="error">
-                    {formik.errors.projectName}
-                  </Typography>
-                ) : null}
                 <TextField
                   margin="normal"
                   className="textfield"
@@ -221,12 +217,9 @@ const AddProject: React.FunctionComponent = () => {
                   value={formik.values.projectManager}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                   error={formik.touched.projectManager && Boolean(formik.errors.projectManager)}
+                   helperText={formik.touched.projectManager && formik.errors.projectManager}
                 />
-                {formik.errors.projectManager ? (
-                  <Typography variant="body2" className="error">
-                    {formik.errors.projectManager}
-                  </Typography>
-                ) : null}
                 <TextField
                   id="outlined-textarea"
                   margin="normal"
@@ -242,13 +235,7 @@ const AddProject: React.FunctionComponent = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.projectDetails ? (
-                  <Typography variant="body2" className="error">
-                    {formik.errors.projectDetails}
-                  </Typography>
-                ) : null}
               </Grid>
-           x
             {/* </Card>
       </Grid> */}
           

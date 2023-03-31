@@ -16,6 +16,7 @@ import { addAccount } from '../../services/AccountApi';
 import { AddAccountInterface } from '../../Interface/AddAccountInterface';
 import './Account.style.scss';
 import Swal from 'sweetalert2';
+import * as Yup from 'yup';
 
 const AddAccount: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false);
@@ -33,8 +34,14 @@ const AddAccount: React.FunctionComponent = () => {
     accountManager: '',
     accountDetails: '',
   };
+  const validationSchema = Yup.object().shape({
+    accountName: Yup.string().required('Please enter name'),
+    accountManager: Yup.string().required('Please enter manager name'),
+  });
+
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         await addAccount(values);
@@ -54,18 +61,6 @@ const AddAccount: React.FunctionComponent = () => {
           text: 'Error in adding account!! Please add again',
         });
       }
-    },
-    validate: (values) => {
-      const errors: any = {};
-
-      if (values.accountName.length === 0) {
-        errors.accountName = 'Please enter name';
-      }
-      if (values.accountManager.length === 0) {
-        errors.accountManager = 'Please enter manager name';
-      }
-
-      return errors;
     },
   });
 
@@ -93,12 +88,9 @@ const AddAccount: React.FunctionComponent = () => {
                   value={formik.values.accountName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                  error={formik.touched.accountName && Boolean(formik.errors.accountName)}
+                  helperText={formik.touched.accountName && formik.errors.accountName}
                 />
-                {formik.touched.accountName && formik.errors.accountName ? (
-                  <Typography variant="body2" className="error">
-                    {formik.errors.accountName}
-                  </Typography>
-                ) : null}
                 <TextField
                   margin="normal"
                   className="textfield"
@@ -110,13 +102,9 @@ const AddAccount: React.FunctionComponent = () => {
                   value={formik.values.accountManager}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
+                  error={formik.touched.accountManager && Boolean(formik.errors.accountManager)}
+                  helperText={formik.touched.accountManager && formik.errors.accountManager}
                 />
-                {formik.touched.accountManager &&
-                formik.errors.accountManager ? (
-                  <Typography variant="body2" className="error">
-                    {formik.errors.accountManager}
-                  </Typography>
-                ) : null}
                 <TextField
                   id="outlined-textarea"
                   margin="normal"

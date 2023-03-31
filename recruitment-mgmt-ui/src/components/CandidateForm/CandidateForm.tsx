@@ -31,6 +31,8 @@ import { useParams } from 'react-router-dom';
 import { addCandidate } from '../../services/CandidateApi';
 import { GetVendor } from '../../services/VendorApi';
 import { GetOpenPositionById } from '../../services/OpenPositionApi';
+import Swal from 'sweetalert2';
+import * as Yup from 'yup';
 
 const CandidateApply: React.FunctionComponent = () => {
   const [noticePeriod, setnoticePeriod] = React.useState('');
@@ -109,30 +111,9 @@ const CandidateApply: React.FunctionComponent = () => {
     });
   }
 
-  const onDrop = useCallback(
-    (acceptedFiles: any) => {
-      // Get the first accepted file
-      setSelectedFiles([...selectedFiles, ...acceptedFiles]);
-      const file = acceptedFiles[0];
+  
 
-      // Set the fileName and fileExt fields in the formik form
-      formik.setFieldValue('fileName', file.name);
-      formik.setFieldValue('fileExt', file.name.split('.').pop());
-      // Convert the file to a byte array
-      fileToBase64(file)
-        .then((base64Str) => {
-          // Set the resume field in the formik form to the base64-encoded string
-          formik.setFieldValue('resume', base64Str);
-          console.log('arr', base64Str);
-        })
-        .catch((error) => {
-          console.log('err', error);
-        });
-    },
-    [selectedFiles, setSelectedFiles]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  
   const initialValues: CandidateInterface = {
     candidateName: '',
     email: '',
@@ -164,51 +145,72 @@ const CandidateApply: React.FunctionComponent = () => {
     qualification: '',
     openPositionId: id,
   };
+  const validationSchema = Yup.object({
+    candidateName: Yup.string().required('Job Id is required'),
+    email:Yup.string().email('Invalid email').required('Email is required'),
+    contactNumber: Yup.string()
+    .matches(/^[0-9]{10}$/, 'Contact number must be a 10 digit number')
+    .required('Contact number is required'),
+    // accountId: Yup.string().required('Account is required'),
+    // projectId: Yup.string().required('Project is required'),
+    // skillSet: Yup.string().required('Skill Set is required'),
+    yearOfExperience: Yup.string().required('Year of Experience is required'),
+    resume: Yup.string().required('Please upload your resume'),
+  })
   const formik = useFormik({
     initialValues,
-    // onSubmit: (values) => {
-    //   values.vendorId = values.selectedVendorId;
-    //   axios
-    //     .post(API_URL, values)
-    //     .then((response) => {
-    //       console.log(response);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    //   console.log(values);
-    // },
+    validationSchema,
     onSubmit: async (values, { resetForm }) => {
       values.vendorId = values.selectedVendorId;
       try {
         await addCandidate(values);
         resetForm();
-        setSuccessMessage('Candidate uplaoded successfully');
+       resetResume();
+        void Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'OK',
+          text: 'Candidate Uploaded Successfully',
+        });
         // console.log(response);
       } catch (error) {
         console.log(error);
+        void Swal.fire({
+          icon: 'error',
+          confirmButtonText: 'OK',
+          text: 'Error in adding candidate!! Please add again',
+        });
       }
-    },
-    validate: (values) => {
-      const errors: any = {};
-
-      if (values.candidateName.length === 0) {
-        errors.name = 'Please enter name';
-      }
-
-      if (values.email.length === 0) {
-        errors.email = 'Please enter your email';
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(values.email)) {
-        errors.email = 'Invalid email';
-      }
-
-      if (values.yearOfExperience.length === 0) {
-        errors.experience = 'Please enter your experience';
-      }
-
-      return errors;
     },
   });
+  const onDrop = useCallback(
+    (acceptedFiles: any) => {
+      // Get the first accepted file
+      setSelectedFiles([...selectedFiles, ...acceptedFiles]);
+      const file = acceptedFiles[0];
+
+      // Set the fileName and fileExt fields in the formik form
+      formik.setFieldValue('fileName', file.name);
+      formik.setFieldValue('fileExt', file.name.split('.').pop());
+      // Convert the file to a byte array
+      fileToBase64(file)
+        .then((base64Str) => {
+          // Set the resume field in the formik form to the base64-encoded string
+          formik.setFieldValue('resume', base64Str);
+          formik.setFieldValue('fileName', file.name);
+          console.log('arr', base64Str);
+        })
+        .catch((error) => {
+          console.log('err', error);
+        });
+    },
+    [selectedFiles, setSelectedFiles, formik]
+  );
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const resetResume = useCallback(() => {
+    setSelectedFiles([]);
+    formik.setFieldValue('resume', '');
+    formik.setFieldValue('fileName', '');
+  }, [setSelectedFiles, formik]);
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchData = async () => {
@@ -275,18 +277,9 @@ const CandidateApply: React.FunctionComponent = () => {
                 value={formik.values.candidateName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-              />{' '}
-              {formik.touched.candidateName && formik.errors.candidateName ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                  }}
-                >
-                  {formik.errors.candidateName}
-                </Typography>
-              ) : null}
+                error={formik.touched.candidateName && Boolean(formik.errors.candidateName)}
+                helperText={formik.touched.candidateName && formik.errors.candidateName}
+              />
               <TextField
                 margin="normal"
                 size="small"
@@ -297,18 +290,10 @@ const CandidateApply: React.FunctionComponent = () => {
                 value={formik.values.contactNumber}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
+                error={formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
+                helperText={formik.touched.contactNumber && formik.errors.contactNumber}
               />
-              {formik.touched.contactNumber && formik.errors.contactNumber ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                  }}
-                >
-                  {formik.errors.contactNumber}
-                </Typography>
-              ) : null}
+             
               <TextField
                 margin="normal"
                 fullWidth
@@ -319,18 +304,10 @@ const CandidateApply: React.FunctionComponent = () => {
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
               />
-              {formik.touched.email && formik.errors.email ? (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'red',
-                    textAlign: 'start',
-                  }}
-                >
-                  {formik.errors.email}
-                </Typography>
-              ) : null}
+
               <FormControl
                 style={{ width: '100%', marginTop: '0.6rem' }}
                 size="small"
@@ -367,16 +344,10 @@ const CandidateApply: React.FunctionComponent = () => {
                 value={formik.values.yearOfExperience}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
+                error={formik.touched.yearOfExperience && Boolean(formik.errors.yearOfExperience)}
+                helperText={formik.touched.yearOfExperience && formik.errors.yearOfExperience}
               />
-              {formik.touched.yearOfExperience &&
-              formik.errors.yearOfExperience ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.yearOfExperience}
-                </Typography>
-              ) : null}
+            
               <FormControl
                 style={{ width: '100%', marginTop: '1rem' }}
                 size="small"
@@ -468,14 +439,7 @@ const CandidateApply: React.FunctionComponent = () => {
                 onChange={formik.handleChange}
                 size="small"
               />
-              {formik.touched.currentctc && formik.errors.currentctc ? (
-                <Typography
-                variant="body2"
-                sx={{ color: 'red', textAlign: 'start' }}
-                >
-            {formik.errors.currentctc}
-                </Typography>
-              ) : null}
+             
               <TextField
                 margin="normal"
                 fullWidth
@@ -487,15 +451,7 @@ const CandidateApply: React.FunctionComponent = () => {
                 onChange={formik.handleChange}
                 size="small"
               />
-              {formik.touched.expectedctc && formik.errors.expectedctc ? (
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'red', textAlign: 'start' }}
-                >
-                  {formik.errors.expectedctc}
-                </Typography>
-              ) : null}
-
+            
               <FormControl style={{ marginTop: '1rem' }}>
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Has any Offer?
@@ -549,6 +505,11 @@ const CandidateApply: React.FunctionComponent = () => {
                 </Grid>
   </Card>
 </Box>
+{formik.touched.resume && formik.errors.resume && (
+        <Typography variant="body2" color="error">
+          {formik.errors.resume}
+        </Typography>
+      )}
               {/* <Box {...getRootProps()}>
                 <input {...getInputProps()} />
                 {isDragActive ? (
