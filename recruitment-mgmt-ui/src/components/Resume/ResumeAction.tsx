@@ -42,10 +42,6 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         setValue((event.target as HTMLInputElement).value==='true');
     };
 
-    // const handleClose = (): void => {
-    //     setOpen(false);
-    //   };
-
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const submitHandler = async (event: React.FormEvent)  => { 
         event.preventDefault()

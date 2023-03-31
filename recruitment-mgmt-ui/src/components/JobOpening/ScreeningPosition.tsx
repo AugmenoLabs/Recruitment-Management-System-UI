@@ -14,7 +14,6 @@ export interface Props {
 const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
 
   const [candidateData, setCandidateData] = useState<CandidateInterface[]>([]);
-  // const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionScreeningReport/';
   const API_URL = 'http://localhost:5141/api/v1/OpenPosition/OpenPositionScreeningReport';
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -53,7 +52,6 @@ const ScreeningPosition: React.FunctionComponent<Props> = ({ positionid }) => {
               cursor: 'pointer',
               whiteSpace: 'pre-line',
               wordWrap: 'break-word',
-              // textAlign: 'center'
             },
           }),
       },
