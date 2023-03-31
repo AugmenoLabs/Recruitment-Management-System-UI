@@ -37,7 +37,7 @@ export interface JobOpeningProps {
   users: JobOpeningInterface[];
 }
 
-const drawerWidth = 500;
+const drawerWidth = 550;
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
