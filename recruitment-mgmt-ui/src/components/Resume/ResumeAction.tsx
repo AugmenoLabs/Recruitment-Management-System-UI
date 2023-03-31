@@ -127,7 +127,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                         Submit
                     </Button>
                 </DialogActions>
-                
+              </form>  
             </Dialog>
     </>
     )
