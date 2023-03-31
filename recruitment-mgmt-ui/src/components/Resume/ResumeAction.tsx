@@ -17,6 +17,7 @@ import {
 import { FeedbackInterface } from "../../Interface/FeedbackInterface";
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import '../../index.css';
 
 interface Props{
     name : string, 
@@ -25,7 +26,7 @@ interface Props{
 const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
     
     const [open, setOpen] = useState<boolean>(false)
-    const [feedback, setFeedback] = useState<string>('')
+    const [feedbackData, setFeedbackData] = useState<string>('')
     const API_URL="http://localhost:5141/api/v1/CandidateInterview";
     const [value, setValue] = useState<boolean>(false);
 
@@ -34,7 +35,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
     }
 
     const handleChange = (event : any) : void  => {
-        setFeedback(event.target.value)
+        setFeedbackData(event.target.value)
     };
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -42,18 +43,15 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         setValue((event.target as HTMLInputElement).value==='true');
     };
 
-    const handleClose = (): void => {
-        setOpen(false);
-      };
-
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const submitHandler = async (event: React.FormEvent)  => {
+    const submitHandler = async (event: React.FormEvent)  => { 
+        event.preventDefault()
         const data : FeedbackInterface = {
             candidateId: id,
             interviewerName: 'Interviewer',
             scheduledTime: new Date().toISOString(),
             isSelected: value,
-            feedback,
+            feedback: feedbackData,
             modeOfInterview: '',
             level: 'Screening'
         }
@@ -61,13 +59,11 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         await axios.post(API_URL, data)
         .then(response => {
             console.log(response.data);
-            handleClose();
             void Swal.fire({
                 icon: 'success',
                 confirmButtonText: 'OK',
                 text: 'Sumitted Successfully',
-               backdrop:true,
-               timer:1000,
+                
               });
         })
         .catch(error => {
@@ -78,7 +74,6 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                 text: 'Error !! Please submit again',
               });
         }); 
-        // setOpen(false)
     }
 
     return( 
@@ -87,17 +82,17 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
             <Tooltip title="Action"><PendingActionsIcon onClick = {actionOnResume} /></Tooltip>
         </IconButton>
         
-            <Dialog open= {open} BackdropProps={{ invisible: true }}>
-          
+            <Dialog open= {open}>
+            <form onSubmit= {(event) => { void submitHandler(event)}}>
             <Box>
-                <Typography sx={{textAlign: 'center'}}>
+                <Typography sx={{textAlign: 'center', marginTop:'10px'}}>
                     Candidate Name : <b> {name}</b>
                 </Typography>
             </Box>
                 <DialogContent>
                     <Card>                
-                            <Box sx={{ minWidth: 120, marginTop: '20px'}}>
-                                <FormControl fullWidth>
+                            <Box sx={{ minWidth: 120, marginTop: '20px', justifyContent:'center'}}>
+                                <FormControl fullWidth >
                                     <FormLabel id="demo-row-radio-buttons-group-label">Acceptance</FormLabel>
                                     <RadioGroup
                                         row
@@ -116,7 +111,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                                             multiline
                                             rows={4}
                                             name = "feedback"
-                                            value = {feedback}
+                                            value = {feedbackData}
                                             onChange = {handleChange}
                                         />
                                     </>
@@ -124,7 +119,7 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
                             </Box>
                     </Card>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions style={{justifyContent:'center'}}>
                     <Button variant="contained" onClick={() => setOpen(!open)}>
                         Cancel
                     </Button>

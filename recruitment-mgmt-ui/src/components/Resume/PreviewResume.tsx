@@ -6,8 +6,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 interface Props {
-    // id: string;
-    data : string // CandidateInterface[];
+    data : string
   }
 
 const PreviewResume: React.FunctionComponent<Props> = ({data}) => {
@@ -31,7 +30,6 @@ const PreviewResume: React.FunctionComponent<Props> = ({data}) => {
     return(
         <>
             <IconButton 
-            // style={{ marginLeft: '1rem' }}
             >
                 <Tooltip title = "Preview the Resume"><VisibilitySharpIcon onClick={APIcall} /></Tooltip>
             </IconButton>
@@ -44,7 +42,6 @@ const PreviewResume: React.FunctionComponent<Props> = ({data}) => {
                     <DialogContent>
                         <Viewer
                             fileUrl={byteArray}
-                            // defaultScale={SpecialZoomLevel.PageFit}
                         />
                     </DialogContent>
                     <DialogActions>
