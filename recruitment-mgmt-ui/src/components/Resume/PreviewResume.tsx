@@ -1,7 +1,7 @@
 import { IconButton, Dialog, Button, Tooltip, DialogActions, DialogContent } from '@mui/material';
 import React, {useState} from 'react'
 import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
-import { Viewer, Worker } from '@react-pdf-viewer/core';   // SpecialZoomLevel
+import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 

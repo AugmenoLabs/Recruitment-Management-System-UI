@@ -83,51 +83,51 @@ const ResumeAction: React.FunctionComponent<Props> = ({name, id}) =>{
         </IconButton>
         
             <Dialog open= {open}>
-            <form onSubmit= {(event) => { void submitHandler(event)}}>
-            <Box>
-                <Typography sx={{textAlign: 'center', marginTop:'10px'}}>
-                    Candidate Name : <b> {name}</b>
-                </Typography>
-            </Box>
-                <DialogContent>
-                    <Card>                
-                            <Box sx={{ minWidth: 120, marginTop: '20px', justifyContent:'center'}}>
-                                <FormControl fullWidth >
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Acceptance</FormLabel>
-                                    <RadioGroup
-                                        row
-                                        value={value}
-                                        onChange={handleChangeRadio}
-                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                        name="row-radio-buttons-group"
-                                    >
-                                        <FormControlLabel value={true as any} control={<Radio />} label="Select" />
-                                        <FormControlLabel value={false as any} control={<Radio />} label="Reject" />
-                                    </RadioGroup>
-                                    <>
-                                        <TextField sx={{ marginTop: '20px'}}
-                                            id="outlined-multiline-static"
-                                            label="Feedback"
-                                            multiline
-                                            rows={4}
-                                            name = "feedback"
-                                            value = {feedbackData}
-                                            onChange = {handleChange}
-                                        />
-                                    </>
-                                </FormControl>
-                            </Box>
-                    </Card>
-                </DialogContent>
-                <DialogActions style={{justifyContent:'center'}}>
-                    <Button variant="contained" onClick={() => setOpen(!open)}>
-                        Cancel
-                    </Button>
-                    <Button variant="contained" type="submit" onClick={submitHandler}>
-                        Submit
-                    </Button>
-                </DialogActions>
-                
+                <form onSubmit= {(event) => { void submitHandler(event)}}>
+                    <Box>
+                        <Typography sx={{textAlign: 'center', marginTop:'10px'}}>
+                            Candidate Name : <b> {name}</b>
+                        </Typography>
+                    </Box>
+                    <DialogContent>
+                        <Card>                
+                                <Box sx={{ minWidth: 120, marginTop: '20px', justifyContent:'center'}}>
+                                    <FormControl fullWidth >
+                                        <FormLabel id="demo-row-radio-buttons-group-label">Acceptance</FormLabel>
+                                        <RadioGroup
+                                            row
+                                            value={value}
+                                            onChange={handleChangeRadio}
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="row-radio-buttons-group"
+                                        >
+                                            <FormControlLabel value={true as any} control={<Radio />} label="Select" />
+                                            <FormControlLabel value={false as any} control={<Radio />} label="Reject" />
+                                        </RadioGroup>
+                                        <>
+                                            <TextField sx={{ marginTop: '20px'}}
+                                                id="outlined-multiline-static"
+                                                label="Feedback"
+                                                multiline
+                                                rows={4}
+                                                name = "feedback"
+                                                value = {feedbackData}
+                                                onChange = {handleChange}
+                                            />
+                                        </>
+                                    </FormControl>
+                                </Box>
+                        </Card>
+                    </DialogContent>
+                    <DialogActions style={{justifyContent:'center'}}>
+                        <Button variant="contained" onClick={() => setOpen(!open)}>
+                            Cancel
+                        </Button>
+                        <Button variant="contained" type="submit" onClick={submitHandler}>
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
     </>
     )
