@@ -9,8 +9,7 @@ import {
   Autocomplete,
   FormControl,
   FormLabel,Radio,FormControlLabel,
-  TextField,
-  InputLabel,Select,MenuItem, SelectChangeEvent, RadioGroup
+  TextField, RadioGroup
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -45,7 +44,9 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
     setOpen(false);
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleInputChange = (event:any, value:any) => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!round.find(option => option.label === value)) {
       setRound([...round, { label: value, value }]);
     }
@@ -172,7 +173,6 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
 
           <Autocomplete
            disablePortal
-           //id="combo-box-demo"
            options={round}
            fullWidth
            value={autoCompleteValue}
@@ -189,6 +189,7 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
              onKeyDown={(e) => {
               if (
                 e.code === 'Enter' &&
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 (e.target as HTMLInputElement).value
               ) {
                 const val = (e.target as HTMLInputElement).value;
