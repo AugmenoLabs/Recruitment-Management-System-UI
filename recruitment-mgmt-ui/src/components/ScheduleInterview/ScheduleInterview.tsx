@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   Fab,
+  Autocomplete,
   FormControl,
   FormLabel,Radio,FormControlLabel,
   TextField,
@@ -39,17 +40,28 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
   const handleClickOpen = (): void => {
     setOpen(true);
   };
-
+  const [autoCompleteValue, setAutoCompleteValue] = useState<any>([]);
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const handleInputChange = (event:any, value:any) => {
+    if (!round.find(option => option.label === value)) {
+      setRound([...round, { label: value, value }]);
+    }
+  };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [round, setRound] = React.useState('');
+  const [round, setRound] = React.useState([
+    {label:'L1', value:'L1' },
+  {label:'L2', value:'L2'},
+  {label:'Managerial', value: 'Managerial'},
+  {label:'HR', value: 'HR'},
+ ]);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-unused-vars
-  const handleChange = (event: SelectChangeEvent) => {
-     setRound(event.target.value );
-   };
+  // const handleChange = (event: SelectChangeEvent) => {
+  //    setRound(event.target.value );
+  //  };
 
   
   
@@ -59,7 +71,7 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
       data.scheduledTimeTo = endvalue;
       data.modeOfInterview = value;
       data.candidateId=candidateId;
-      // data.id=id;
+      data.round= autoCompleteValue.value;
       await axios.post(API_URL,data )
         .then(response => {
           console.log(response.data);
@@ -156,8 +168,40 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
             name='bcceMail'
             value={data.bcceMail}
             onChange={handleTextChange}
-          />              
-           <FormControl fullWidth>
+          />   
+
+          <Autocomplete
+           disablePortal
+           //id="combo-box-demo"
+           options={round}
+           fullWidth
+           value={autoCompleteValue}
+          //  onChange={(e: any, newval: any) => {
+          //   setAutoCompleteValue(newval);
+            
+          //  }}
+           renderInput={(params) => 
+           <TextField 
+            {...params}
+             label="Round" 
+             placeholder='Round'
+             name='round'
+             onKeyDown={(e) => {
+              if (
+                e.code === 'Enter' &&
+                (e.target as HTMLInputElement).value
+              ) {
+                const val = (e.target as HTMLInputElement).value;
+                setAutoCompleteValue(autoCompleteValue.concat(val));
+              }
+            }}
+             />}
+             onInputChange = {handleInputChange}
+             
+             includeInputInList
+           />  
+
+           {/* <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Round</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -172,7 +216,7 @@ const ScheduleInterview: React.FunctionComponent<props> = ({candidateId}) => {
           <MenuItem value="Managerial">Managerial</MenuItem>
           <MenuItem value="HR">HR</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
