@@ -391,7 +391,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         isFilterable: true,
         isFilterMatched: true,
         accessorFn: (row) =>
-          `${row.totalApplied} ${row.screenings} ${row.onboarded} `,
+          `${row.totalApplied}  `,
         Cell: ({ row, cell }) => (
           <Box
             sx={{
@@ -415,7 +415,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
                   </Link>{' '}
                   {row.original.totalApplied}
                 </Typography>
-                <Typography
+                {/* <Typography
                   sx={{
                     paddingLeft: 3,
 
@@ -432,7 +432,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
                   }}
                 >
                   <b>Hired :</b> {row.original.onboarded}
-                </Typography>
+                </Typography> */}
               </Grid>
             </Grid>
 
@@ -443,7 +443,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
       {
         id: 'workflowinfo',
         accessorFn: (row) =>
-          `${row.l1s} ${row.l2s} ${row.managerials} ${row.hr}`,
+          `${row.l1s}`,
         header: 'Work Flow Info',
         isFilterable: true,
         isFilterMatched: true,
@@ -465,42 +465,20 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           >
             <Grid container>
               <Grid item lg={12}>
-                <Typography
+              <Typography
                   sx={{
                     paddingLeft: 3,
 
                     fontSize: 12,
                   }}
                 >
-                  <b>Level 1 :</b> {row.original.l1s}
+                  <Link onClick={() => handleDrawerOpen(row)} to={''}>
+                    {' '}
+                    <b>Open Levels</b>{' '}
+                  </Link>{' '}
+                
                 </Typography>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
-
-                    fontSize: 12,
-                  }}
-                >
-                  <b>Level 2 :</b> {row.original.l2s}
-                </Typography>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
-
-                    fontSize: 12,
-                  }}
-                >
-                  <b>Manager :</b> {row.original.managerials}
-                </Typography>
-                <Typography
-                  sx={{
-                    paddingLeft: 3,
-
-                    fontSize: 12,
-                  }}
-                >
-                  <b>HR :</b> {row.original.hr}
-                </Typography>
+              
               </Grid>
             </Grid>
 

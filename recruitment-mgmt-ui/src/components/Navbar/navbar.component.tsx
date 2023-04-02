@@ -395,14 +395,14 @@ const NavBar: React.FunctionComponent = () => {
         PaperProps={{
           sx: {
             top: '2%',
-            backgroundColor:'black',
+            backgroundColor:'white',
             color: 'black',
             fontWeight:600,
           },
         }}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} style={{color:'white'}}>
+          <IconButton onClick={handleDrawerClose} style={{color:'black'}}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
@@ -427,7 +427,7 @@ const NavBar: React.FunctionComponent = () => {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color:'white',
+                      color:'black',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -436,7 +436,7 @@ const NavBar: React.FunctionComponent = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary="Dashboard"  
-                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}       
+                    style={{fontWeight:'600',fontSize:'26px',color:'black'}}       
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -454,7 +454,7 @@ const NavBar: React.FunctionComponent = () => {
                     <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color:'white',
+                      color:'black',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -463,7 +463,7 @@ const NavBar: React.FunctionComponent = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary="Accounts"
-                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}           
+                    style={{fontWeight:'600',fontSize:'26px',color:'black'}}           
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -483,7 +483,7 @@ const NavBar: React.FunctionComponent = () => {
                     <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color:'white',
+                      color:'black',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -492,7 +492,7 @@ const NavBar: React.FunctionComponent = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary="Candidates"   
-                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}        
+                    style={{fontWeight:'600',fontSize:'26px',color:'black'}}        
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
@@ -513,7 +513,7 @@ const NavBar: React.FunctionComponent = () => {
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      color:'white',
+                      color:'black',
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
                     }}
@@ -522,7 +522,7 @@ const NavBar: React.FunctionComponent = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary="User Management"  
-                    style={{fontWeight:'600',fontSize:'26px',color:'white'}}         
+                    style={{fontWeight:'600',fontSize:'26px',color:'black'}}         
             sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
