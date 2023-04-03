@@ -40,4 +40,8 @@
     justify-content: flex-end !important;
     align-items: flex-end !important;
 }
+.drawer-open{
+    pointer-events: none;
+  opacity: 1.0;
+}
 

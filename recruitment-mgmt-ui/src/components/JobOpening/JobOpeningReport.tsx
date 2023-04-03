@@ -495,9 +495,11 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
       {loading ? (
         <Loader />
       ) : (
+        <div className={openDrawer ? 'drawer-open' : ''}>
         <MaterialReactTable
           columns={columns}
           data={data}
+
           muiTablePaginationProps={{
             rowsPerPageOptions: [5, 10, 20, 50],
           }}
@@ -508,6 +510,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           }}
           enableDensityToggle={false}
           muiTableHeadCellProps={{
+           
             sx: {
               '& .Mui-TableHeadCell-Content': {
                 justifyContent: 'center',
@@ -588,55 +591,9 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
             },
           }}
 
-          renderTopToolbarCustomActions={({ table }) => {
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            const [filterMenuOpen, setFilterMenuOpen] = useState(false);
-            const [selectedFilters, setSelectedFilters] = useState([]);
           
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            const handleFilterMenuOpen = () => {
-              setFilterMenuOpen(true);
-            };
-          
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            const handleFilterMenuClose = () => {
-              setFilterMenuOpen(false);
-            };
-          
-          
-            const filters = ['filter1', 'filter2', 'filter3'];
-          
-            return (
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <Button
-                  color="secondary"
-                  onClick={handleFilterMenuOpen}
-                  variant="contained"
-                >
-                  Filters
-                </Button>
-                <Menu
-                  // anchorEl={filterMenuOpen}
-                  open={Boolean(filterMenuOpen)}
-                  onClose={handleFilterMenuClose}
-                >
-                  {filters.map((filter) => (
-                    <MenuItem key={filter}>
-                      <Checkbox
-                        // checked={selectedFilters.indexOf(filter) !== -1}
-                        // onChange={handleFilterToggle(filter)}
-                      />
-                      {filter}
-                    </MenuItem>
-                  ))}
-                  <Button
-                  //  onClick={handleApplyFilters}
-                   >Apply Filters</Button>
-                </Menu>
-              </div>
-            );
-          }}
         />
+        </div>
       )}
       <Dialog open={isDialogOpen} BackdropProps={{ invisible: true }} maxWidth="md">
         <DialogContent>
@@ -652,6 +609,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           </Button>
         </DialogActions>
       </Dialog>
+      <div>
       <Drawer
        sx={{
         width: drawerWidth,
@@ -665,6 +623,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         variant="persistent"
         anchor="right"
         open={openDrawer}
+        onClose={handleDrawerClose}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -681,6 +640,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
        
 
       </Drawer>
+      </div>
     </>
   );
 };

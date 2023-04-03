@@ -19,7 +19,7 @@ const InterviewDetailTable: React.FunctionComponent = () => {
   const columns = useMemo<Array<MRT_ColumnDef<InterviewInterface>>>(
     () => [
       {
-        accessorKey: 'name',
+        accessorKey: 'candidateName',
         header: 'Candidate Name',
         // size:70,
         size:130,
@@ -38,12 +38,12 @@ const InterviewDetailTable: React.FunctionComponent = () => {
         // size:120,
       },
       {
-        accessorKey: 'cceMail',
+        accessorKey: 'email',
         header: 'Email',
         size:120,
       },
       {
-        accessorKey: 'experience',
+        accessorKey: 'yearOfExperience',
         header: 'Experience',
         size:80,
       },
