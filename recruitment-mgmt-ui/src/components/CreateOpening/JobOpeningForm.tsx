@@ -5,11 +5,8 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   TextField,
-  FormGroup,
-  FormControlLabel,
   Button,
   Autocomplete,
-  Switch,
   Grid,
   FormControl,
   InputLabel,
@@ -510,13 +507,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
 //                   }
                 />
 
-                <FormGroup style={{ marginLeft: '-0.5rem' }}>
-                  <FormControlLabel
-                    control={<Switch />}
-                    label="Is Active"
-                    labelPlacement="start"
-                  />
-                </FormGroup>
+               
               </Grid>
 
               <DialogActions>
