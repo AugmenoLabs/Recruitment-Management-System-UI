@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_USER_PATH } from "../Config/config";
 import { PasswordInterface } from "../Interface/PasswordInterface";
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const ResetPassword = async (
     id: string | undefined,
     pass: PasswordInterface,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -81,9 +82,10 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
   //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unused-expressions, array-callback-return
   //   history(`/jobdescription/${rowData.id}`);
   // };
-
+ 
   const [data, setData] = useState<JobOpeningInterface[]>([]);
   const [loading, setLoading] = useState(true);
+  const[error, setError] = useState(true);
   const API_URL =
   'http://localhost:5141/api/v1/OpenPosition/OpenPositionsReport';
   // const [lastUpdate, setLastUpdate] = useState(Date.now());
@@ -98,13 +100,16 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
         const result = await axios.get<JobOpeningInterface[]>(API_URL);
         setTimeout(() => {
           setData(result.data);
-        
           setLoading(false);
+         setError(true);
           console.log(result.data);
         }, 2000);
       } catch (error) {
         console.error(error);
+        setLoading(false);
+        setError(false)
       }
+     
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData();
@@ -492,9 +497,10 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
   );
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
+      {loading  ?(
+       <Loader />
+    ):error ?(
+        
         <div className={openDrawer ? 'drawer-open' : ''}>
         <MaterialReactTable
           columns={columns}
@@ -594,7 +600,9 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
           
         />
         </div>
-      )}
+      ):(<Typography style={{fontWeight:600,fontSize:'24px', justifyContent:'center',alignItems:'center',display:'flex',color:'red'}}>
+        Unable to load the data, Try Again!!
+      </Typography>)}
       <Dialog open={isDialogOpen} BackdropProps={{ invisible: true }} maxWidth="md">
         <DialogContent>
           <ScreeningPosition positionid={positionId} />
@@ -641,6 +649,7 @@ const JobOpeningReport: React.FunctionComponent<JobOpeningProps> = ({ users,}) =
 
       </Drawer>
       </div>
+     
     </>
   );
 };
