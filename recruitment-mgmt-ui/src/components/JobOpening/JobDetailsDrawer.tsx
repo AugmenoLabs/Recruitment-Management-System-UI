@@ -30,6 +30,7 @@ export interface Props{
 const JobDetailsDrawer:React.FunctionComponent<Props> = ({positionid}) => {
   const [jobDetails,setJobDetails] = useState({
     jobTitle: '',
+    jobId:'',
     accountName: '',
     projectName: '',
   });
@@ -79,7 +80,8 @@ useEffect(() => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: randomColor }} aria-label="recipe">
-            S
+            {/* {jobDetails.jobId.substring(0,2)} */}
+            {jobDetails.jobId.charAt(0)}
           </Avatar>
         }
         action={
@@ -87,8 +89,8 @@ useEffect(() => {
              <Typography>Total : 60</Typography>
           </IconButton>
         }
-        title= {jobDetails.jobTitle}
-        subheader={`${jobDetails.projectName}, ${jobDetails.accountName}`}
+        title={`${jobDetails.jobId} -${jobDetails.jobTitle}` }
+        subheader={`${jobDetails.projectName}/ ${jobDetails.accountName}`}
       />
      
       </Card>
