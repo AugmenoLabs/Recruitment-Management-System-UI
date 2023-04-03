@@ -80,8 +80,7 @@ useEffect(() => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: randomColor }} aria-label="recipe">
-            {/* {jobDetails.jobId.substring(0,2)} */}
-            {jobDetails.jobId.charAt(0)}
+            S
           </Avatar>
         }
         action={
