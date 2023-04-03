@@ -8,6 +8,7 @@ import {
   Button,
   Autocomplete,
   Grid,
+  IconButton,
   FormControl,
   InputLabel,
   MenuItem,
@@ -18,6 +19,7 @@ import {
   DialogActions,
 } from '@mui/material';
 import axios from 'axios';
+import CloseIcon from '@mui/icons-material/Close'
 import { AccountInterface } from '../../Interface/AccountInterface';
 import { ProjectInterface } from '../../Interface/ProjectInterface';
 import { RequisitionInterface } from '../../Interface/RequisitionInterface';
@@ -202,6 +204,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
       >
         <DialogTitle className="header" style={{ fontWeight: 600 }}>
           Post Jobs
+          <IconButton onClick={handleClose}><CloseIcon/></IconButton>
         </DialogTitle>
         <DialogContent>
           <Box
@@ -291,8 +294,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
                     value={selectedAccountId}
                     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                     onChange={(event) => {
-                      setSelectedAccountId(event.target.value);
-                     
+                      setSelectedAccountId(event.target.value);                     
                     }}
                   >
                     {data.map((data) => (
