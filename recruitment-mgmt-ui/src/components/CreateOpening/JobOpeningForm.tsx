@@ -80,11 +80,11 @@ const JobOpeningForm: React.FunctionComponent = () => {
   };
 
   const [skills,setSkills] =useState( [
-    {label:'react', value: 1},
-  {label:'java', value: 2},
+    {label:'React', value: 1},
+  {label:'Java', value: 2},
   {label:'.Net', value: 3},
   ]);
-  
+  const [account, setAccount] = useState<string | undefined>();
   // const handleSearch = (event:any, value:any) => {
   //   if (value === '') {
   //     setSkills([
@@ -161,7 +161,7 @@ const JobOpeningForm: React.FunctionComponent = () => {
   }, [selectedAccountId]);
 
   const validationSchema = Yup.object({
-    jobId: Yup.string().required('Job Id is required'),
+    // jobId: Yup.string().required('Job Id is required'),
     jobTitle: Yup.string().required('Job Title is required'),
     // accountId: Yup.string().required('Account is required'),
     // projectId: Yup.string().required('Project is required'),
@@ -222,7 +222,8 @@ const JobOpeningForm: React.FunctionComponent = () => {
   onSubmit={async (values, { resetForm }) => {
   
     try {
-     
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      values.jobId = `${Math.random().toString().slice(2, 8)}${account?.toLocaleUpperCase()}`;
       values.accountId = selectedAccountId;
       values.projectId = selectedProject;
       values.skillSet = autoCompleteValue.join(',');
@@ -257,19 +258,6 @@ const JobOpeningForm: React.FunctionComponent = () => {
                   margin="normal"
                   size="small"
                   fullWidth
-                  label="Job Id"
-                  type="text"
-                  name="jobId"
-                  value={values.jobId}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  error={touched.jobId && Boolean(errors.jobId)}
-                  helperText={touched.jobId && errors.jobId}
-                />
-                <TextField
-                  margin="normal"
-                  size="small"
-                  fullWidth
                   label="Job Title"
                   type="text"
                   name="jobTitle"
@@ -294,7 +282,9 @@ const JobOpeningForm: React.FunctionComponent = () => {
                     value={selectedAccountId}
                     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                     onChange={(event) => {
-                      setSelectedAccountId(event.target.value);                     
+                      const selectedAccount = data.find(option => option.id === event.target.value);
+                      setSelectedAccountId(event.target.value);
+                      setAccount(selectedAccount?.accountName?.slice(0,2));
                     }}
                   >
                     {data.map((data) => (
